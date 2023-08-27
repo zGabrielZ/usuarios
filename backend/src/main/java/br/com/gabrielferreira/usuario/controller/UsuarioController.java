@@ -5,6 +5,7 @@ import br.com.gabrielferreira.usuario.dto.UsuarioInsertDTO;
 import br.com.gabrielferreira.usuario.dto.UsuarioUpdateDTO;
 import br.com.gabrielferreira.usuario.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -40,5 +41,14 @@ public class UsuarioController {
     public ResponseEntity<Void> deletarUsuarioPorId(@PathVariable Long id){
         usuarioService.deletarUsuarioPorId(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<UsuarioDTO>> buscarUsuarios(
+            @RequestParam(value = "page", defaultValue = "0", required = false) Integer pagina,
+            @RequestParam(value = "linesPerPage", defaultValue = "5", required = false) Integer qtdRegistroPorPagina,
+            @RequestParam(value = "sort", required = false, defaultValue = "id,asc") String[] sort
+    ){
+        return ResponseEntity.ok().body(usuarioService.buscarUsuarios(pagina, qtdRegistroPorPagina, sort));
     }
 }
