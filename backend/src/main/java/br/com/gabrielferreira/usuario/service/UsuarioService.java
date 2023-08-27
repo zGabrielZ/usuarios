@@ -50,6 +50,12 @@ public class UsuarioService {
         return toUsuarioDto(usuarioEncontrado);
     }
 
+    @Transactional
+    public void deletarUsuarioPorId(Long id){
+        Usuario usuarioEncontrado = buscarUsuario(id);
+        usuarioRepository.delete(usuarioEncontrado);
+    }
+
     private Usuario buscarUsuario(Long id){
         return usuarioRepository.buscarUsuarioPorId(id)
                 .orElseThrow(() -> new NaoEncontradoException("Usuário não encontrado"));

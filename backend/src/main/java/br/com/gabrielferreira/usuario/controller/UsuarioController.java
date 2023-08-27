@@ -35,4 +35,10 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDTO> atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioUpdateDTO usuarioUpdateDTO){
         return ResponseEntity.ok().body(usuarioService.atualizarUsuario(id, usuarioUpdateDTO));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarUsuarioPorId(@PathVariable Long id){
+        usuarioService.deletarUsuarioPorId(id);
+        return ResponseEntity.noContent().build();
+    }
 }
