@@ -24,7 +24,7 @@ public class GeneroService {
         return toGeneroDto(buscarGenero(id));
     }
 
-    private Genero buscarGenero(Long id){
+    public Genero buscarGenero(Long id){
         return generoRepository.findById(id)
                 .orElseThrow(() -> new NaoEncontradoException("Gênero não encontrado"));
     }

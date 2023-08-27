@@ -2,6 +2,9 @@ package br.com.gabrielferreira.usuario.service;
 
 import br.com.gabrielferreira.usuario.dto.UsuarioDTO;
 import br.com.gabrielferreira.usuario.dto.UsuarioInsertDTO;
+import br.com.gabrielferreira.usuario.dto.UsuarioUpdateDTO;
+import br.com.gabrielferreira.usuario.entities.Genero;
+import br.com.gabrielferreira.usuario.entities.TipoTelefone;
 import br.com.gabrielferreira.usuario.entities.Usuario;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuario.repository.UsuarioRepository;
@@ -18,6 +21,10 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
+    private final TipoTelefoneService tipoTelefoneService;
+
+    private final GeneroService generoService;
+
     @Transactional
     public UsuarioDTO cadastrarUsuario(UsuarioInsertDTO usuarioInsertDTO){
         Usuario usuario = toUsuario(usuarioInsertDTO);
@@ -27,6 +34,20 @@ public class UsuarioService {
 
     public UsuarioDTO buscarUsuarioPorId(Long id){
         return toUsuarioDto(buscarUsuario(id));
+    }
+
+    @Transactional
+    public UsuarioDTO atualizarUsuario(Long id, UsuarioUpdateDTO usuarioUpdateDTO){
+        Usuario usuarioEncontrado = buscarUsuario(id);
+
+        TipoTelefone tipoTelefoneEncontrado = tipoTelefoneService.buscarTipoTelefone(usuarioUpdateDTO.getTelefone().getTipoTelefone().getId());
+        Genero generoEncontrado = generoService.buscarGenero(usuarioUpdateDTO.getGenero().getId());
+
+        toUsuario(usuarioEncontrado, tipoTelefoneEncontrado, generoEncontrado, usuarioUpdateDTO);
+
+        usuarioRepository.save(usuarioEncontrado);
+
+        return toUsuarioDto(usuarioEncontrado);
     }
 
     private Usuario buscarUsuario(Long id){

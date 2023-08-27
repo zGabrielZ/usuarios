@@ -25,7 +25,7 @@ public class TipoTelefoneService {
         return toTipoTelefoneDto(buscarTipoTelefone(id));
     }
 
-    private TipoTelefone buscarTipoTelefone(Long id){
+    public TipoTelefone buscarTipoTelefone(Long id){
         return tipoTelefoneRepository.findById(id)
                 .orElseThrow(() -> new NaoEncontradoException("Tipo de telefone não encontrado"));
     }

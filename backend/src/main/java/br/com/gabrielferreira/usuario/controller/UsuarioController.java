@@ -2,6 +2,7 @@ package br.com.gabrielferreira.usuario.controller;
 
 import br.com.gabrielferreira.usuario.dto.UsuarioDTO;
 import br.com.gabrielferreira.usuario.dto.UsuarioInsertDTO;
+import br.com.gabrielferreira.usuario.dto.UsuarioUpdateDTO;
 import br.com.gabrielferreira.usuario.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,5 +29,10 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> buscarUsuarioPorId(@PathVariable Long id){
         return ResponseEntity.ok().body(usuarioService.buscarUsuarioPorId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioUpdateDTO usuarioUpdateDTO){
+        return ResponseEntity.ok().body(usuarioService.atualizarUsuario(id, usuarioUpdateDTO));
     }
 }
