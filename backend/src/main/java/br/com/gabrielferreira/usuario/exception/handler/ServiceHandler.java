@@ -29,6 +29,13 @@ public class ServiceHandler {
         return ResponseEntity.status(httpStatus).body(erroPadrao);
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErroPadrao> exception(Exception e, HttpServletRequest request){
+        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        ErroPadrao erroPadrao = gerarErroPadrao(httpStatus, ZonedDateTime.now(ZoneId.of(AMERICA_SAO_PAULO)), e.getMessage(), "Erro, tente mais tarde", request.getRequestURI());
+        return ResponseEntity.status(httpStatus).body(erroPadrao);
+    }
+
     private ErroPadrao gerarErroPadrao(HttpStatus httpStatus, ZonedDateTime momento, String erro, String mensagem, String caminhoUrl){
         return ErroPadrao.builder()
                 .momento(momento)
