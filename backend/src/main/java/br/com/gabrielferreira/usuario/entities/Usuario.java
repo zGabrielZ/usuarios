@@ -6,8 +6,11 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
+import static br.com.gabrielferreira.usuario.utils.DataUtils.AMERICA_SAO_PAULO;
 
 @Data
 @AllArgsConstructor
@@ -53,20 +56,20 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "ID_GENERO", nullable = false)
     private Genero genero;
 
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", name = "CREATED_AT", nullable = false)
-    private Instant createdAt;
+    @Column(name = "CREATED_AT", nullable = false)
+    private ZonedDateTime createdAt;
 
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", name = "UPDATED_AT")
-    private Instant updatedAt;
+    @Column(name = "UPDATED_AT")
+    private ZonedDateTime updatedAt;
 
     @PrePersist
     public void prePersist(){
-        createdAt = Instant.now();
+        createdAt = ZonedDateTime.now(ZoneId.of(AMERICA_SAO_PAULO));
     }
 
     @PreUpdate
     public void preUpdate(){
-        updatedAt = Instant.now();
+        updatedAt = ZonedDateTime.now(ZoneId.of(AMERICA_SAO_PAULO));
     }
 
 }
