@@ -49,6 +49,10 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "ID_TELEFONE", nullable = false)
     private Telefone telefone;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_GENERO", nullable = false)
+    private Genero genero;
+
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", name = "CREATED_AT", nullable = false)
     private Instant createdAt;
 

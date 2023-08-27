@@ -11,11 +11,11 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = {"tipoTelefone"})
+@ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "TB_TELEFONE")
-public class Telefone implements Serializable {
+@Table(name = "TB_GENERO")
+public class Genero implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -8862093994952790903L;
@@ -25,18 +25,11 @@ public class Telefone implements Serializable {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "NUMERO", nullable = false)
-    private String numero;
-
-    @Column(name = "DDD", nullable = false)
-    private String ddd;
-
-    @Column(name = "DESCRICAO", columnDefinition = "TEXT")
+    @Column(name = "DESCRICAO", nullable = false, unique = true)
     private String descricao;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_TIPO_TELEFONE", nullable = false)
-    private TipoTelefone tipoTelefone;
+    @Column(name = "CODIGO", nullable = false, unique = true)
+    private String codigo;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", name = "CREATED_AT", nullable = false)
     private Instant createdAt;
