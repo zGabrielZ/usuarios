@@ -48,7 +48,7 @@ public class Usuario implements Serializable {
     @Column(name = "QUANTIDADE_FILHOS", nullable = false)
     private Integer quantidadeFilhos;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_TELEFONE", nullable = false)
     private Telefone telefone;
 
