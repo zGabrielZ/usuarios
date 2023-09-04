@@ -10,14 +10,12 @@ import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuario.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static br.com.gabrielferreira.usuario.dto.factory.UsuarioDTOFactory.*;
 import static br.com.gabrielferreira.usuario.entities.factory.UsuarioFactory.*;
-import static br.com.gabrielferreira.usuario.utils.PageUtils.*;
 
 @Service
 @RequiredArgsConstructor
@@ -60,9 +58,8 @@ public class UsuarioService {
         usuarioRepository.delete(usuarioEncontrado);
     }
 
-    public Page<UsuarioDTO> buscarUsuarios(Integer pagina, Integer qtdRegistroPorPagina, String[] sort){
-        PageRequest pageRequest = PageRequest.of(pagina, qtdRegistroPorPagina, Sort.by(getOrders(sort)));
-        return toUsuariosDtos(usuarioRepository.buscarUsuarios(pageRequest));
+    public Page<UsuarioDTO> buscarUsuarios(Pageable pageable){
+        return toUsuariosDtos(usuarioRepository.buscarUsuarios(pageable));
     }
 
     private Usuario buscarUsuario(Long id){
