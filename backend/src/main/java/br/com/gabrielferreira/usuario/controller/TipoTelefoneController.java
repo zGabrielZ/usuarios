@@ -4,10 +4,7 @@ import br.com.gabrielferreira.usuario.dto.TipoTelefoneDTO;
 import br.com.gabrielferreira.usuario.service.TipoTelefoneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +23,10 @@ public class TipoTelefoneController {
     @GetMapping("/{id}")
     public ResponseEntity<TipoTelefoneDTO> buscarTipoTelefonePorId(@PathVariable Long id){
         return ResponseEntity.ok().body(tipoTelefoneService.buscarTipoTelefonePorId(id));
+    }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<TipoTelefoneDTO> buscarTipoTelefonePorCodigo(@RequestParam String codigo){
+        return ResponseEntity.ok().body(tipoTelefoneService.buscarTipoTelefonePorCodigo(codigo));
     }
 }
