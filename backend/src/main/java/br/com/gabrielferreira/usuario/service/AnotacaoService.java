@@ -1,20 +1,20 @@
 package br.com.gabrielferreira.usuario.service;
 
-import br.com.gabrielferreira.usuario.dto.AnotacaoDTO;
-import br.com.gabrielferreira.usuario.dto.AnotacaoInsertDTO;
-import br.com.gabrielferreira.usuario.dto.AnotacaoResumidaDTO;
-import br.com.gabrielferreira.usuario.dto.AnotacaoUpdateDTO;
+import br.com.gabrielferreira.usuario.dto.*;
 import br.com.gabrielferreira.usuario.entities.Anotacao;
 import br.com.gabrielferreira.usuario.entities.Usuario;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuario.repository.AnotacaoRepository;
 import br.com.gabrielferreira.usuario.repository.projection.AnotacaoResumidaProjection;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static br.com.gabrielferreira.usuario.entities.factory.AnotacaoFactory.*;
 import static br.com.gabrielferreira.usuario.dto.factory.AnotacaoDTOFactory.*;
+import static br.com.gabrielferreira.usuario.utils.PageUtils.*;
 
 @Service
 @RequiredArgsConstructor
@@ -61,9 +61,20 @@ public class AnotacaoService {
         anotacaoRepository.delete(anotacaoEncontrada);
     }
 
-    private AnotacaoResumidaProjection buscarAnotacaoResumido(Long id){
-        return anotacaoRepository.buscarAnotacaoResumidoPorId(id)
+    public Page<AnotacaoResumidaDTO> buscarAnotacoes(Long idUsuario, Pageable pageable){
+        validarPropriedades(pageable.getSort(), AnotacaoResumidaDTO.class);
+        return toAnotacoesResumidasDtos(anotacaoRepository.buscarAnotacoes(idUsuario, pageable));
+    }
+
+    private Anotacao buscarAnotacaoResumido(Long id){
+        AnotacaoResumidaProjection anotacaoResumidaProjection = anotacaoRepository.buscarAnotacaoResumidoPorId(id)
                 .orElseThrow(() -> new NaoEncontradoException(MSG_NAO_ENCONTRADA));
+        return Anotacao.builder()
+                .id(anotacaoResumidaProjection.getId())
+                .descricao(anotacaoResumidaProjection.getDescricao())
+                .createdAt(anotacaoResumidaProjection.getCreatedAt())
+                .updatedAt(anotacaoResumidaProjection.getUpdatedAt())
+                .build();
     }
 
     private Anotacao buscarAnotacao(Long id){

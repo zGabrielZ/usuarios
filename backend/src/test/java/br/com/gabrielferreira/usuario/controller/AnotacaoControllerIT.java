@@ -176,4 +176,27 @@ class AnotacaoControllerIT {
 
         resultActions.andExpect(status().isNotFound());
     }
+
+    @Test
+    @DisplayName("Deve buscar anotações resumida paginada quando existir")
+    @Order(10)
+    void deveBuscarAnotacaoResumidaPaginadas() throws Exception {
+        ResultActions resultActions = mockMvc
+                .perform(get(URL.concat("/resumida?idUsuario=1&page=0&size=5&sort=id,desc"))
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.content").exists());
+    }
+
+    @Test
+    @DisplayName("Não deve buscar anotações resumida paginada quando informar propriedade incorreta")
+    @Order(11)
+    void naoDeveBuscarAnotacaoResumidaPaginadas() throws Exception {
+        ResultActions resultActions = mockMvc
+                .perform(get(URL.concat("/resumida?idUsuario=1&page=0&size=5&sort=iddd,desc"))
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+    }
 }

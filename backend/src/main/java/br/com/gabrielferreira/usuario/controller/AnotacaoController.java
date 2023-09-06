@@ -1,11 +1,10 @@
 package br.com.gabrielferreira.usuario.controller;
 
-import br.com.gabrielferreira.usuario.dto.AnotacaoDTO;
-import br.com.gabrielferreira.usuario.dto.AnotacaoInsertDTO;
-import br.com.gabrielferreira.usuario.dto.AnotacaoResumidaDTO;
-import br.com.gabrielferreira.usuario.dto.AnotacaoUpdateDTO;
+import br.com.gabrielferreira.usuario.dto.*;
 import br.com.gabrielferreira.usuario.service.AnotacaoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -45,5 +44,10 @@ public class AnotacaoController {
     public ResponseEntity<Void> deletarAnotacao(@PathVariable Long id){
         anotacaoService.deletarAnotacao(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/resumida")
+    public ResponseEntity<Page<AnotacaoResumidaDTO>> buscarAnotacoes(@RequestParam Long idUsuario, Pageable pageable){
+        return ResponseEntity.ok().body(anotacaoService.buscarAnotacoes(idUsuario, pageable));
     }
 }
