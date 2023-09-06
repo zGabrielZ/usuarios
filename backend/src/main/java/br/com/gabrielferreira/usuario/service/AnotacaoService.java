@@ -2,6 +2,7 @@ package br.com.gabrielferreira.usuario.service;
 
 import br.com.gabrielferreira.usuario.dto.AnotacaoDTO;
 import br.com.gabrielferreira.usuario.dto.AnotacaoInsertDTO;
+import br.com.gabrielferreira.usuario.dto.AnotacaoUpdateDTO;
 import br.com.gabrielferreira.usuario.entities.Anotacao;
 import br.com.gabrielferreira.usuario.entities.Usuario;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
@@ -32,6 +33,17 @@ public class AnotacaoService {
 
     public AnotacaoDTO buscarAnotacaoPorId(Long id){
         return toAnotacaoDto(buscarAnotacao(id));
+    }
+
+    @Transactional
+    public AnotacaoDTO atualizarAnotacao(Long id, AnotacaoUpdateDTO anotacaoUpdateDTO){
+        Anotacao anotacaoEncontrada = buscarAnotacao(id);
+
+        toAnotacao(anotacaoEncontrada, anotacaoUpdateDTO);
+
+        anotacaoEncontrada = anotacaoRepository.save(anotacaoEncontrada);
+
+        return toAnotacaoDto(anotacaoEncontrada);
     }
 
     private Anotacao buscarAnotacao(Long id){

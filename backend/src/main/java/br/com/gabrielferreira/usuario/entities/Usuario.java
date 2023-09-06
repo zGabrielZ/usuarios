@@ -18,7 +18,7 @@ import static br.com.gabrielferreira.usuario.utils.DataUtils.AMERICA_SAO_PAULO;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = {"telefone"})
+@ToString(exclude = {"telefone", "anotacoes"})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "TB_USUARIO")

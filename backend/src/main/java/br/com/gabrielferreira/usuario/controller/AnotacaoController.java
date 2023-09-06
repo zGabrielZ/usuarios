@@ -2,6 +2,7 @@ package br.com.gabrielferreira.usuario.controller;
 
 import br.com.gabrielferreira.usuario.dto.AnotacaoDTO;
 import br.com.gabrielferreira.usuario.dto.AnotacaoInsertDTO;
+import br.com.gabrielferreira.usuario.dto.AnotacaoUpdateDTO;
 import br.com.gabrielferreira.usuario.service.AnotacaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +28,10 @@ public class AnotacaoController {
     @GetMapping("/{id}")
     public ResponseEntity<AnotacaoDTO> buscarAnotacao(@PathVariable Long id){
         return ResponseEntity.ok().body(anotacaoService.buscarAnotacaoPorId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AnotacaoDTO> atualizarAnotacao(@PathVariable Long id, @RequestBody AnotacaoUpdateDTO anotacaoUpdateDTO){
+        return ResponseEntity.ok().body(anotacaoService.atualizarAnotacao(id, anotacaoUpdateDTO));
     }
 }

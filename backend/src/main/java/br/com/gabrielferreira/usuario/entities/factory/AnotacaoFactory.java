@@ -1,6 +1,7 @@
 package br.com.gabrielferreira.usuario.entities.factory;
 
 import br.com.gabrielferreira.usuario.dto.AnotacaoInsertDTO;
+import br.com.gabrielferreira.usuario.dto.AnotacaoUpdateDTO;
 import br.com.gabrielferreira.usuario.entities.Anotacao;
 import br.com.gabrielferreira.usuario.entities.Usuario;
 
@@ -16,5 +17,11 @@ public class AnotacaoFactory {
                     .build();
         }
         return null;
+    }
+
+    public static void toAnotacao(Anotacao anotacao, AnotacaoUpdateDTO anotacaoUpdateDTO){
+        if(anotacao != null && anotacaoUpdateDTO != null){
+            anotacao.setDescricao(anotacaoUpdateDTO.getDescricao());
+        }
     }
 }

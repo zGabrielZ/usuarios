@@ -1,6 +1,7 @@
 package br.com.gabrielferreira.usuario.controller;
 
 import br.com.gabrielferreira.usuario.dto.AnotacaoInsertDTO;
+import br.com.gabrielferreira.usuario.dto.AnotacaoUpdateDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,14 @@ class AnotacaoControllerIT {
 
     private AnotacaoInsertDTO anotacaoInsertDTO;
 
+    private AnotacaoUpdateDTO anotacaoUpdateDTO;
+
     @BeforeEach
     void setUp(){
         idAnotacaoExistente = 1L;
         idAnotacaoInexistente = -1L;
         anotacaoInsertDTO = criarAnotacaoInsert("Anotação teste unitário", 1L);
+        anotacaoUpdateDTO = criarAnotacaoUpdate("Anotacao teste unitário alterado");
     }
 
     @Test
@@ -86,6 +90,43 @@ class AnotacaoControllerIT {
     void naoDeveBuscarAnotacao() throws Exception {
         ResultActions resultActions = mockMvc
                 .perform(get(URL.concat("/{id}"), idAnotacaoInexistente)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Deve alterar anotação quando existir")
+    @Order(4)
+    void deveAlterarAnotacao() throws Exception {
+        String jsonBody = objectMapper.writeValueAsString(anotacaoUpdateDTO);
+
+        Long idEsperado = idAnotacaoExistente;
+        String descricaoEsperado = anotacaoUpdateDTO.getDescricao();
+
+        ResultActions resultActions = mockMvc
+                .perform(put(URL.concat("/{id}"), idAnotacaoExistente)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.id").value(idEsperado));
+        resultActions.andExpect(jsonPath("$.descricao").value(descricaoEsperado));
+        resultActions.andExpect(jsonPath("$.usuario.id").exists());
+        resultActions.andExpect(jsonPath("$.createdAt").exists());
+    }
+
+    @Test
+    @DisplayName("Não deve alterar anotação quando não existir")
+    @Order(5)
+    void naoDeveAlterarAnotacao() throws Exception {
+        String jsonBody = objectMapper.writeValueAsString(anotacaoUpdateDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(put(URL.concat("/{id}"), idAnotacaoInexistente)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isNotFound());
