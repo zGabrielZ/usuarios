@@ -93,7 +93,7 @@ public class UsuarioService {
         return campos;
     }
 
-    private Usuario buscarUsuario(Long id){
+    public Usuario buscarUsuario(Long id){
         return usuarioRepository.buscarUsuarioPorId(id)
                 .orElseThrow(() -> new NaoEncontradoException("Usuário não encontrado"));
     }
