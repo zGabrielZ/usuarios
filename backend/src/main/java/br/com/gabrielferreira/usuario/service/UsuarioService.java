@@ -30,7 +30,10 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioDTO cadastrarUsuario(UsuarioInsertDTO usuarioInsertDTO){
-        Usuario usuario = toUsuario(usuarioInsertDTO);
+        TipoTelefone tipoTelefone = tipoTelefoneService.buscarTipoTelefone(usuarioInsertDTO.getTelefone().getTipoTelefone().getId());
+        Genero genero = generoService.buscarGenero(usuarioInsertDTO.getGenero().getId());
+
+        Usuario usuario = toUsuario(tipoTelefone, genero, usuarioInsertDTO);
         usuario = usuarioRepository.save(usuario);
         return toUsuarioDto(usuario);
     }
@@ -48,7 +51,7 @@ public class UsuarioService {
 
         toUsuario(usuarioEncontrado, tipoTelefoneEncontrado, generoEncontrado, usuarioUpdateDTO);
 
-        usuarioRepository.save(usuarioEncontrado);
+        usuarioEncontrado = usuarioRepository.save(usuarioEncontrado);
 
         return toUsuarioDto(usuarioEncontrado);
     }

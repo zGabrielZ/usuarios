@@ -4,19 +4,17 @@ import br.com.gabrielferreira.usuario.dto.TelefoneInsertDTO;
 import br.com.gabrielferreira.usuario.entities.Telefone;
 import br.com.gabrielferreira.usuario.entities.TipoTelefone;
 
-import static br.com.gabrielferreira.usuario.entities.factory.TipoTelefoneFactory.*;
-
 public class TelefoneFactory {
 
     private TelefoneFactory(){}
 
-    public static Telefone toTelefone(TelefoneInsertDTO telefoneInsertDTO){
+    public static Telefone toTelefone(TipoTelefone tipoTelefone, TelefoneInsertDTO telefoneInsertDTO){
         if(telefoneInsertDTO != null){
             return Telefone.builder()
                     .numero(telefoneInsertDTO.getNumero())
                     .ddd(telefoneInsertDTO.getDdd())
                     .descricao(telefoneInsertDTO.getDescricao())
-                    .tipoTelefone(toTipoTelefone(telefoneInsertDTO.getTipoTelefone()))
+                    .tipoTelefone(tipoTelefone)
                     .build();
         }
         return null;
