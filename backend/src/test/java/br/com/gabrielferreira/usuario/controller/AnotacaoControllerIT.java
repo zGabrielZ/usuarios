@@ -199,4 +199,16 @@ class AnotacaoControllerIT {
 
         resultActions.andExpect(status().isBadRequest());
     }
+
+    @Test
+    @DisplayName("Não deve buscar anotações resumida paginada quando não informar o id usuário")
+    @Order(11)
+    void naoDeveBuscarAnotacaoResumidaPaginadasQuandoNaoInformarIdUsuario() throws Exception {
+        ResultActions resultActions = mockMvc
+                .perform(get(URL.concat("/resumida?idUsuario=&page=0&size=5&sort=id,desc"))
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isInternalServerError());
+        resultActions.andExpect(jsonPath("$.erro").value("Required request parameter 'idUsuario' for method parameter type Long is present but converted to null"));
+    }
 }
