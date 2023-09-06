@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static br.com.gabrielferreira.usuario.utils.DataUtils.AMERICA_SAO_PAULO;
 
@@ -55,6 +57,9 @@ public class Usuario implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_GENERO", nullable = false)
     private Genero genero;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "usuario")
+    private List<Anotacao> anotacoes = new ArrayList<>();
 
     @Column(name = "CREATED_AT", nullable = false)
     private ZonedDateTime createdAt;
