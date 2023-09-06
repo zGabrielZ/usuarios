@@ -34,4 +34,10 @@ public class AnotacaoController {
     public ResponseEntity<AnotacaoDTO> atualizarAnotacao(@PathVariable Long id, @RequestBody AnotacaoUpdateDTO anotacaoUpdateDTO){
         return ResponseEntity.ok().body(anotacaoService.atualizarAnotacao(id, anotacaoUpdateDTO));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarAnotacao(@PathVariable Long id){
+        anotacaoService.deletarAnotacao(id);
+        return ResponseEntity.noContent().build();
+    }
 }

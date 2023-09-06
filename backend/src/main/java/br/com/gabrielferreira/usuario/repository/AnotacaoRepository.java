@@ -1,6 +1,7 @@
 package br.com.gabrielferreira.usuario.repository;
 
 import br.com.gabrielferreira.usuario.entities.Anotacao;
+import br.com.gabrielferreira.usuario.repository.projection.AnotacaoResumidaProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,5 +18,9 @@ public interface AnotacaoRepository extends JpaRepository<Anotacao, Long> {
             "JOIN FETCH u.genero g " +
             "WHERE a.id = :id")
     Optional<Anotacao> buscarAnotacaoPorId(@Param("id") Long id);
+
+    @Query("SELECT a.id as id, a.descricao as descricao, a.createdAt as createdAt, a.updatedAt as updatedAt FROM Anotacao a " +
+            "WHERE a.id = :id")
+    Optional<AnotacaoResumidaProjection> buscarAnotacaoResumidoPorId(@Param("id") Long id);
 
 }

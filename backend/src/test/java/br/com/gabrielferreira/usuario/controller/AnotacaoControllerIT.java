@@ -131,4 +131,24 @@ class AnotacaoControllerIT {
 
         resultActions.andExpect(status().isNotFound());
     }
+
+    @Test
+    @DisplayName("Deve deletar anotação quando existir")
+    @Order(6)
+    void deveDeletarAnotacao() throws Exception {
+        ResultActions resultActions = mockMvc
+                .perform(delete(URL.concat("/{id}"), idAnotacaoExistente)
+                        .accept(MEDIA_TYPE_JSON));
+        resultActions.andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Não deve deletar anotação quando não existir")
+    @Order(7)
+    void naoDeveDeletarAnotacao() throws Exception {
+        ResultActions resultActions = mockMvc
+                .perform(delete(URL.concat("/{id}"), idAnotacaoInexistente)
+                        .accept(MEDIA_TYPE_JSON));
+        resultActions.andExpect(status().isNotFound());
+    }
 }
