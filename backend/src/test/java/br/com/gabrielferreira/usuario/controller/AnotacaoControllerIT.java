@@ -30,10 +30,16 @@ class AnotacaoControllerIT {
     @Autowired
     protected ObjectMapper objectMapper;
 
+    private Long idAnotacaoExistente;
+
+    private Long idAnotacaoInexistente;
+
     private AnotacaoInsertDTO anotacaoInsertDTO;
 
     @BeforeEach
     void setUp(){
+        idAnotacaoExistente = 1L;
+        idAnotacaoInexistente = -1L;
         anotacaoInsertDTO = criarAnotacaoInsert("Anotação teste unitário", 1L);
     }
 
@@ -57,5 +63,31 @@ class AnotacaoControllerIT {
         resultActions.andExpect(jsonPath("$.descricao").value(descricaoEsperado));
         resultActions.andExpect(jsonPath("$.usuario.id").value(idUsuarioEsperado));
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+    }
+
+    @Test
+    @DisplayName("Deve buscar anotação quando existir")
+    @Order(2)
+    void deveBuscarAnotacao() throws Exception {
+        ResultActions resultActions = mockMvc
+                .perform(get(URL.concat("/{id}"), idAnotacaoExistente)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.id").exists());
+        resultActions.andExpect(jsonPath("$.descricao").exists());
+        resultActions.andExpect(jsonPath("$.usuario.id").exists());
+        resultActions.andExpect(jsonPath("$.createdAt").exists());
+    }
+
+    @Test
+    @DisplayName("Não deve buscar anotação quando não existir")
+    @Order(3)
+    void naoDeveBuscarAnotacao() throws Exception {
+        ResultActions resultActions = mockMvc
+                .perform(get(URL.concat("/{id}"), idAnotacaoInexistente)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isNotFound());
     }
 }

@@ -4,6 +4,7 @@ import br.com.gabrielferreira.usuario.dto.AnotacaoDTO;
 import br.com.gabrielferreira.usuario.dto.AnotacaoInsertDTO;
 import br.com.gabrielferreira.usuario.entities.Anotacao;
 import br.com.gabrielferreira.usuario.entities.Usuario;
+import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuario.repository.AnotacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,14 @@ public class AnotacaoService {
 
         anotacao = anotacaoRepository.save(anotacao);
         return toAnotacaoDto(anotacao);
+    }
+
+    public AnotacaoDTO buscarAnotacaoPorId(Long id){
+        return toAnotacaoDto(buscarAnotacao(id));
+    }
+
+    private Anotacao buscarAnotacao(Long id){
+        return anotacaoRepository.buscarAnotacaoPorId(id)
+                .orElseThrow(() -> new NaoEncontradoException("Anotação não encontrada"));
     }
 }
