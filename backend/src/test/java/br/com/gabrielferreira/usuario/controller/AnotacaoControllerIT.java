@@ -151,4 +151,29 @@ class AnotacaoControllerIT {
                         .accept(MEDIA_TYPE_JSON));
         resultActions.andExpect(status().isNotFound());
     }
+
+    @Test
+    @DisplayName("Deve buscar anotação resumida quando existir")
+    @Order(8)
+    void deveBuscarAnotacaoResumida() throws Exception {
+        ResultActions resultActions = mockMvc
+                .perform(get(URL.concat("/resumida/{id}"), idAnotacaoExistente)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.id").exists());
+        resultActions.andExpect(jsonPath("$.descricao").exists());
+        resultActions.andExpect(jsonPath("$.createdAt").exists());
+    }
+
+    @Test
+    @DisplayName("Não deve buscar anotação resumida quando não existir")
+    @Order(9)
+    void naoDeveBuscarAnotacaoResumida() throws Exception {
+        ResultActions resultActions = mockMvc
+                .perform(get(URL.concat("/resumida/{id}"), idAnotacaoInexistente)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isNotFound());
+    }
 }

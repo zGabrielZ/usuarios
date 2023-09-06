@@ -2,6 +2,7 @@ package br.com.gabrielferreira.usuario.service;
 
 import br.com.gabrielferreira.usuario.dto.AnotacaoDTO;
 import br.com.gabrielferreira.usuario.dto.AnotacaoInsertDTO;
+import br.com.gabrielferreira.usuario.dto.AnotacaoResumidaDTO;
 import br.com.gabrielferreira.usuario.dto.AnotacaoUpdateDTO;
 import br.com.gabrielferreira.usuario.entities.Anotacao;
 import br.com.gabrielferreira.usuario.entities.Usuario;
@@ -36,6 +37,10 @@ public class AnotacaoService {
 
     public AnotacaoDTO buscarAnotacaoPorId(Long id){
         return toAnotacaoDto(buscarAnotacao(id));
+    }
+
+    public AnotacaoResumidaDTO buscarAnotacaoResumidaPorId(Long id){
+        return toAnotacaoResumidaDto(buscarAnotacaoResumido(id));
     }
 
     @Transactional

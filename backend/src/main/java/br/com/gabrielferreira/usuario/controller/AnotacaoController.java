@@ -2,6 +2,7 @@ package br.com.gabrielferreira.usuario.controller;
 
 import br.com.gabrielferreira.usuario.dto.AnotacaoDTO;
 import br.com.gabrielferreira.usuario.dto.AnotacaoInsertDTO;
+import br.com.gabrielferreira.usuario.dto.AnotacaoResumidaDTO;
 import br.com.gabrielferreira.usuario.dto.AnotacaoUpdateDTO;
 import br.com.gabrielferreira.usuario.service.AnotacaoService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,11 @@ public class AnotacaoController {
     @GetMapping("/{id}")
     public ResponseEntity<AnotacaoDTO> buscarAnotacao(@PathVariable Long id){
         return ResponseEntity.ok().body(anotacaoService.buscarAnotacaoPorId(id));
+    }
+
+    @GetMapping("/resumida/{id}")
+    public ResponseEntity<AnotacaoResumidaDTO> buscarAnotacaoResumida(@PathVariable Long id){
+        return ResponseEntity.ok().body(anotacaoService.buscarAnotacaoResumidaPorId(id));
     }
 
     @PutMapping("/{id}")
