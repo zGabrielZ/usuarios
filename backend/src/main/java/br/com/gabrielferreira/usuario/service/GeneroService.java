@@ -32,7 +32,7 @@ public class GeneroService {
         }
 
         Genero genero = generoRepository.buscarPorCodigo(codigo)
-                .orElseThrow(() -> new NaoEncontradoException("Código não encontrado"));
+                .orElseThrow(() -> new NaoEncontradoException("Gênero não encontrado"));
         return toGeneroDto(genero);
     }
 

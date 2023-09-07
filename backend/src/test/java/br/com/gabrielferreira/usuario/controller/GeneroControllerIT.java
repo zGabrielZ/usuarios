@@ -109,6 +109,6 @@ class GeneroControllerIT {
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isNotFound());
-        resultActions.andExpect(jsonPath("$.mensagem").value("Código não encontrado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Gênero não encontrado"));
     }
 }
