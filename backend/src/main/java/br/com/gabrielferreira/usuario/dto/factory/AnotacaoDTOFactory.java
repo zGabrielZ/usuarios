@@ -13,14 +13,14 @@ public class AnotacaoDTOFactory {
 
     public static AnotacaoDTO toAnotacaoDto(Anotacao anotacao){
         if(anotacao != null){
-            return new AnotacaoDTO(anotacao.getId(), anotacao.getDescricao(), toUsuarioDto(anotacao.getUsuario()), anotacao.getCreatedAt(), anotacao.getUpdatedAt());
+            return new AnotacaoDTO(anotacao.getId(), anotacao.getTitulo(), anotacao.getDescricao(), toUsuarioDto(anotacao.getUsuario()), anotacao.getCreatedAt(), anotacao.getUpdatedAt());
         }
         return null;
     }
 
     public static AnotacaoResumidaDTO toAnotacaoResumidaDto(Anotacao anotacao){
         if(anotacao != null){
-            return new AnotacaoResumidaDTO(anotacao.getId(), anotacao.getDescricao(), anotacao.getCreatedAt(), anotacao.getUpdatedAt());
+            return new AnotacaoResumidaDTO(anotacao.getId(), anotacao.getTitulo(), anotacao.getDescricao(), anotacao.getCreatedAt(), anotacao.getUpdatedAt());
         }
         return null;
     }

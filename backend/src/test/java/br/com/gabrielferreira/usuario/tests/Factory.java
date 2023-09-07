@@ -9,16 +9,18 @@ public class Factory {
 
     private Factory(){}
 
-    public static AnotacaoInsertDTO criarAnotacaoInsert(String descricao, Long idUsuario){
+    public static AnotacaoInsertDTO criarAnotacaoInsert(String titulo, String descricao, Long idUsuario){
         AnotacaoUsuarioInsertDTO usuario = AnotacaoUsuarioInsertDTO.builder().id(idUsuario).build();
         return AnotacaoInsertDTO.builder()
+                .titulo(titulo)
                 .descricao(descricao)
                 .usuario(usuario)
                 .build();
     }
 
-    public static AnotacaoUpdateDTO criarAnotacaoUpdate(String descricao){
+    public static AnotacaoUpdateDTO criarAnotacaoUpdate(String titulo, String descricao){
         return AnotacaoUpdateDTO.builder()
+                .titulo(titulo)
                 .descricao(descricao)
                 .build();
     }

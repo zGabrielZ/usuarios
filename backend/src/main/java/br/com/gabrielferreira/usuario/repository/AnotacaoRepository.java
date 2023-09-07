@@ -21,7 +21,7 @@ public interface AnotacaoRepository extends JpaRepository<Anotacao, Long> {
             "WHERE a.id = :id")
     Optional<Anotacao> buscarAnotacaoPorId(@Param("id") Long id);
 
-    @Query("SELECT a.id as id, a.descricao as descricao, a.createdAt as createdAt, a.updatedAt as updatedAt FROM Anotacao a " +
+    @Query("SELECT a.id as id, a.titulo as titulo, a.descricao as descricao, a.createdAt as createdAt, a.updatedAt as updatedAt FROM Anotacao a " +
             "WHERE a.id = :id")
     Optional<AnotacaoResumidaProjection> buscarAnotacaoResumidoPorId(@Param("id") Long id);
 

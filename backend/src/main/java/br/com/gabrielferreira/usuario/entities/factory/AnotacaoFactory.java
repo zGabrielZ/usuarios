@@ -12,6 +12,7 @@ public class AnotacaoFactory {
     public static Anotacao toAnotacao(Usuario usuario, AnotacaoInsertDTO anotacaoInsertDTO){
         if(anotacaoInsertDTO != null){
             return Anotacao.builder()
+                    .titulo(anotacaoInsertDTO.getTitulo())
                     .descricao(anotacaoInsertDTO.getDescricao())
                     .usuario(usuario)
                     .build();
@@ -21,6 +22,7 @@ public class AnotacaoFactory {
 
     public static void toAnotacao(Anotacao anotacao, AnotacaoUpdateDTO anotacaoUpdateDTO){
         if(anotacao != null && anotacaoUpdateDTO != null){
+            anotacao.setTitulo(anotacaoUpdateDTO.getTitulo());
             anotacao.setDescricao(anotacaoUpdateDTO.getDescricao());
         }
     }

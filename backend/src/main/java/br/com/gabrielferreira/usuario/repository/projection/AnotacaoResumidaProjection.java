@@ -6,6 +6,8 @@ public interface AnotacaoResumidaProjection {
 
     Long getId();
 
+    String getTitulo();
+
     String getDescricao();
 
     ZonedDateTime getCreatedAt();

@@ -17,5 +17,7 @@ public class AnotacaoUpdateDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = -918570165334510853L;
 
+    private String titulo;
+
     private String descricao;
 }

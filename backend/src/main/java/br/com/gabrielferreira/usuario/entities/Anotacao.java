@@ -28,6 +28,9 @@ public class Anotacao implements Serializable {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(name = "TITULO", nullable = false)
+    private String titulo;
+
     @Column(name = "DESCRICAO", nullable = false, columnDefinition = "TEXT")
     private String descricao;
 

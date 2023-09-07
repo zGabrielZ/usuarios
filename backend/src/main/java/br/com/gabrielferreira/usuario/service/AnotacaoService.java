@@ -71,6 +71,7 @@ public class AnotacaoService {
                 .orElseThrow(() -> new NaoEncontradoException(MSG_NAO_ENCONTRADA));
         return Anotacao.builder()
                 .id(anotacaoResumidaProjection.getId())
+                .titulo(anotacaoResumidaProjection.getTitulo())
                 .descricao(anotacaoResumidaProjection.getDescricao())
                 .createdAt(anotacaoResumidaProjection.getCreatedAt())
                 .updatedAt(anotacaoResumidaProjection.getUpdatedAt())

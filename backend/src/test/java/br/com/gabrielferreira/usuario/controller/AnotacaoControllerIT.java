@@ -43,8 +43,8 @@ class AnotacaoControllerIT {
     void setUp(){
         idAnotacaoExistente = 1L;
         idAnotacaoInexistente = -1L;
-        anotacaoInsertDTO = criarAnotacaoInsert("Anotação teste unitário", 1L);
-        anotacaoUpdateDTO = criarAnotacaoUpdate("Anotacao teste unitário alterado");
+        anotacaoInsertDTO = criarAnotacaoInsert("Teste unitário","Anotação teste unitário", 1L);
+        anotacaoUpdateDTO = criarAnotacaoUpdate("Teste unitário alterado","Anotacao teste unitário alterado");
     }
 
     @Test
@@ -53,6 +53,7 @@ class AnotacaoControllerIT {
     void deveCadastrarAnotacao() throws Exception{
         String jsonBody = objectMapper.writeValueAsString(anotacaoInsertDTO);
 
+        String tituloEsperado = anotacaoInsertDTO.getTitulo();
         String descricaoEsperado = anotacaoInsertDTO.getDescricao();
         Long idUsuarioEsperado = anotacaoInsertDTO.getUsuario().getId();
 
@@ -64,6 +65,7 @@ class AnotacaoControllerIT {
 
         resultActions.andExpect(status().isCreated());
         resultActions.andExpect(jsonPath("$.id").exists());
+        resultActions.andExpect(jsonPath("$.titulo").value(tituloEsperado));
         resultActions.andExpect(jsonPath("$.descricao").value(descricaoEsperado));
         resultActions.andExpect(jsonPath("$.usuario.id").value(idUsuarioEsperado));
         resultActions.andExpect(jsonPath("$.createdAt").exists());
@@ -79,6 +81,7 @@ class AnotacaoControllerIT {
 
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.id").exists());
+        resultActions.andExpect(jsonPath("$.titulo").exists());
         resultActions.andExpect(jsonPath("$.descricao").exists());
         resultActions.andExpect(jsonPath("$.usuario.id").exists());
         resultActions.andExpect(jsonPath("$.createdAt").exists());
@@ -102,6 +105,7 @@ class AnotacaoControllerIT {
         String jsonBody = objectMapper.writeValueAsString(anotacaoUpdateDTO);
 
         Long idEsperado = idAnotacaoExistente;
+        String tituloEsperado = anotacaoUpdateDTO.getTitulo();
         String descricaoEsperado = anotacaoUpdateDTO.getDescricao();
 
         ResultActions resultActions = mockMvc
@@ -112,6 +116,7 @@ class AnotacaoControllerIT {
 
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.id").value(idEsperado));
+        resultActions.andExpect(jsonPath("$.titulo").value(tituloEsperado));
         resultActions.andExpect(jsonPath("$.descricao").value(descricaoEsperado));
         resultActions.andExpect(jsonPath("$.usuario.id").exists());
         resultActions.andExpect(jsonPath("$.createdAt").exists());
@@ -162,6 +167,7 @@ class AnotacaoControllerIT {
 
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.id").exists());
+        resultActions.andExpect(jsonPath("$.titulo").exists());
         resultActions.andExpect(jsonPath("$.descricao").exists());
         resultActions.andExpect(jsonPath("$.createdAt").exists());
     }
