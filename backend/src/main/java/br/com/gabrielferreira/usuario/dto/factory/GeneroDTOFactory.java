@@ -15,7 +15,7 @@ public class GeneroDTOFactory {
 
     public static GeneroDTO toGeneroDto(Genero genero){
         if(genero != null){
-            return new GeneroDTO(genero.getId(), genero.getDescricao(), genero.getCodigo(), genero.getCreatedAt(), genero.getUpdatedAt());
+            return new GeneroDTO(genero.getId(), genero.getDescricao(), genero.getCodigo());
         }
         return null;
     }

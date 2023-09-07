@@ -5,10 +5,6 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-
-import static br.com.gabrielferreira.usuario.utils.DataUtils.AMERICA_SAO_PAULO;
 
 @Data
 @AllArgsConstructor
@@ -33,21 +29,5 @@ public class TipoTelefone implements Serializable {
 
     @Column(name = "CODIGO", nullable = false, unique = true)
     private String codigo;
-
-    @Column(name = "CREATED_AT", nullable = false)
-    private ZonedDateTime createdAt;
-
-    @Column(name = "UPDATED_AT")
-    private ZonedDateTime updatedAt;
-
-    @PrePersist
-    public void prePersist(){
-        createdAt = ZonedDateTime.now(ZoneId.of(AMERICA_SAO_PAULO));
-    }
-
-    @PreUpdate
-    public void preUpdate(){
-        updatedAt = ZonedDateTime.now(ZoneId.of(AMERICA_SAO_PAULO));
-    }
 
 }

@@ -58,7 +58,6 @@ class TipoTelefoneControllerIT {
         resultActions.andExpect(jsonPath("$.id").exists());
         resultActions.andExpect(jsonPath("$.descricao").exists());
         resultActions.andExpect(jsonPath("$.codigo").exists());
-        resultActions.andExpect(jsonPath("$.createdAt").exists());
     }
 
     @Test
@@ -85,7 +84,6 @@ class TipoTelefoneControllerIT {
         resultActions.andExpect(jsonPath("$.id").exists());
         resultActions.andExpect(jsonPath("$.descricao").exists());
         resultActions.andExpect(jsonPath("$.codigo").exists());
-        resultActions.andExpect(jsonPath("$.createdAt").exists());
     }
 
     @Test

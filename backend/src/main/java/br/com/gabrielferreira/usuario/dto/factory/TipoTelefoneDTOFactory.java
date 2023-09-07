@@ -15,7 +15,7 @@ public class TipoTelefoneDTOFactory {
 
     public static TipoTelefoneDTO toTipoTelefoneDto(TipoTelefone tipoTelefone){
         if(tipoTelefone != null){
-            return new TipoTelefoneDTO(tipoTelefone.getId(), tipoTelefone.getDescricao(), tipoTelefone.getCodigo(), tipoTelefone.getCreatedAt(), tipoTelefone.getUpdatedAt());
+            return new TipoTelefoneDTO(tipoTelefone.getId(), tipoTelefone.getDescricao(), tipoTelefone.getCodigo());
         }
         return null;
     }
