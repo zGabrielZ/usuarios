@@ -12,14 +12,16 @@ public class PageUtils {
     private PageUtils(){}
 
     public static void validarPropriedades(Sort sorts, Class<?> clazz){
-        List<String> campos = listarAtributosRecursivamente(new ArrayList<>(), "", clazz);
-        List<String> propriedaes = sorts.stream().map(Sort.Order::getProperty).toList();
+        if(!sorts.isEmpty()){
+            List<String> propriedadesInformadas = sorts.stream().map(s -> s.getProperty().toLowerCase()).toList();
+            List<String> campos = listarAtributosRecursivamente(new ArrayList<>(), "", clazz);
 
-        propriedaes.forEach(propriedade -> {
-            if(!campos.contains(propriedade)){
-                throw new MsgException(String.format("A propriedade informada %s não existe", propriedade));
-            }
-        });
+            propriedadesInformadas.forEach(propriedadeInformada -> {
+                if(!campos.contains(propriedadeInformada)){
+                    throw new MsgException(String.format("A propriedade informada %s não existe", propriedadeInformada));
+                }
+            });
+        }
     }
 
     private static List<String> listarAtributosRecursivamente(List<String> campos, String prefixo, Class<?> classe) {
