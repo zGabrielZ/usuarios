@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class GeneroControllerIT {
+class GeneroControllerIntegrationTest {
 
     private static final String URL = "/generos";
     private static final MediaType MEDIA_TYPE_JSON = MediaType.APPLICATION_JSON;

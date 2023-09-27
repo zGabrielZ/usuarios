@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class AnotacaoControllerIT {
+class AnotacaoControllerIntegrationTest {
 
     private static final String URL = "/anotacoes";
     private static final MediaType MEDIA_TYPE_JSON = MediaType.APPLICATION_JSON;
