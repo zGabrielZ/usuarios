@@ -5,6 +5,7 @@ import br.com.gabrielferreira.usuario.service.AnotacaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -47,7 +48,7 @@ public class AnotacaoController {
     }
 
     @GetMapping("/resumida")
-    public ResponseEntity<Page<AnotacaoResumidaDTO>> buscarAnotacoes(@RequestParam Long idUsuario, Pageable pageable){
+    public ResponseEntity<Page<AnotacaoResumidaDTO>> buscarAnotacoes(@RequestParam Long idUsuario, @PageableDefault(size = 5) Pageable pageable){
         return ResponseEntity.ok().body(anotacaoService.buscarAnotacoes(idUsuario, pageable));
     }
 }

@@ -7,6 +7,7 @@ import br.com.gabrielferreira.usuario.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -45,7 +46,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UsuarioDTO>> buscarUsuarios(Pageable pageable){
+    public ResponseEntity<Page<UsuarioDTO>> buscarUsuarios(@PageableDefault(size = 5) Pageable pageable){
         return ResponseEntity.ok().body(usuarioService.buscarUsuarios(pageable));
     }
 }
