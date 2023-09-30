@@ -1,6 +1,6 @@
 package br.com.gabrielferreira.usuario.repository;
 
-import br.com.gabrielferreira.usuario.entities.TipoTelefone;
+import br.com.gabrielferreira.usuario.entity.TipoTelefone;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,7 +1,7 @@
 package br.com.gabrielferreira.usuario.service;
 
 import br.com.gabrielferreira.usuario.dto.TipoTelefoneDTO;
-import br.com.gabrielferreira.usuario.entities.TipoTelefone;
+import br.com.gabrielferreira.usuario.entity.TipoTelefone;
 import br.com.gabrielferreira.usuario.exception.MsgException;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuario.repository.TipoTelefoneRepository;

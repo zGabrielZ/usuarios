@@ -1,12 +1,12 @@
-package br.com.gabrielferreira.usuario.entities.factory;
+package br.com.gabrielferreira.usuario.entity.factory;
 
 import br.com.gabrielferreira.usuario.dto.UsuarioInsertDTO;
 import br.com.gabrielferreira.usuario.dto.UsuarioUpdateDTO;
-import br.com.gabrielferreira.usuario.entities.Genero;
-import br.com.gabrielferreira.usuario.entities.TipoTelefone;
-import br.com.gabrielferreira.usuario.entities.Usuario;
+import br.com.gabrielferreira.usuario.entity.Genero;
+import br.com.gabrielferreira.usuario.entity.TipoTelefone;
+import br.com.gabrielferreira.usuario.entity.Usuario;
 
-import static br.com.gabrielferreira.usuario.entities.factory.TelefoneFactory.*;
+import static br.com.gabrielferreira.usuario.entity.factory.TelefoneFactory.*;
 
 public class UsuarioFactory {
 

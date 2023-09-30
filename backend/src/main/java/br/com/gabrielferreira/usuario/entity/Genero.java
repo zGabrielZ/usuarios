@@ -1,4 +1,4 @@
-package br.com.gabrielferreira.usuario.entities;
+package br.com.gabrielferreira.usuario.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,8 +13,8 @@ import java.io.Serializable;
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "TB_TIPO_TELEFONE")
-public class TipoTelefone implements Serializable {
+@Table(name = "TB_GENERO")
+public class Genero implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -8862093994952790903L;

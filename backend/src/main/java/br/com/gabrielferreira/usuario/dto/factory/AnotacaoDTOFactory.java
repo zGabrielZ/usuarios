@@ -2,7 +2,7 @@ package br.com.gabrielferreira.usuario.dto.factory;
 
 import br.com.gabrielferreira.usuario.dto.AnotacaoDTO;
 import br.com.gabrielferreira.usuario.dto.AnotacaoResumidaDTO;
-import br.com.gabrielferreira.usuario.entities.Anotacao;
+import br.com.gabrielferreira.usuario.entity.Anotacao;
 import org.springframework.data.domain.Page;
 
 import static br.com.gabrielferreira.usuario.dto.factory.UsuarioDTOFactory.*;

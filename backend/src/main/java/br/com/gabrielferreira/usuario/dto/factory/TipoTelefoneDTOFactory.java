@@ -1,7 +1,7 @@
 package br.com.gabrielferreira.usuario.dto.factory;
 
 import br.com.gabrielferreira.usuario.dto.TipoTelefoneDTO;
-import br.com.gabrielferreira.usuario.entities.TipoTelefone;
+import br.com.gabrielferreira.usuario.entity.TipoTelefone;
 
 import java.util.List;
 

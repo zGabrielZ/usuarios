@@ -3,9 +3,9 @@ package br.com.gabrielferreira.usuario.service;
 import br.com.gabrielferreira.usuario.dto.UsuarioDTO;
 import br.com.gabrielferreira.usuario.dto.UsuarioInsertDTO;
 import br.com.gabrielferreira.usuario.dto.UsuarioUpdateDTO;
-import br.com.gabrielferreira.usuario.entities.Genero;
-import br.com.gabrielferreira.usuario.entities.TipoTelefone;
-import br.com.gabrielferreira.usuario.entities.Usuario;
+import br.com.gabrielferreira.usuario.entity.Genero;
+import br.com.gabrielferreira.usuario.entity.TipoTelefone;
+import br.com.gabrielferreira.usuario.entity.Usuario;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuario.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static br.com.gabrielferreira.usuario.dto.factory.UsuarioDTOFactory.*;
-import static br.com.gabrielferreira.usuario.entities.factory.UsuarioFactory.*;
+import static br.com.gabrielferreira.usuario.entity.factory.UsuarioFactory.*;
 import static br.com.gabrielferreira.usuario.utils.PageUtils.*;
 
 @Service

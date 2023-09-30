@@ -1,9 +1,9 @@
-package br.com.gabrielferreira.usuario.entities.factory;
+package br.com.gabrielferreira.usuario.entity.factory;
 
 import br.com.gabrielferreira.usuario.dto.AnotacaoInsertDTO;
 import br.com.gabrielferreira.usuario.dto.AnotacaoUpdateDTO;
-import br.com.gabrielferreira.usuario.entities.Anotacao;
-import br.com.gabrielferreira.usuario.entities.Usuario;
+import br.com.gabrielferreira.usuario.entity.Anotacao;
+import br.com.gabrielferreira.usuario.entity.Usuario;
 
 public class AnotacaoFactory {
 

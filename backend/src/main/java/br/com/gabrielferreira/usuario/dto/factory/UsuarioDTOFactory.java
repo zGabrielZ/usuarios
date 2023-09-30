@@ -1,7 +1,7 @@
 package br.com.gabrielferreira.usuario.dto.factory;
 
 import br.com.gabrielferreira.usuario.dto.UsuarioDTO;
-import br.com.gabrielferreira.usuario.entities.Usuario;
+import br.com.gabrielferreira.usuario.entity.Usuario;
 import org.springframework.data.domain.Page;
 
 import static br.com.gabrielferreira.usuario.dto.factory.GeneroDTOFactory.*;

@@ -1,8 +1,8 @@
-package br.com.gabrielferreira.usuario.entities.factory;
+package br.com.gabrielferreira.usuario.entity.factory;
 
 import br.com.gabrielferreira.usuario.dto.TelefoneInsertDTO;
-import br.com.gabrielferreira.usuario.entities.Telefone;
-import br.com.gabrielferreira.usuario.entities.TipoTelefone;
+import br.com.gabrielferreira.usuario.entity.Telefone;
+import br.com.gabrielferreira.usuario.entity.TipoTelefone;
 
 public class TelefoneFactory {
 

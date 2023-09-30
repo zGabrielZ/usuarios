@@ -1,7 +1,7 @@
 package br.com.gabrielferreira.usuario.service;
 
 import br.com.gabrielferreira.usuario.dto.GeneroDTO;
-import br.com.gabrielferreira.usuario.entities.Genero;
+import br.com.gabrielferreira.usuario.entity.Genero;
 import br.com.gabrielferreira.usuario.exception.MsgException;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuario.repository.GeneroRepository;

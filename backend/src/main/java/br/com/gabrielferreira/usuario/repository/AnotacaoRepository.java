@@ -1,6 +1,6 @@
 package br.com.gabrielferreira.usuario.repository;
 
-import br.com.gabrielferreira.usuario.entities.Anotacao;
+import br.com.gabrielferreira.usuario.entity.Anotacao;
 import br.com.gabrielferreira.usuario.repository.projection.AnotacaoResumidaProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package br.com.gabrielferreira.usuario.entities;
+package br.com.gabrielferreira.usuario.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

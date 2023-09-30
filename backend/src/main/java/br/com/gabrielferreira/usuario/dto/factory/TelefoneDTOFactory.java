@@ -1,7 +1,7 @@
 package br.com.gabrielferreira.usuario.dto.factory;
 
 import br.com.gabrielferreira.usuario.dto.TelefoneDTO;
-import br.com.gabrielferreira.usuario.entities.Telefone;
+import br.com.gabrielferreira.usuario.entity.Telefone;
 
 import static br.com.gabrielferreira.usuario.dto.factory.TipoTelefoneDTOFactory.*;
 

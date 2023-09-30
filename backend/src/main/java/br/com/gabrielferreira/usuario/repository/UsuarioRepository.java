@@ -1,6 +1,6 @@
 package br.com.gabrielferreira.usuario.repository;
 
-import br.com.gabrielferreira.usuario.entities.Usuario;
+import br.com.gabrielferreira.usuario.entity.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

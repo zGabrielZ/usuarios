@@ -1,8 +1,8 @@
 package br.com.gabrielferreira.usuario.service;
 
 import br.com.gabrielferreira.usuario.dto.*;
-import br.com.gabrielferreira.usuario.entities.Anotacao;
-import br.com.gabrielferreira.usuario.entities.Usuario;
+import br.com.gabrielferreira.usuario.entity.Anotacao;
+import br.com.gabrielferreira.usuario.entity.Usuario;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuario.repository.AnotacaoRepository;
 import br.com.gabrielferreira.usuario.repository.projection.AnotacaoResumidaProjection;
@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static br.com.gabrielferreira.usuario.entities.factory.AnotacaoFactory.*;
+import static br.com.gabrielferreira.usuario.entity.factory.AnotacaoFactory.*;
 import static br.com.gabrielferreira.usuario.dto.factory.AnotacaoDTOFactory.*;
 import static br.com.gabrielferreira.usuario.utils.PageUtils.*;
 
