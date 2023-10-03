@@ -4,7 +4,7 @@ import br.com.gabrielferreira.usuario.domain.GeneroDomain;
 import br.com.gabrielferreira.usuario.entity.Genero;
 import br.com.gabrielferreira.usuario.exception.MsgException;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
-import br.com.gabrielferreira.usuario.mapper.domain.GeneroDomainMapper;
+import br.com.gabrielferreira.usuario.mapper.GeneroMapper;
 import br.com.gabrielferreira.usuario.repository.GeneroRepository;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
@@ -17,17 +17,17 @@ public class GeneroService {
 
     private final GeneroRepository generoRepository;
 
-    private final GeneroDomainMapper generoDomainMapper;
+    private final GeneroMapper generoMapper;
 
     public List<GeneroDomain> buscarGeneros(){
         List<Genero> generos = generoRepository.buscarGeneros();
-        return generoDomainMapper.toGenerosDomains(generos);
+        return generoMapper.toGenerosDomains(generos);
     }
 
     public GeneroDomain buscarGeneroPorId(Long id){
         Genero genero = generoRepository.findById(id)
                 .orElseThrow(() -> new NaoEncontradoException("Gênero não encontrado"));
-        return generoDomainMapper.toGeneroDomain(genero);
+        return generoMapper.toGeneroDomain(genero);
     }
 
     public GeneroDomain buscarGeneroPorCodigo(String codigo){
@@ -37,6 +37,6 @@ public class GeneroService {
 
         Genero genero = generoRepository.buscarPorCodigo(codigo)
                 .orElseThrow(() -> new NaoEncontradoException("Gênero não encontrado"));
-        return generoDomainMapper.toGeneroDomain(genero);
+        return generoMapper.toGeneroDomain(genero);
     }
 }
