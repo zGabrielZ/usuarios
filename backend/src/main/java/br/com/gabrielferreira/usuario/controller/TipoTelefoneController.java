@@ -1,11 +1,12 @@
 package br.com.gabrielferreira.usuario.controller;
 
-import br.com.gabrielferreira.usuario.dto.TipoTelefoneDTO;
+import br.com.gabrielferreira.usuario.domain.TipoTelefoneDomain;
+import br.com.gabrielferreira.usuario.dto.response.TipoTelefoneResponseDTO;
+import br.com.gabrielferreira.usuario.mapper.dto.TipoTelefoneDTOMapper;
 import br.com.gabrielferreira.usuario.service.TipoTelefoneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -15,18 +16,23 @@ public class TipoTelefoneController {
 
     private final TipoTelefoneService tipoTelefoneService;
 
+    private final TipoTelefoneDTOMapper tipoTelefoneDTOMapper;
+
     @GetMapping
-    public ResponseEntity<List<TipoTelefoneDTO>> buscarTipoTelefones(){
-        return ResponseEntity.ok().body(tipoTelefoneService.buscarTiposTelefones());
+    public ResponseEntity<List<TipoTelefoneResponseDTO>> buscarTipoTelefones(){
+        List<TipoTelefoneDomain> tipoTelefoneDomains = tipoTelefoneService.buscarTiposTelefones();
+        return ResponseEntity.ok().body(tipoTelefoneDTOMapper.toTipoTelefonesDtos(tipoTelefoneDomains));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TipoTelefoneDTO> buscarTipoTelefonePorId(@PathVariable Long id){
-        return ResponseEntity.ok().body(tipoTelefoneService.buscarTipoTelefonePorId(id));
+    public ResponseEntity<TipoTelefoneResponseDTO> buscarTipoTelefonePorId(@PathVariable Long id){
+        TipoTelefoneDomain tipoTelefoneDomain = tipoTelefoneService.buscarTipoTelefonePorId(id);
+        return ResponseEntity.ok().body(tipoTelefoneDTOMapper.toTipoTelefoneDto(tipoTelefoneDomain));
     }
 
     @GetMapping("/buscar")
-    public ResponseEntity<TipoTelefoneDTO> buscarTipoTelefonePorCodigo(@RequestParam String codigo){
-        return ResponseEntity.ok().body(tipoTelefoneService.buscarTipoTelefonePorCodigo(codigo));
+    public ResponseEntity<TipoTelefoneResponseDTO> buscarTipoTelefonePorCodigo(@RequestParam String codigo){
+        TipoTelefoneDomain tipoTelefoneDomain = tipoTelefoneService.buscarTipoTelefonePorCodigo(codigo);
+        return ResponseEntity.ok().body(tipoTelefoneDTOMapper.toTipoTelefoneDto(tipoTelefoneDomain));
     }
 }
