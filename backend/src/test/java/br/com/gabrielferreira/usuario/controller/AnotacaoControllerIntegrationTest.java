@@ -67,7 +67,6 @@ class AnotacaoControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.id").exists());
         resultActions.andExpect(jsonPath("$.titulo").value(tituloEsperado));
         resultActions.andExpect(jsonPath("$.descricao").value(descricaoEsperado));
-        resultActions.andExpect(jsonPath("$.usuario.id").value(idUsuarioEsperado));
         resultActions.andExpect(jsonPath("$.createdAt").exists());
     }
 
@@ -83,7 +82,6 @@ class AnotacaoControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.id").exists());
         resultActions.andExpect(jsonPath("$.titulo").exists());
         resultActions.andExpect(jsonPath("$.descricao").exists());
-        resultActions.andExpect(jsonPath("$.usuario.id").exists());
         resultActions.andExpect(jsonPath("$.createdAt").exists());
     }
 
@@ -118,7 +116,6 @@ class AnotacaoControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.id").value(idEsperado));
         resultActions.andExpect(jsonPath("$.titulo").value(tituloEsperado));
         resultActions.andExpect(jsonPath("$.descricao").value(descricaoEsperado));
-        resultActions.andExpect(jsonPath("$.usuario.id").exists());
         resultActions.andExpect(jsonPath("$.createdAt").exists());
     }
 
@@ -158,37 +155,11 @@ class AnotacaoControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("Deve buscar anotação resumida quando existir")
+    @DisplayName("Deve buscar anotações paginada quando existir")
     @Order(8)
-    void deveBuscarAnotacaoResumida() throws Exception {
+    void deveBuscarAnotacaoPaginadas() throws Exception {
         ResultActions resultActions = mockMvc
-                .perform(get(URL.concat("/resumida/{id}"), idAnotacaoExistente)
-                        .accept(MEDIA_TYPE_JSON));
-
-        resultActions.andExpect(status().isOk());
-        resultActions.andExpect(jsonPath("$.id").exists());
-        resultActions.andExpect(jsonPath("$.titulo").exists());
-        resultActions.andExpect(jsonPath("$.descricao").exists());
-        resultActions.andExpect(jsonPath("$.createdAt").exists());
-    }
-
-    @Test
-    @DisplayName("Não deve buscar anotação resumida quando não existir")
-    @Order(9)
-    void naoDeveBuscarAnotacaoResumida() throws Exception {
-        ResultActions resultActions = mockMvc
-                .perform(get(URL.concat("/resumida/{id}"), idAnotacaoInexistente)
-                        .accept(MEDIA_TYPE_JSON));
-
-        resultActions.andExpect(status().isNotFound());
-    }
-
-    @Test
-    @DisplayName("Deve buscar anotações resumida paginada quando existir")
-    @Order(10)
-    void deveBuscarAnotacaoResumidaPaginadas() throws Exception {
-        ResultActions resultActions = mockMvc
-                .perform(get(URL.concat("/resumida?idUsuario=1&page=0&size=5&sort=id,desc"))
+                .perform(get(URL.concat("?idUsuario=1&page=0&size=5&sort=id,desc"))
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isOk());
@@ -196,22 +167,22 @@ class AnotacaoControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("Não deve buscar anotações resumida paginada quando informar propriedade incorreta")
-    @Order(11)
-    void naoDeveBuscarAnotacaoResumidaPaginadas() throws Exception {
+    @DisplayName("Não deve buscar anotações paginada quando informar propriedade incorreta")
+    @Order(9)
+    void naoDeveBuscarAnotacaoPaginadas() throws Exception {
         ResultActions resultActions = mockMvc
-                .perform(get(URL.concat("/resumida?idUsuario=1&page=0&size=5&sort=iddd,desc"))
+                .perform(get(URL.concat("?idUsuario=1&page=0&size=5&sort=iddd,desc"))
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("Não deve buscar anotações resumida paginada quando não informar o id usuário")
-    @Order(11)
-    void naoDeveBuscarAnotacaoResumidaPaginadasQuandoNaoInformarIdUsuario() throws Exception {
+    @DisplayName("Não deve buscar anotações paginada quando não informar o id usuário")
+    @Order(10)
+    void naoDeveBuscarAnotacaoPaginadasQuandoNaoInformarIdUsuario() throws Exception {
         ResultActions resultActions = mockMvc
-                .perform(get(URL.concat("/resumida?idUsuario=&page=0&size=5&sort=id,desc"))
+                .perform(get(URL.concat("?idUsuario=&page=0&size=5&sort=id,desc"))
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isInternalServerError());

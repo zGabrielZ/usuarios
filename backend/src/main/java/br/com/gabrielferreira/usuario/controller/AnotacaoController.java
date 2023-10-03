@@ -4,9 +4,7 @@ import br.com.gabrielferreira.usuario.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuario.dto.request.AnotacaoCreateRequestDTO;
 import br.com.gabrielferreira.usuario.dto.request.AnotacaoUpdateRequestDTO;
 import br.com.gabrielferreira.usuario.dto.response.AnotacaoResponseDTO;
-import br.com.gabrielferreira.usuario.dto.response.AnotacaoResumidaResponseDTO;
-import br.com.gabrielferreira.usuario.mapper.domain.AnotacaoDomainMapper;
-import br.com.gabrielferreira.usuario.mapper.dto.AnotacaoDTOMapper;
+import br.com.gabrielferreira.usuario.mapper.AnotacaoMapper;
 import br.com.gabrielferreira.usuario.service.AnotacaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,34 +24,26 @@ public class AnotacaoController {
 
     private final AnotacaoService anotacaoService;
 
-    private final AnotacaoDomainMapper anotacaoDomainMapper;
-
-    private final AnotacaoDTOMapper anotacaoDTOMapper;
+    private final AnotacaoMapper anotacaoMapper;
 
     @PostMapping
     public ResponseEntity<AnotacaoResponseDTO> cadastrarAnotacao(@RequestBody AnotacaoCreateRequestDTO anotacaoCreateRequestDTO){
-        AnotacaoDomain anotacaoDomain = anotacaoService.cadastrarAnotacao(anotacaoDomainMapper.toAnotacaoDomain(anotacaoCreateRequestDTO));
+        AnotacaoDomain anotacaoDomain = anotacaoService.cadastrarAnotacao(anotacaoMapper.toAnotacaoDomain(anotacaoCreateRequestDTO));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
                 .buildAndExpand(anotacaoDomain.getId()).toUri();
-        return ResponseEntity.created(uri).body(anotacaoDTOMapper.toAnotacaoDto(anotacaoDomain));
+        return ResponseEntity.created(uri).body(anotacaoMapper.toAnotacaoResponseDto(anotacaoDomain));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AnotacaoResponseDTO> buscarAnotacao(@PathVariable Long id){
         AnotacaoDomain anotacaoDomain = anotacaoService.buscarAnotacaoPorId(id);
-        return ResponseEntity.ok().body(anotacaoDTOMapper.toAnotacaoDto(anotacaoDomain));
-    }
-
-    @GetMapping("/resumida/{id}")
-    public ResponseEntity<AnotacaoResumidaResponseDTO> buscarAnotacaoResumida(@PathVariable Long id){
-        AnotacaoDomain anotacaoDomain = anotacaoService.buscarAnotacaoResumidaPorId(id);
-        return ResponseEntity.ok().body(anotacaoDTOMapper.toAnotacaoResumidaDto(anotacaoDomain));
+        return ResponseEntity.ok().body(anotacaoMapper.toAnotacaoResponseDto(anotacaoDomain));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AnotacaoResponseDTO> atualizarAnotacao(@PathVariable Long id, @RequestBody AnotacaoUpdateRequestDTO anotacaoUpdateRequestDTO){
-        AnotacaoDomain anotacaoDomain = anotacaoService.atualizarAnotacao(anotacaoDomainMapper.toAnotacaoDomain(id, anotacaoUpdateRequestDTO));
-        return ResponseEntity.ok().body(anotacaoDTOMapper.toAnotacaoDto(anotacaoDomain));
+        AnotacaoDomain anotacaoDomain = anotacaoService.atualizarAnotacao(anotacaoMapper.toAnotacaoDomain(id, anotacaoUpdateRequestDTO));
+        return ResponseEntity.ok().body(anotacaoMapper.toAnotacaoResponseDto(anotacaoDomain));
     }
 
     @DeleteMapping("/{id}")
@@ -62,10 +52,10 @@ public class AnotacaoController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/resumida")
-    public ResponseEntity<Page<AnotacaoResumidaResponseDTO>> buscarAnotacoes(@RequestParam Long idUsuario, @PageableDefault(size = 5) Pageable pageable){
-        validarPropriedades(pageable.getSort(), AnotacaoResumidaResponseDTO.class);
+    @GetMapping
+    public ResponseEntity<Page<AnotacaoResponseDTO>> buscarAnotacoes(@RequestParam Long idUsuario, @PageableDefault(size = 5) Pageable pageable){
+        validarPropriedades(pageable.getSort(), AnotacaoResponseDTO.class);
         Page<AnotacaoDomain> anotacoesDomains = anotacaoService.buscarAnotacoes(idUsuario, pageable);
-        return ResponseEntity.ok().body(anotacaoDTOMapper.toAnotacoesResumidaDtos(anotacoesDomains));
+        return ResponseEntity.ok().body(anotacaoMapper.toAnotacoesResponsesDtos(anotacoesDomains));
     }
 }

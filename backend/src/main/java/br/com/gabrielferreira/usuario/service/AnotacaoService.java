@@ -3,10 +3,8 @@ package br.com.gabrielferreira.usuario.service;
 import br.com.gabrielferreira.usuario.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuario.entity.Anotacao;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
-import br.com.gabrielferreira.usuario.mapper.domain.AnotacaoDomainMapper;
-import br.com.gabrielferreira.usuario.mapper.entity.AnotacaoMapper;
+import br.com.gabrielferreira.usuario.mapper.AnotacaoMapper;
 import br.com.gabrielferreira.usuario.repository.AnotacaoRepository;
-import br.com.gabrielferreira.usuario.repository.projection.AnotacaoResumidaProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,13 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AnotacaoService {
 
-    private static final String MSG_NAO_ENCONTRADA = "Anotação não encontrada";
-
     private final AnotacaoRepository anotacaoRepository;
 
     private final UsuarioService usuarioService;
-
-    private final AnotacaoDomainMapper anotacaoDomainMapper;
 
     private final AnotacaoMapper anotacaoMapper;
 
@@ -34,30 +28,26 @@ public class AnotacaoService {
 
         Anotacao anotacao = anotacaoMapper.toAnotacao(anotacaoDomain);
         anotacao = anotacaoRepository.save(anotacao);
-        return anotacaoDomainMapper.toAnotacaoDomain(anotacao);
+        return anotacaoMapper.toAnotacaoDomainWithoutUsuario(anotacao);
     }
 
     public AnotacaoDomain buscarAnotacaoPorId(Long id){
-        Anotacao anotacao = anotacaoRepository.buscarAnotacaoPorId(id)
-                .orElseThrow(() -> new NaoEncontradoException(MSG_NAO_ENCONTRADA));
-        return anotacaoDomainMapper.toAnotacaoDomain(anotacao);
-    }
-
-    public AnotacaoDomain buscarAnotacaoResumidaPorId(Long id){
-        AnotacaoResumidaProjection anotacaoResumidaProjection = anotacaoRepository.buscarAnotacaoResumidoPorId(id)
-                .orElseThrow(() -> new NaoEncontradoException(MSG_NAO_ENCONTRADA));
-        return anotacaoDomainMapper.toAnotacaoDomain(anotacaoResumidaProjection);
+        Anotacao anotacao = anotacaoRepository.findById(id)
+                .orElseThrow(() -> new NaoEncontradoException("Anotação não encontrada"));
+        return anotacaoMapper.toAnotacaoDomainWithoutUsuario(anotacao);
     }
 
     @Transactional
     public AnotacaoDomain atualizarAnotacao(AnotacaoDomain anotacaoDomain){
-        AnotacaoDomain anotacaoDomainEncontrada = buscarAnotacaoPorId(anotacaoDomain.getId());
+        AnotacaoDomain anotacaoDomainEncontrada = anotacaoMapper
+                .toAnotacaoDomainWithUsuario(anotacaoRepository.buscarAnotacao(anotacaoDomain.getId())
+                .orElseThrow(() -> new NaoEncontradoException("Anotação não encontrada")));
 
-        anotacaoDomainMapper.updateAnotacaoDomain(anotacaoDomainEncontrada, anotacaoDomain);
+        updateAnotacaoDomain(anotacaoDomainEncontrada, anotacaoDomain);
 
         Anotacao anotacao = anotacaoMapper.toAnotacao(anotacaoDomainEncontrada);
         anotacao = anotacaoRepository.save(anotacao);
-        return anotacaoDomainMapper.toAnotacaoDomain(anotacao);
+        return anotacaoMapper.toAnotacaoDomainWithoutUsuario(anotacao);
     }
 
     @Transactional
@@ -68,6 +58,13 @@ public class AnotacaoService {
 
     public Page<AnotacaoDomain> buscarAnotacoes(Long idUsuario, Pageable pageable){
         Page<Anotacao> anotacoes = anotacaoRepository.buscarAnotacoes(idUsuario, pageable);
-        return anotacaoDomainMapper.toAnotacoesDomains(anotacoes);
+        return anotacaoMapper.toAnotacoesDomains(anotacoes);
+    }
+
+    private void updateAnotacaoDomain(AnotacaoDomain anotacaoDomainEncontrado, AnotacaoDomain anotacaoDomainUpdate){
+        if(anotacaoDomainEncontrado != null && anotacaoDomainUpdate != null){
+            anotacaoDomainEncontrado.setTitulo(anotacaoDomainUpdate.getTitulo());
+            anotacaoDomainEncontrado.setDescricao(anotacaoDomainUpdate.getDescricao());
+        }
     }
 }
