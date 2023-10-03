@@ -1,4 +1,4 @@
-package br.com.gabrielferreira.usuario.dto;
+package br.com.gabrielferreira.usuario.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,24 +7,15 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsuarioUpdateDTO implements Serializable {
+public class GeneroCreateRequestDTO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -918570165334510853L;
 
-    private String nome;
-
-    private BigDecimal renda;
-
-    private Integer quantidadeFilhos;
-
-    private TelefoneInsertDTO telefone;
-
-    private GeneroInsertDTO genero;
+    private Long id;
 }

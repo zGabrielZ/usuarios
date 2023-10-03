@@ -1,7 +1,7 @@
 package br.com.gabrielferreira.usuario.controller;
 
-import br.com.gabrielferreira.usuario.dto.UsuarioInsertDTO;
-import br.com.gabrielferreira.usuario.dto.UsuarioUpdateDTO;
+import br.com.gabrielferreira.usuario.dto.request.UsuarioCreateRequestDTO;
+import br.com.gabrielferreira.usuario.dto.request.UsuarioUpdateRequestDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 
 import static br.com.gabrielferreira.usuario.tests.Factory.*;
@@ -39,26 +38,26 @@ class UsuarioControllerIntegrationTest {
 
     private Long idUsuarioInexistente;
 
-    private UsuarioInsertDTO usuarioInsertDTO;
+    private UsuarioCreateRequestDTO usuarioCreateRequestDTO;
 
-    private UsuarioUpdateDTO usuarioUpdateDTO;
+    private UsuarioUpdateRequestDTO usuarioUpdateRequestDTO;
 
     @BeforeEach
     void setUp(){
         idUsuarioExistente = 1L;
         idUsuarioInexistente = -1L;
-        usuarioInsertDTO = criarUsuarioInsert();
-        usuarioUpdateDTO = criarUsuarioUpdate();
+        usuarioCreateRequestDTO = criarUsuarioInsert();
+        usuarioUpdateRequestDTO = criarUsuarioUpdate();
     }
 
     @Test
     @DisplayName("Deve cadastrar um usuário")
     @Order(1)
     void deveCadastrarUsuario() throws Exception{
-        String jsonBody = objectMapper.writeValueAsString(usuarioInsertDTO);
+        String jsonBody = objectMapper.writeValueAsString(usuarioCreateRequestDTO);
 
-        String nomeEsperado = usuarioInsertDTO.getNome();
-        String emailEsperado = usuarioInsertDTO.getEmail();
+        String nomeEsperado = usuarioCreateRequestDTO.getNome();
+        String emailEsperado = usuarioCreateRequestDTO.getEmail();
 
         ResultActions resultActions = mockMvc
                 .perform(post(URL)
@@ -111,11 +110,11 @@ class UsuarioControllerIntegrationTest {
     @DisplayName("Deve alterar usuário quando existir")
     @Order(4)
     void deveAlterarUsuario() throws Exception {
-        String jsonBody = objectMapper.writeValueAsString(usuarioUpdateDTO);
+        String jsonBody = objectMapper.writeValueAsString(usuarioUpdateRequestDTO);
 
         Long idEsperado = idUsuarioExistente;
-        String nomeEsperado = usuarioUpdateDTO.getNome();
-        BigDecimal rendaEsperado = usuarioUpdateDTO.getRenda();
+        String nomeEsperado = usuarioUpdateRequestDTO.getNome();
+        BigDecimal rendaEsperado = usuarioUpdateRequestDTO.getRenda();
 
         ResultActions resultActions = mockMvc
                 .perform(put(URL.concat("/{id}"), idUsuarioExistente)
@@ -137,7 +136,7 @@ class UsuarioControllerIntegrationTest {
     @DisplayName("Não deve alterar usuário quando não existir")
     @Order(5)
     void naoDeveAlterarUsuario() throws Exception {
-        String jsonBody = objectMapper.writeValueAsString(usuarioUpdateDTO);
+        String jsonBody = objectMapper.writeValueAsString(usuarioUpdateRequestDTO);
 
         ResultActions resultActions = mockMvc
                 .perform(put(URL.concat("/{id}"), idUsuarioInexistente)
