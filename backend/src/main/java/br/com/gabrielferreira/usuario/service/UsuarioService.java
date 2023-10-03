@@ -3,8 +3,7 @@ package br.com.gabrielferreira.usuario.service;
 import br.com.gabrielferreira.usuario.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuario.entity.Usuario;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
-import br.com.gabrielferreira.usuario.mapper.domain.UsuarioDomainMapper;
-import br.com.gabrielferreira.usuario.mapper.entity.UsuarioMapper;
+import br.com.gabrielferreira.usuario.mapper.UsuarioMapper;
 import br.com.gabrielferreira.usuario.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,8 +23,6 @@ public class UsuarioService {
 
     private final UsuarioMapper usuarioMapper;
 
-    private final UsuarioDomainMapper usuarioDomainMapper;
-
     @Transactional
     public UsuarioDomain cadastrarUsuario(UsuarioDomain usuarioDomain){
         usuarioDomain.getTelefone().setTipoTelefone(tipoTelefoneService.buscarTipoTelefonePorId(usuarioDomain.getTelefone().getTipoTelefone().getId()));
@@ -33,13 +30,13 @@ public class UsuarioService {
 
         Usuario usuario = usuarioMapper.toUsuario(usuarioDomain);
         usuario = usuarioRepository.save(usuario);
-        return usuarioDomainMapper.toUsuarioDomain(usuario);
+        return usuarioMapper.toUsuarioWithoutAnotacoesDomain(usuario);
     }
 
     public UsuarioDomain buscarUsuarioPorId(Long id){
         Usuario usuario = usuarioRepository.buscarUsuarioPorId(id)
                 .orElseThrow(() -> new NaoEncontradoException("Usuário não encontrado"));
-        return usuarioDomainMapper.toUsuarioDomain(usuario);
+        return usuarioMapper.toUsuarioWithoutAnotacoesDomain(usuario);
     }
 
     @Transactional
@@ -48,11 +45,11 @@ public class UsuarioService {
         usuarioDomainEncontrado.getTelefone().setTipoTelefone(tipoTelefoneService.buscarTipoTelefonePorId(usuarioDomain.getTelefone().getTipoTelefone().getId()));
         usuarioDomainEncontrado.setGenero(generoService.buscarGeneroPorId(usuarioDomain.getGenero().getId()));
 
-        usuarioDomainMapper.updateUsuarioDomain(usuarioDomainEncontrado, usuarioDomain);
+        updateUsuarioDomain(usuarioDomainEncontrado, usuarioDomain);
 
         Usuario usuario = usuarioMapper.toUsuario(usuarioDomainEncontrado);
         usuario = usuarioRepository.save(usuario);
-        return usuarioDomainMapper.toUsuarioDomain(usuario);
+        return usuarioMapper.toUsuarioWithoutAnotacoesDomain(usuario);
     }
 
     @Transactional
@@ -62,6 +59,18 @@ public class UsuarioService {
     }
 
     public Page<UsuarioDomain> buscarUsuarios(Pageable pageable){
-        return usuarioDomainMapper.toUsuariosDomains(usuarioRepository.buscarUsuarios(pageable));
+        Page<Usuario> usuarios = usuarioRepository.buscarUsuarios(pageable);
+        return usuarioMapper.toUsuariosDomains(usuarios);
+    }
+
+    private void updateUsuarioDomain(UsuarioDomain usuarioDomainEncontrado, UsuarioDomain usuarioDomainUpdate){
+        if(usuarioDomainEncontrado != null && usuarioDomainUpdate != null){
+            usuarioDomainEncontrado.setNome(usuarioDomainUpdate.getNome());
+            usuarioDomainEncontrado.setRenda(usuarioDomainUpdate.getRenda());
+            usuarioDomainEncontrado.setQuantidadeFilhos(usuarioDomainUpdate.getQuantidadeFilhos());
+            usuarioDomainEncontrado.getTelefone().setNumero(usuarioDomainUpdate.getTelefone().getNumero());
+            usuarioDomainEncontrado.getTelefone().setDdd(usuarioDomainUpdate.getTelefone().getDdd());
+            usuarioDomainEncontrado.getTelefone().setDescricao(usuarioDomainUpdate.getTelefone().getDescricao());
+        }
     }
 }
