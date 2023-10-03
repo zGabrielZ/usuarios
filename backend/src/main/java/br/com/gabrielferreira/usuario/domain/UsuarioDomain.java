@@ -49,4 +49,8 @@ public class UsuarioDomain implements Serializable {
     public String getCpfFormatado(){
         return toCpfFormatado(this.cpf);
     }
+
+    public String getRendaFormatada(){
+        return toValorMonetarioBrasil(this.renda);
+    }
 }
