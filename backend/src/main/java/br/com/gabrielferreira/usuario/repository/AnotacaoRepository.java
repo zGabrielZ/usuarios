@@ -27,6 +27,9 @@ public interface AnotacaoRepository extends JpaRepository<Anotacao, Long> {
 
     @Query("SELECT a FROM Anotacao a " +
             "JOIN FETCH a.usuario u " +
+            "JOIN FETCH u.telefone t " +
+            "JOIN FETCH t.tipoTelefone tt " +
+            "JOIN FETCH u.genero g " +
             "WHERE u.id = :idUsuario")
     Page<Anotacao> buscarAnotacoes(@Param("idUsuario") Long idUsuario, Pageable pageable);
 

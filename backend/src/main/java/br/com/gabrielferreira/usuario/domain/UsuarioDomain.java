@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static br.com.gabrielferreira.usuario.utils.MascaraUtils.*;
 
@@ -37,6 +39,8 @@ public class UsuarioDomain implements Serializable {
     private TelefoneDomain telefone;
 
     private GeneroDomain genero;
+
+    private List<AnotacaoDomain> anotacoes = new ArrayList<>();
 
     private ZonedDateTime createdAt;
 

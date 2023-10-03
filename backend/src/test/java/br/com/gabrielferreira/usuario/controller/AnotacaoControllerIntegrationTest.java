@@ -1,7 +1,7 @@
 package br.com.gabrielferreira.usuario.controller;
 
-import br.com.gabrielferreira.usuario.dto.AnotacaoInsertDTO;
-import br.com.gabrielferreira.usuario.dto.AnotacaoUpdateDTO;
+import br.com.gabrielferreira.usuario.dto.request.AnotacaoCreateRequestDTO;
+import br.com.gabrielferreira.usuario.dto.request.AnotacaoUpdateRequestDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,27 +35,27 @@ class AnotacaoControllerIntegrationTest {
 
     private Long idAnotacaoInexistente;
 
-    private AnotacaoInsertDTO anotacaoInsertDTO;
+    private AnotacaoCreateRequestDTO anotacaoCreateRequestDTO;
 
-    private AnotacaoUpdateDTO anotacaoUpdateDTO;
+    private AnotacaoUpdateRequestDTO anotacaoUpdateRequestDTO;
 
     @BeforeEach
     void setUp(){
         idAnotacaoExistente = 1L;
         idAnotacaoInexistente = -1L;
-        anotacaoInsertDTO = criarAnotacaoInsert("Teste unitário","Anotação teste unitário", 1L);
-        anotacaoUpdateDTO = criarAnotacaoUpdate("Teste unitário alterado","Anotacao teste unitário alterado");
+        anotacaoCreateRequestDTO = criarAnotacaoInsert("Teste unitário","Anotação teste unitário", 1L);
+        anotacaoUpdateRequestDTO = criarAnotacaoUpdate("Teste unitário alterado","Anotacao teste unitário alterado");
     }
 
     @Test
     @DisplayName("Deve cadastrar uma anotação")
     @Order(1)
     void deveCadastrarAnotacao() throws Exception{
-        String jsonBody = objectMapper.writeValueAsString(anotacaoInsertDTO);
+        String jsonBody = objectMapper.writeValueAsString(anotacaoCreateRequestDTO);
 
-        String tituloEsperado = anotacaoInsertDTO.getTitulo();
-        String descricaoEsperado = anotacaoInsertDTO.getDescricao();
-        Long idUsuarioEsperado = anotacaoInsertDTO.getUsuario().getId();
+        String tituloEsperado = anotacaoCreateRequestDTO.getTitulo();
+        String descricaoEsperado = anotacaoCreateRequestDTO.getDescricao();
+        Long idUsuarioEsperado = anotacaoCreateRequestDTO.getUsuario().getId();
 
         ResultActions resultActions = mockMvc
                 .perform(post(URL)
@@ -102,11 +102,11 @@ class AnotacaoControllerIntegrationTest {
     @DisplayName("Deve alterar anotação quando existir")
     @Order(4)
     void deveAlterarAnotacao() throws Exception {
-        String jsonBody = objectMapper.writeValueAsString(anotacaoUpdateDTO);
+        String jsonBody = objectMapper.writeValueAsString(anotacaoUpdateRequestDTO);
 
         Long idEsperado = idAnotacaoExistente;
-        String tituloEsperado = anotacaoUpdateDTO.getTitulo();
-        String descricaoEsperado = anotacaoUpdateDTO.getDescricao();
+        String tituloEsperado = anotacaoUpdateRequestDTO.getTitulo();
+        String descricaoEsperado = anotacaoUpdateRequestDTO.getDescricao();
 
         ResultActions resultActions = mockMvc
                 .perform(put(URL.concat("/{id}"), idAnotacaoExistente)
@@ -126,7 +126,7 @@ class AnotacaoControllerIntegrationTest {
     @DisplayName("Não deve alterar anotação quando não existir")
     @Order(5)
     void naoDeveAlterarAnotacao() throws Exception {
-        String jsonBody = objectMapper.writeValueAsString(anotacaoUpdateDTO);
+        String jsonBody = objectMapper.writeValueAsString(anotacaoUpdateRequestDTO);
 
         ResultActions resultActions = mockMvc
                 .perform(put(URL.concat("/{id}"), idAnotacaoInexistente)

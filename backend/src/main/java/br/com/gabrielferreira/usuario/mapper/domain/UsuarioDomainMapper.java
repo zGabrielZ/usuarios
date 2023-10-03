@@ -5,6 +5,7 @@ import br.com.gabrielferreira.usuario.dto.request.UsuarioCreateRequestDTO;
 import br.com.gabrielferreira.usuario.dto.request.UsuarioUpdateRequestDTO;
 import br.com.gabrielferreira.usuario.entity.Usuario;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 
 @Mapper(componentModel = "spring")
@@ -14,6 +15,7 @@ public interface UsuarioDomainMapper {
 
     UsuarioDomain toUsuarioDomain(UsuarioUpdateRequestDTO usuarioUpdateRequestDTO);
 
+    @Mapping(target = "anotacoes", ignore = true)
     UsuarioDomain toUsuarioDomain(Usuario usuario);
 
     default UsuarioDomain toUsuarioDomain(Long id, UsuarioUpdateRequestDTO usuarioUpdateRequestDTO){

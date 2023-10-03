@@ -1,4 +1,4 @@
-package br.com.gabrielferreira.usuario.dto;
+package br.com.gabrielferreira.usuario.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,12 +12,10 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnotacaoUpdateDTO implements Serializable {
+public class AnotacaoUsuarioCreateRequestDTO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -918570165334510853L;
 
-    private String titulo;
-
-    private String descricao;
+    private Long id;
 }

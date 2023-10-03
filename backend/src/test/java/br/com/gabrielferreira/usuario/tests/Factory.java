@@ -1,6 +1,5 @@
 package br.com.gabrielferreira.usuario.tests;
 
-import br.com.gabrielferreira.usuario.dto.*;
 import br.com.gabrielferreira.usuario.dto.request.*;
 
 import java.math.BigDecimal;
@@ -10,17 +9,17 @@ public class Factory {
 
     private Factory(){}
 
-    public static AnotacaoInsertDTO criarAnotacaoInsert(String titulo, String descricao, Long idUsuario){
-        AnotacaoUsuarioInsertDTO usuario = AnotacaoUsuarioInsertDTO.builder().id(idUsuario).build();
-        return AnotacaoInsertDTO.builder()
+    public static AnotacaoCreateRequestDTO criarAnotacaoInsert(String titulo, String descricao, Long idUsuario){
+        AnotacaoUsuarioCreateRequestDTO usuario = AnotacaoUsuarioCreateRequestDTO.builder().id(idUsuario).build();
+        return AnotacaoCreateRequestDTO.builder()
                 .titulo(titulo)
                 .descricao(descricao)
                 .usuario(usuario)
                 .build();
     }
 
-    public static AnotacaoUpdateDTO criarAnotacaoUpdate(String titulo, String descricao){
-        return AnotacaoUpdateDTO.builder()
+    public static AnotacaoUpdateRequestDTO criarAnotacaoUpdate(String titulo, String descricao){
+        return AnotacaoUpdateRequestDTO.builder()
                 .titulo(titulo)
                 .descricao(descricao)
                 .build();
