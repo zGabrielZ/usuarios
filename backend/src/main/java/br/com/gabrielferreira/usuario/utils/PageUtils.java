@@ -1,11 +1,14 @@
 package br.com.gabrielferreira.usuario.utils;
 
 import br.com.gabrielferreira.usuario.exception.MsgException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PageUtils {
 
@@ -13,7 +16,7 @@ public class PageUtils {
 
     public static void validarPropriedades(Sort sorts, Class<?> clazz){
         if(!sorts.isEmpty()){
-            List<String> propriedadesInformadas = sorts.stream().map(s -> s.getProperty().toLowerCase()).toList();
+            List<String> propriedadesInformadas = sorts.stream().map(Sort.Order::getProperty).toList();
             List<String> campos = listarAtributosRecursivamente(new ArrayList<>(), "", clazz);
 
             propriedadesInformadas.forEach(propriedadeInformada -> {
@@ -22,6 +25,27 @@ public class PageUtils {
                 }
             });
         }
+    }
+
+    public static Pageable validarOrderBy(Pageable pageable, Map<String, String> atributoDtoToEntity){
+        List<Sort.Order> sorts = pageable.getSort().stream().collect(Collectors.toList());
+        if(!sorts.isEmpty() && !atributoDtoToEntity.isEmpty()){
+            boolean isPropriedadeEncontrada = false;
+            for (Sort.Order sort : sorts) {
+                String propriedadeEncontrada = atributoDtoToEntity.get(sort.getProperty());
+                if(propriedadeEncontrada != null){
+                    isPropriedadeEncontrada = true;
+                    Sort.Order novoSort = new Sort.Order(sort.getDirection(), propriedadeEncontrada);
+                    sorts.set(sorts.indexOf(sort), novoSort);
+                }
+            }
+
+            if(isPropriedadeEncontrada){
+                pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(sorts));
+            }
+        }
+
+        return pageable;
     }
 
     private static List<String> listarAtributosRecursivamente(List<String> campos, String prefixo, Class<?> classe) {

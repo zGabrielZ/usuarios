@@ -195,4 +195,16 @@ class UsuarioControllerIntegrationTest {
         resultActions.andExpect(status().isBadRequest());
         resultActions.andExpect(jsonPath("$.mensagem").value("A propriedade informada nomeee não existe"));
     }
+
+    @Test
+    @DisplayName("Deve buscar usuários paginados quando existir e com filtros")
+    @Order(10)
+    void deveBuscarUsuariosPaginadosComFiltros() throws Exception {
+        ResultActions resultActions = mockMvc
+                .perform(get(URL.concat("?page=0&size=5&sort=id,desc&sort=cpfFormatado,desc"))
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.content").exists());
+    }
 }

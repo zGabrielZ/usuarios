@@ -10,6 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.HashMap;
+import java.util.Map;
+
+import static br.com.gabrielferreira.usuario.utils.PageUtils.*;
 
 @Service
 @RequiredArgsConstructor
@@ -59,6 +63,7 @@ public class UsuarioService {
     }
 
     public Page<UsuarioDomain> buscarUsuarios(Pageable pageable){
+        pageable = validarOrderBy(pageable, atributoDtoToEntity());
         Page<Usuario> usuarios = usuarioRepository.buscarUsuarios(pageable);
         return usuarioMapper.toUsuariosDomains(usuarios);
     }
@@ -72,5 +77,13 @@ public class UsuarioService {
             usuarioDomainEncontrado.getTelefone().setDdd(usuarioDomainUpdate.getTelefone().getDdd());
             usuarioDomainEncontrado.getTelefone().setDescricao(usuarioDomainUpdate.getTelefone().getDescricao());
         }
+    }
+
+    private Map<String, String> atributoDtoToEntity(){
+        Map<String, String> atributoDtoToEntity = new HashMap<>();
+        atributoDtoToEntity.put("cpfFormatado", "cpf");
+        atributoDtoToEntity.put("rendaFormatada", "renda");
+        atributoDtoToEntity.put("telefone.telefoneFormatado", "telefone.numero");
+        return atributoDtoToEntity;
     }
 }
