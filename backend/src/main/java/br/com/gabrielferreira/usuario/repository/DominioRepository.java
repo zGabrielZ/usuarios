@@ -21,4 +21,8 @@ public interface DominioRepository extends JpaRepository<Dominio, Long> {
             "WHERE d.codigo = :codigo")
     Optional<Dominio> buscarDominioPorCodigo(@Param("codigo") String codigo);
 
+    @Query("SELECT d FROM Dominio d " +
+            "JOIN FETCH d.tipoDominio td " +
+            "WHERE d.id = :id and td.codigo = :codigoTipoDominio")
+    Optional<Dominio> buscarDominioPorIdPorCodigoTipoDominio(@Param("id") Long id, @Param("codigoTipoDominio") String codigoTipoDominio);
 }

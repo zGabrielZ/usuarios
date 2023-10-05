@@ -5,7 +5,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-import static br.com.gabrielferreira.usuario.entity.enumeration.TipoTelefoneEnumeration.*;
+import static br.com.gabrielferreira.usuario.entity.enumeration.DominioEnumeration.*;
 import static br.com.gabrielferreira.usuario.utils.MascaraUtils.*;
 
 @Data
@@ -27,7 +27,7 @@ public class TelefoneDomain implements Serializable {
 
     private String descricao;
 
-    private TipoTelefoneDomain tipoTelefone;
+    private DominioDomain tipoTelefone;
 
     private ZonedDateTime createdAt;
 

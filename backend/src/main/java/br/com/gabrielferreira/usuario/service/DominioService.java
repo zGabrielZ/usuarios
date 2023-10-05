@@ -2,6 +2,7 @@ package br.com.gabrielferreira.usuario.service;
 
 import br.com.gabrielferreira.usuario.domain.DominioDomain;
 import br.com.gabrielferreira.usuario.entity.Dominio;
+import br.com.gabrielferreira.usuario.entity.enumeration.TipoDominioEnumeration;
 import br.com.gabrielferreira.usuario.exception.MsgException;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuario.mapper.DominioMapper;
@@ -58,6 +59,12 @@ public class DominioService {
 
         Dominio dominio = dominioRepository.buscarDominioPorCodigo(codigo)
                 .orElseThrow(() -> new NaoEncontradoException("Domínio não encontrado"));
+        return dominioMapper.toDominioDomain(dominio);
+    }
+
+    public DominioDomain buscarDominioPorIdPorCodigoTipoDominio(Long id, TipoDominioEnumeration tipoDominioEnumeration){
+        Dominio dominio = dominioRepository.buscarDominioPorIdPorCodigoTipoDominio(id, tipoDominioEnumeration.name())
+                .orElseThrow(() -> new NaoEncontradoException(String.format("%s não encontrado", tipoDominioEnumeration.getDescricao())));
         return dominioMapper.toDominioDomain(dominio);
     }
 }

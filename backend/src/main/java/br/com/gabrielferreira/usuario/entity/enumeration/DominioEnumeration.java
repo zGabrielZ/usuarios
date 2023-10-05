@@ -5,9 +5,11 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum TipoTelefoneEnumeration {
+public enum DominioEnumeration {
 
-    RESIDENCIAL, CELULAR;
+    RESIDENCIAL("Residencial"), CELULAR("Celular");
+
+    private final String descricao;
 
     public static boolean isResidencial(String campo){
         return campo.equals(RESIDENCIAL.name());

@@ -27,7 +27,7 @@ public class Factory {
 
     public static UsuarioCreateRequestDTO criarUsuarioInsert(){
         TipoTelefoneCreateRequestDTO tipoTelefoneCreateRequestDTO = TipoTelefoneCreateRequestDTO.builder()
-                .id(1L)
+                .id(4L)
                 .build();
 
         TelefoneCreateRequestDTO telefoneCreateRequestDTO = TelefoneCreateRequestDTO.builder()
@@ -55,7 +55,7 @@ public class Factory {
 
     public static UsuarioUpdateRequestDTO criarUsuarioUpdate(){
         TipoTelefoneCreateRequestDTO tipoTelefoneCreateRequestDTO = TipoTelefoneCreateRequestDTO.builder()
-                .id(2L)
+                .id(5L)
                 .build();
 
         TelefoneCreateRequestDTO telefoneCreateRequestDTO = TelefoneCreateRequestDTO.builder()

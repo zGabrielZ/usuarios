@@ -56,7 +56,7 @@ public class Usuario implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_GENERO", nullable = false)
-    private Genero genero;
+    private Dominio genero;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "usuario")
     private List<Anotacao> anotacoes = new ArrayList<>();

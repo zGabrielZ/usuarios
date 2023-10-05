@@ -39,7 +39,7 @@ public class Telefone implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_TIPO_TELEFONE", nullable = false)
-    private TipoTelefone tipoTelefone;
+    private Dominio tipoTelefone;
 
     @Column(name = "CREATED_AT", nullable = false)
     private ZonedDateTime createdAt;

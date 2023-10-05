@@ -1,7 +1,9 @@
 package br.com.gabrielferreira.usuario.service;
 
+import br.com.gabrielferreira.usuario.domain.DominioDomain;
 import br.com.gabrielferreira.usuario.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuario.entity.Usuario;
+import br.com.gabrielferreira.usuario.entity.enumeration.TipoDominioEnumeration;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuario.mapper.UsuarioMapper;
 import br.com.gabrielferreira.usuario.repository.UsuarioRepository;
@@ -21,16 +23,19 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    private final TipoTelefoneService tipoTelefoneService;
-
-    private final GeneroService generoService;
+    private final DominioService dominioService;
 
     private final UsuarioMapper usuarioMapper;
 
     @Transactional
     public UsuarioDomain cadastrarUsuario(UsuarioDomain usuarioDomain){
-        usuarioDomain.getTelefone().setTipoTelefone(tipoTelefoneService.buscarTipoTelefonePorId(usuarioDomain.getTelefone().getTipoTelefone().getId()));
-        usuarioDomain.setGenero(generoService.buscarGeneroPorId(usuarioDomain.getGenero().getId()));
+        DominioDomain tipoTelefone = dominioService
+                .buscarDominioPorIdPorCodigoTipoDominio(usuarioDomain.getTelefone().getTipoTelefone().getId(), TipoDominioEnumeration.TIPO_TELEFONE);
+        usuarioDomain.getTelefone().setTipoTelefone(tipoTelefone);
+
+        DominioDomain genero = dominioService
+                .buscarDominioPorIdPorCodigoTipoDominio(usuarioDomain.getGenero().getId(), TipoDominioEnumeration.GENERO);
+        usuarioDomain.setGenero(genero);
 
         Usuario usuario = usuarioMapper.toUsuario(usuarioDomain);
         usuario = usuarioRepository.save(usuario);
@@ -46,8 +51,14 @@ public class UsuarioService {
     @Transactional
     public UsuarioDomain atualizarUsuario(UsuarioDomain usuarioDomain){
         UsuarioDomain usuarioDomainEncontrado = buscarUsuarioPorId(usuarioDomain.getId());
-        usuarioDomainEncontrado.getTelefone().setTipoTelefone(tipoTelefoneService.buscarTipoTelefonePorId(usuarioDomain.getTelefone().getTipoTelefone().getId()));
-        usuarioDomainEncontrado.setGenero(generoService.buscarGeneroPorId(usuarioDomain.getGenero().getId()));
+
+        DominioDomain tipoTelefone = dominioService
+                .buscarDominioPorIdPorCodigoTipoDominio(usuarioDomain.getTelefone().getTipoTelefone().getId(), TipoDominioEnumeration.TIPO_TELEFONE);
+        usuarioDomainEncontrado.getTelefone().setTipoTelefone(tipoTelefone);
+
+        DominioDomain genero = dominioService
+                .buscarDominioPorIdPorCodigoTipoDominio(usuarioDomain.getGenero().getId(), TipoDominioEnumeration.GENERO);
+        usuarioDomainEncontrado.setGenero(genero);
 
         updateUsuarioDomain(usuarioDomainEncontrado, usuarioDomain);
 

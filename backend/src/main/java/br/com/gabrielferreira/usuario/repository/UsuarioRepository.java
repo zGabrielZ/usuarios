@@ -14,11 +14,14 @@ import java.util.Optional;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query("SELECT u FROM Usuario u JOIN FETCH u.telefone t JOIN FETCH t.tipoTelefone tt " +
-            "JOIN FETCH u.genero g WHERE u.id = :id")
+            "JOIN FETCH tt.tipoDominio td " +
+            "JOIN FETCH u.genero g JOIN FETCH g.tipoDominio tdg " +
+            "WHERE u.id = :id")
     Optional<Usuario> buscarUsuarioPorId(@Param("id") Long id);
 
     @Query("SELECT u FROM Usuario u JOIN FETCH u.telefone t JOIN FETCH t.tipoTelefone tt " +
-            "JOIN FETCH u.genero g")
+            "JOIN FETCH tt.tipoDominio td " +
+            "JOIN FETCH u.genero g JOIN FETCH g.tipoDominio tdg")
     Page<Usuario> buscarUsuarios(Pageable pageable);
 
 }

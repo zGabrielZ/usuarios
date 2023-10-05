@@ -38,7 +38,7 @@ public class UsuarioDomain implements Serializable {
 
     private TelefoneDomain telefone;
 
-    private GeneroDomain genero;
+    private DominioDomain genero;
 
     private List<AnotacaoDomain> anotacoes = new ArrayList<>();
 

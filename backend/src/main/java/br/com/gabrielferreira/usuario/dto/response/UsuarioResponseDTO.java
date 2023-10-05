@@ -5,6 +5,6 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 public record UsuarioResponseDTO(Long id, String nome, String email, String cpf, String cpfFormatado, BigDecimal renda, String rendaFormatada, LocalDate dataNascimento,
-                                 Integer quantidadeFilhos, TelefoneResponseDTO telefone, GeneroResponseDTO genero, ZonedDateTime createdAt,
+                                 Integer quantidadeFilhos, TelefoneResponseDTO telefone, DominioResponseDTO genero, ZonedDateTime createdAt,
                                  ZonedDateTime updatedAt) {
 }

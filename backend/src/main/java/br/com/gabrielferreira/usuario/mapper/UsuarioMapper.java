@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 
-@Mapper(componentModel = "spring", uses = {GeneroMapper.class, TipoTelefoneMapper.class})
+@Mapper(componentModel = "spring", uses = {DominioMapper.class})
 public interface UsuarioMapper {
 
     Usuario toUsuario(UsuarioDomain usuarioDomain);
