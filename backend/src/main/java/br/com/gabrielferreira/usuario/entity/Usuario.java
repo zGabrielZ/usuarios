@@ -7,12 +7,11 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static br.com.gabrielferreira.usuario.utils.DataUtils.AMERICA_SAO_PAULO;
+import static br.com.gabrielferreira.usuario.utils.DataUtils.*;
 
 @Data
 @AllArgsConstructor
@@ -69,12 +68,12 @@ public class Usuario implements Serializable {
 
     @PrePersist
     public void prePersist(){
-        createdAt = ZonedDateTime.now(ZoneId.of(AMERICA_SAO_PAULO));
+        createdAt = ZonedDateTime.now(UTC);
     }
 
     @PreUpdate
     public void preUpdate(){
-        updatedAt = ZonedDateTime.now(ZoneId.of(AMERICA_SAO_PAULO));
+        updatedAt = ZonedDateTime.now(UTC);
     }
 
 }

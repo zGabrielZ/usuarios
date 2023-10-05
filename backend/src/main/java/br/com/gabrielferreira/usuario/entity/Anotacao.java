@@ -5,10 +5,9 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import static br.com.gabrielferreira.usuario.utils.DataUtils.AMERICA_SAO_PAULO;
+import static br.com.gabrielferreira.usuario.utils.DataUtils.*;
 
 @Data
 @AllArgsConstructor
@@ -46,12 +45,12 @@ public class Anotacao implements Serializable {
 
     @PrePersist
     public void prePersist(){
-        createdAt = ZonedDateTime.now(ZoneId.of(AMERICA_SAO_PAULO));
+        createdAt = ZonedDateTime.now(UTC);
     }
 
     @PreUpdate
     public void preUpdate(){
-        updatedAt = ZonedDateTime.now(ZoneId.of(AMERICA_SAO_PAULO));
+        updatedAt = ZonedDateTime.now(UTC);
     }
 
 }
