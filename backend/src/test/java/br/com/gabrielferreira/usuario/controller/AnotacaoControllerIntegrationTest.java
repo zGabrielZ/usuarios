@@ -55,7 +55,6 @@ class AnotacaoControllerIntegrationTest {
 
         String tituloEsperado = anotacaoCreateRequestDTO.getTitulo();
         String descricaoEsperado = anotacaoCreateRequestDTO.getDescricao();
-        Long idUsuarioEsperado = anotacaoCreateRequestDTO.getUsuario().getId();
 
         ResultActions resultActions = mockMvc
                 .perform(post(URL)
