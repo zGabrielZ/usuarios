@@ -12,17 +12,17 @@ import java.util.Optional;
 public interface DominioRepository extends JpaRepository<Dominio, Long> {
 
     @Query("SELECT d FROM Dominio d " +
-            "JOIN FETCH d.tipoDominio td " +
+            "JOIN FETCH d.tipo td " +
             "WHERE d.id = :id")
     Optional<Dominio> buscarDominioPorId(@Param("id") Long id);
 
     @Query("SELECT d FROM Dominio d " +
-            "JOIN FETCH d.tipoDominio td " +
+            "JOIN FETCH d.tipo td " +
             "WHERE d.codigo = :codigo")
     Optional<Dominio> buscarDominioPorCodigo(@Param("codigo") String codigo);
 
     @Query("SELECT d FROM Dominio d " +
-            "JOIN FETCH d.tipoDominio td " +
+            "JOIN FETCH d.tipo td " +
             "WHERE d.id = :id and td.codigo = :codigoTipoDominio")
     Optional<Dominio> buscarDominioPorIdPorCodigoTipoDominio(@Param("id") Long id, @Param("codigoTipoDominio") String codigoTipoDominio);
 }

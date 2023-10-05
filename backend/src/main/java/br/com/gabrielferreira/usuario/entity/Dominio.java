@@ -10,7 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = {"tipoDominio"})
+@ToString(exclude = {"tipo"})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "TB_DOMINIO")
@@ -32,6 +32,6 @@ public class Dominio implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_TIPO_DOMINIO", nullable = false)
-    private TipoDominio tipoDominio;
+    private TipoDominio tipo;
 
 }

@@ -22,5 +22,5 @@ public class DominioDomain implements Serializable {
 
     private String codigo;
 
-    private TipoDominioDomain tipoDominio;
+    private TipoDominioDomain tipo;
 }

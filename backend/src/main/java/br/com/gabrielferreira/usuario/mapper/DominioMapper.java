@@ -14,9 +14,9 @@ public interface DominioMapper {
 
     DominioDomain toDominioDomain(Dominio dominio);
 
-    @Mapping(source = "idTipoDominio", target = "tipoDominio.id")
-    @Mapping(source = "codigoTipoDominio", target = "tipoDominio.codigo")
-    @Mapping(source = "descricaoTipoDominio", target = "tipoDominio.descricao")
+    @Mapping(source = "idTipoDominio", target = "tipo.id")
+    @Mapping(source = "codigoTipoDominio", target = "tipo.codigo")
+    @Mapping(source = "descricaoTipoDominio", target = "tipo.descricao")
     DominioDomain toDominioDomain(DominioProjection dominioProjection);
 
     List<DominioDomain> toDominiosDomains(List<DominioProjection> dominioProjections);
