@@ -4,6 +4,7 @@ import br.com.gabrielferreira.usuario.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuario.entity.Anotacao;
 
 import static br.com.gabrielferreira.usuario.factory.entity.UsuarioFactory.*;
+import static br.com.gabrielferreira.usuario.utils.DataUtils.*;
 
 public class AnotacaoFactory {
 
@@ -27,7 +28,7 @@ public class AnotacaoFactory {
                     .titulo(anotacaoDomainUpdate.getTitulo())
                     .descricao(anotacaoDomainUpdate.getDescricao())
                     .usuario(toUsuario(anotacaoDomainEncontrado.getUsuario()))
-                    .createdAt(anotacaoDomainEncontrado.getCreatedAt())
+                    .createdAt(anotacaoDomainEncontrado.getCreatedAt().withZoneSameInstant(UTC))
                     .build();
         }
         return null;

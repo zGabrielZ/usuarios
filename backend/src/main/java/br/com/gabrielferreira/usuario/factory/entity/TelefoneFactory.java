@@ -4,6 +4,7 @@ import br.com.gabrielferreira.usuario.domain.TelefoneDomain;
 import br.com.gabrielferreira.usuario.entity.Telefone;
 
 import static br.com.gabrielferreira.usuario.factory.entity.DominioFactory.*;
+import static br.com.gabrielferreira.usuario.utils.DataUtils.*;
 
 public class TelefoneFactory {
 
@@ -29,7 +30,7 @@ public class TelefoneFactory {
                     .ddd(telefoneDomainUpdate.getDdd())
                     .descricao(telefoneDomainUpdate.getDescricao())
                     .tipoTelefone(toDominio(telefoneDomainUpdate.getTipoTelefone()))
-                    .createdAt(telefoneDomainEncontrado.getCreatedAt())
+                    .createdAt(telefoneDomainEncontrado.getCreatedAt().withZoneSameInstant(UTC))
                     .build();
         }
         return null;
