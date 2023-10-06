@@ -4,12 +4,13 @@ import br.com.gabrielferreira.usuario.domain.TipoDominioDomain;
 import br.com.gabrielferreira.usuario.entity.TipoDominio;
 import br.com.gabrielferreira.usuario.exception.MsgException;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
-import br.com.gabrielferreira.usuario.mapper.TipoDominioMapper;
 import br.com.gabrielferreira.usuario.repository.TipoDominioRepository;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+
+import static br.com.gabrielferreira.usuario.factory.domain.TipoDominioDomainFactory.*;
 
 @Service
 @RequiredArgsConstructor
@@ -17,17 +18,15 @@ public class TipoDominioService {
 
     private final TipoDominioRepository tipoDominioRepository;
 
-    private final TipoDominioMapper tipoDominioMapper;
-
     public List<TipoDominioDomain> buscarTipoDominios(){
         List<TipoDominio> tipoDominios = tipoDominioRepository.buscarTipoDominios();
-        return tipoDominioMapper.toTipoDominiosDomains(tipoDominios);
+        return toTiposDominiosDomains(tipoDominios);
     }
 
     public TipoDominioDomain buscarTipoDominioPorId(Long id){
         TipoDominio tipoDominio = tipoDominioRepository.findById(id)
                 .orElseThrow(() -> new NaoEncontradoException("Tipo Domínio não encontrado"));
-        return tipoDominioMapper.toTipoDominioDomain(tipoDominio);
+        return toTipoDominioDomain(tipoDominio);
     }
 
     public TipoDominioDomain buscarTipoDominioPorCodigo(String codigo){
@@ -37,6 +36,6 @@ public class TipoDominioService {
 
         TipoDominio tipoDominio = tipoDominioRepository.buscarPorCodigo(codigo)
                 .orElseThrow(() -> new NaoEncontradoException("Tipo Domínio não encontrado"));
-        return tipoDominioMapper.toTipoDominioDomain(tipoDominio);
+        return toTipoDominioDomain(tipoDominio);
     }
 }

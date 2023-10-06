@@ -3,13 +3,15 @@ package br.com.gabrielferreira.usuario.service;
 import br.com.gabrielferreira.usuario.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuario.entity.Anotacao;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
-import br.com.gabrielferreira.usuario.mapper.AnotacaoMapper;
 import br.com.gabrielferreira.usuario.repository.AnotacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static br.com.gabrielferreira.usuario.factory.entity.AnotacaoFactory.*;
+import static br.com.gabrielferreira.usuario.factory.domain.AnotacaoDomainFactory.*;
 
 
 @Service
@@ -20,34 +22,31 @@ public class AnotacaoService {
 
     private final UsuarioService usuarioService;
 
-    private final AnotacaoMapper anotacaoMapper;
-
     @Transactional
     public AnotacaoDomain cadastrarAnotacao(AnotacaoDomain anotacaoDomain){
         anotacaoDomain.setUsuario(usuarioService.buscarUsuarioPorId(anotacaoDomain.getUsuario().getId()));
 
-        Anotacao anotacao = anotacaoMapper.toAnotacao(anotacaoDomain);
+        Anotacao anotacao = toCreateAnotacao(anotacaoDomain);
         anotacao = anotacaoRepository.save(anotacao);
-        return anotacaoMapper.toAnotacaoDomainWithoutUsuario(anotacao);
+        return toAnotacao(anotacao);
     }
 
     public AnotacaoDomain buscarAnotacaoPorId(Long id){
         Anotacao anotacao = anotacaoRepository.findById(id)
                 .orElseThrow(() -> new NaoEncontradoException("Anotação não encontrada"));
-        return anotacaoMapper.toAnotacaoDomainWithoutUsuario(anotacao);
+        return toAnotacao(anotacao);
     }
 
     @Transactional
     public AnotacaoDomain atualizarAnotacao(AnotacaoDomain anotacaoDomain){
-        AnotacaoDomain anotacaoDomainEncontrada = anotacaoMapper
-                .toAnotacaoDomainWithUsuario(anotacaoRepository.buscarAnotacao(anotacaoDomain.getId())
-                .orElseThrow(() -> new NaoEncontradoException("Anotação não encontrada")));
+        Anotacao anotacaoEncontrada = anotacaoRepository.buscarAnotacao(anotacaoDomain.getId())
+                .orElseThrow(() -> new NaoEncontradoException("Anotação não encontrada"));
 
-        updateAnotacaoDomain(anotacaoDomainEncontrada, anotacaoDomain);
+        AnotacaoDomain anotacaoDomainEncontrada = toAnotacaoComUsuario(anotacaoEncontrada);
 
-        Anotacao anotacao = anotacaoMapper.toAnotacao(anotacaoDomainEncontrada);
+        Anotacao anotacao = toUpdateAnotacao(anotacaoDomainEncontrada, anotacaoDomain);
         anotacao = anotacaoRepository.save(anotacao);
-        return anotacaoMapper.toAnotacaoDomainWithoutUsuario(anotacao);
+        return toAnotacao(anotacao);
     }
 
     @Transactional
@@ -58,13 +57,6 @@ public class AnotacaoService {
 
     public Page<AnotacaoDomain> buscarAnotacoes(Long idUsuario, Pageable pageable){
         Page<Anotacao> anotacoes = anotacaoRepository.buscarAnotacoes(idUsuario, pageable);
-        return anotacaoMapper.toAnotacoesDomains(anotacoes);
-    }
-
-    private void updateAnotacaoDomain(AnotacaoDomain anotacaoDomainEncontrado, AnotacaoDomain anotacaoDomainUpdate){
-        if(anotacaoDomainEncontrado != null && anotacaoDomainUpdate != null){
-            anotacaoDomainEncontrado.setTitulo(anotacaoDomainUpdate.getTitulo());
-            anotacaoDomainEncontrado.setDescricao(anotacaoDomainUpdate.getDescricao());
-        }
+        return toAnotacoesDomains(anotacoes);
     }
 }

@@ -5,7 +5,6 @@ import br.com.gabrielferreira.usuario.entity.Dominio;
 import br.com.gabrielferreira.usuario.entity.enumeration.TipoDominioEnumeration;
 import br.com.gabrielferreira.usuario.exception.MsgException;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
-import br.com.gabrielferreira.usuario.mapper.DominioMapper;
 import br.com.gabrielferreira.usuario.repository.DominioRepository;
 import br.com.gabrielferreira.usuario.repository.projection.DominioProjection;
 import io.micrometer.common.util.StringUtils;
@@ -15,13 +14,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+import static br.com.gabrielferreira.usuario.factory.domain.DominioDomainFactory.*;
+
 @Service
 @RequiredArgsConstructor
 public class DominioService {
 
     private final DominioRepository dominioRepository;
-
-    private final DominioMapper dominioMapper;
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -43,13 +42,13 @@ public class DominioService {
         stringBuilder.append("order by td.descricao ASC");
 
         List<DominioProjection> dominioProjections = jdbcTemplate.query(stringBuilder.toString(), new BeanPropertyRowMapper<>(DominioProjection.class));
-        return dominioMapper.toDominiosDomains(dominioProjections);
+        return toDominiosDomains(dominioProjections);
     }
 
     public DominioDomain buscarDominioPorId(Long id){
         Dominio dominio = dominioRepository.buscarDominioPorId(id)
                 .orElseThrow(() -> new NaoEncontradoException("Domínio não encontrado"));
-        return dominioMapper.toDominioDomain(dominio);
+        return toDominioDomain(dominio);
     }
 
     public DominioDomain buscarDominioPorCodigo(String codigo){
@@ -59,12 +58,12 @@ public class DominioService {
 
         Dominio dominio = dominioRepository.buscarDominioPorCodigo(codigo)
                 .orElseThrow(() -> new NaoEncontradoException("Domínio não encontrado"));
-        return dominioMapper.toDominioDomain(dominio);
+        return toDominioDomain(dominio);
     }
 
     public DominioDomain buscarDominioPorIdPorCodigoTipoDominio(Long id, TipoDominioEnumeration tipoDominioEnumeration){
         Dominio dominio = dominioRepository.buscarDominioPorIdPorCodigoTipoDominio(id, tipoDominioEnumeration.name())
                 .orElseThrow(() -> new NaoEncontradoException(String.format("%s não encontrado", tipoDominioEnumeration.getDescricao())));
-        return dominioMapper.toDominioDomain(dominio);
+        return toDominioDomain(dominio);
     }
 }
