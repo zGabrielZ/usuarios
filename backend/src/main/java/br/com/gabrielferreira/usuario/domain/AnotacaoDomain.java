@@ -24,6 +24,16 @@ public class AnotacaoDomain implements Serializable {
 
     private UsuarioDomain usuario;
 
+    private DominioDomain tipoAnotacao;
+
+    private ZonedDateTime dataLembrete;
+
+    private ZonedDateTime dataEstudoInicio;
+
+    private ZonedDateTime dataEstudoFim;
+
+    private DominioDomain situacaoTipoAnotacao;
+
     private ZonedDateTime createdAt;
 
     private ZonedDateTime updatedAt;

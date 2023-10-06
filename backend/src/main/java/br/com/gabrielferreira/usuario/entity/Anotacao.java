@@ -37,6 +37,23 @@ public class Anotacao implements Serializable {
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private Usuario usuario;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_TIPO_ANOTACAO", nullable = false)
+    private Dominio tipoAnotacao;
+
+    @Column(name = "DATA_LEMBRETE")
+    private ZonedDateTime dataLembrete;
+
+    @Column(name = "DATA_ESTUDO_INICIO")
+    private ZonedDateTime dataEstudoInicio;
+
+    @Column(name = "DATA_ESTUDO_FIM")
+    private ZonedDateTime dataEstudoFim;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_SITUACAO_TIPO_ANOTACAO", nullable = false)
+    private Dominio situacaoTipoAnotacao;
+
     @Column(name = "CREATED_AT", nullable = false)
     private ZonedDateTime createdAt;
 
