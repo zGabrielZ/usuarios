@@ -50,7 +50,7 @@ public class DominioDomainFactory {
                     .id(dominioProjection.getId())
                     .descricao(dominioProjection.getDescricao())
                     .codigo(dominioProjection.getCodigo())
-                    .tipo(toTipoDominioDomain(dominioProjection.getIdTipoDominio(), dominioProjection.getDescricao(), dominioProjection.getCodigo()))
+                    .tipo(toTipoDominioDomain(dominioProjection.getIdTipoDominio(), dominioProjection.getDescricaoTipoDominio(), dominioProjection.getCodigoTipoDominio()))
                     .build();
         }
         return null;
