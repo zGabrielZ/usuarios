@@ -4,24 +4,61 @@ import br.com.gabrielferreira.usuario.dto.request.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 public class Factory {
 
     private Factory(){}
 
-    public static AnotacaoCreateRequestDTO criarAnotacaoInsert(String titulo, String descricao, Long idUsuario){
-        AnotacaoUsuarioCreateRequestDTO usuario = AnotacaoUsuarioCreateRequestDTO.builder().id(idUsuario).build();
+    public static AnotacaoCreateRequestDTO criarAnotacaoInsertEstudo(){
+        AnotacaoUsuarioCreateRequestDTO usuario = AnotacaoUsuarioCreateRequestDTO.builder().id(1L).build();
+        TipoAnotacaoCreateRequestDTO tipoAnotacao = TipoAnotacaoCreateRequestDTO.builder().id(7L).build();
+        LocalDateTime dataEstudoInicio = LocalDateTime.of(2023, 10, 8, 20, 0, 0);
+        LocalDateTime dataEstudoFim = LocalDateTime.of(2023, 10, 8, 21, 0, 0);
         return AnotacaoCreateRequestDTO.builder()
-                .titulo(titulo)
-                .descricao(descricao)
+                .titulo("titulo estudo")
+                .descricao("descricao estudo")
+                .tipoAnotacao(tipoAnotacao)
+                .dataEstudoInicio(ZonedDateTime.of(dataEstudoInicio,ZoneId.of("America/Sao_Paulo")))
+                .dataEstudoFim(ZonedDateTime.of(dataEstudoFim,ZoneId.of("America/Sao_Paulo")))
                 .usuario(usuario)
                 .build();
     }
 
-    public static AnotacaoUpdateRequestDTO criarAnotacaoUpdate(String titulo, String descricao){
+    public static AnotacaoCreateRequestDTO criarAnotacaoInsertLembrete(){
+        AnotacaoUsuarioCreateRequestDTO usuario = AnotacaoUsuarioCreateRequestDTO.builder().id(1L).build();
+        TipoAnotacaoCreateRequestDTO tipoAnotacao = TipoAnotacaoCreateRequestDTO.builder().id(8L).build();
+        LocalDateTime dataLembrete = LocalDateTime.of(2023, 10, 8, 21, 0, 0);
+        return AnotacaoCreateRequestDTO.builder()
+                .titulo("titulo lembrete")
+                .descricao("descricao lembrete")
+                .tipoAnotacao(tipoAnotacao)
+                .dataLembrete(ZonedDateTime.of(dataLembrete,ZoneId.of("America/Sao_Paulo")))
+                .usuario(usuario)
+                .build();
+    }
+
+    public static AnotacaoCreateRequestDTO criarAnotacaoInsertRascunho(){
+        AnotacaoUsuarioCreateRequestDTO usuario = AnotacaoUsuarioCreateRequestDTO.builder().id(1L).build();
+        TipoAnotacaoCreateRequestDTO tipoAnotacao = TipoAnotacaoCreateRequestDTO.builder().id(6L).build();
+        return AnotacaoCreateRequestDTO.builder()
+                .titulo("titulo rascunho")
+                .descricao("descricao rascunho")
+                .tipoAnotacao(tipoAnotacao)
+                .usuario(usuario)
+                .build();
+    }
+
+    public static AnotacaoUpdateRequestDTO criarAnotacaoUpdate(){
+        TipoAnotacaoCreateRequestDTO tipoAnotacao = TipoAnotacaoCreateRequestDTO.builder().id(8L).build();
+        LocalDateTime dataLembrete = LocalDateTime.of(2023, 10, 8, 21, 0, 0);
         return AnotacaoUpdateRequestDTO.builder()
-                .titulo(titulo)
-                .descricao(descricao)
+                .titulo("titulo anotacao update")
+                .descricao("descricao anotacao update")
+                .tipoAnotacao(tipoAnotacao)
+                .dataLembrete(ZonedDateTime.of(dataLembrete,ZoneId.of("America/Sao_Paulo")))
                 .build();
     }
 

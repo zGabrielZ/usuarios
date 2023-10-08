@@ -7,7 +7,10 @@ import lombok.Getter;
 @Getter
 public enum TipoDominioEnumeration {
 
-    GENERO("Gênero"), TIPO_TELEFONE("Tipo de telefone"), TIPO_ANOTACAO("Tipo de anotação"), SITUACAO_TIPO_ANOTACAO("Situação do tipo de anotação");
+    GENERO("Gênero"),
+    TIPO_TELEFONE("Tipo de telefone"),
+    TIPO_ANOTACAO("Tipo de anotação"),
+    SITUACAO_TIPO_ANOTACAO("Situação do tipo de anotação");
 
     private final String descricao;
 }

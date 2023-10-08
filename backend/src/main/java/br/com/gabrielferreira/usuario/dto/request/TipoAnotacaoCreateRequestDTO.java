@@ -7,26 +7,15 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnotacaoUpdateRequestDTO implements Serializable {
+public class TipoAnotacaoCreateRequestDTO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -918570165334510853L;
 
-    private String titulo;
-
-    private String descricao;
-
-    private TipoAnotacaoCreateRequestDTO tipoAnotacao;
-
-    private ZonedDateTime dataLembrete;
-
-    private ZonedDateTime dataEstudoInicio;
-
-    private ZonedDateTime dataEstudoFim;
+    private Long id;
 }

@@ -13,12 +13,28 @@ import java.util.Optional;
 public interface AnotacaoRepository extends JpaRepository<Anotacao, Long> {
 
     @Query("SELECT a FROM Anotacao a " +
-            "JOIN FETCH a.usuario u " +
+            "JOIN FETCH a.tipoAnotacao ta " +
+            "JOIN FETCH ta.tipo tat " +
+            "JOIN FETCH a.situacaoTipoAnotacao sta " +
+            "JOIN FETCH sta.tipo " +
             "WHERE a.id = :id")
     Optional<Anotacao> buscarAnotacao(@Param("id") Long id);
 
     @Query("SELECT a FROM Anotacao a " +
             "JOIN FETCH a.usuario u " +
+            "JOIN FETCH a.tipoAnotacao ta " +
+            "JOIN FETCH ta.tipo tat " +
+            "JOIN FETCH a.situacaoTipoAnotacao sta " +
+            "JOIN FETCH sta.tipo " +
+            "WHERE a.id = :id")
+    Optional<Anotacao> buscarAnotacaoComUsuario(@Param("id") Long id);
+
+    @Query("SELECT a FROM Anotacao a " +
+            "JOIN FETCH a.usuario u " +
+            "JOIN FETCH a.tipoAnotacao ta " +
+            "JOIN FETCH ta.tipo tat " +
+            "JOIN FETCH a.situacaoTipoAnotacao sta " +
+            "JOIN FETCH sta.tipo " +
             "WHERE u.id = :idUsuario")
     Page<Anotacao> buscarAnotacoes(@Param("idUsuario") Long idUsuario, Pageable pageable);
 

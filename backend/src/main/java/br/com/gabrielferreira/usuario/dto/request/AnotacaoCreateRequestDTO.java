@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 
 @Data
 @Builder
@@ -20,6 +21,14 @@ public class AnotacaoCreateRequestDTO implements Serializable {
     private String titulo;
 
     private String descricao;
+
+    private TipoAnotacaoCreateRequestDTO tipoAnotacao;
+
+    private ZonedDateTime dataLembrete;
+
+    private ZonedDateTime dataEstudoInicio;
+
+    private ZonedDateTime dataEstudoFim;
 
     private AnotacaoUsuarioCreateRequestDTO usuario;
 }
