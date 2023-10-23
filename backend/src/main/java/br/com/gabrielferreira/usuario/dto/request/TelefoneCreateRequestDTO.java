@@ -1,5 +1,9 @@
 package br.com.gabrielferreira.usuario.dto.request;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,11 +21,18 @@ public class TelefoneCreateRequestDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = -918570165334510853L;
 
+    @NotBlank(message = "É necessário informar o número do telefone")
+    @Size(max = 9, message = "O número do telefone deve ter no máximo 9 caracteres")
     private String numero;
 
+    @NotBlank(message = "É necessário informar o DDD do telefone")
+    @Size(max = 2, message = "O DDD do telefone deve ter no máximo 2 caracteres")
     private String ddd;
 
+    @Size(max = 255, message = "A descrição do telefone deve ter no máximo 255 caracteres")
     private String descricao;
 
+    @Valid
+    @NotNull(message = "Tipo de telefone não pode ser vazio")
     private TipoTelefoneCreateRequestDTO tipoTelefone;
 }

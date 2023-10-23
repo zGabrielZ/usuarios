@@ -46,7 +46,7 @@ public class Usuario implements Serializable {
     @Column(name = "DATA_NASCIMENTO", nullable = false)
     private LocalDate dataNascimento;
 
-    @Column(name = "QUANTIDADE_FILHOS", nullable = false)
+    @Column(name = "QUANTIDADE_FILHOS")
     private Integer quantidadeFilhos;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

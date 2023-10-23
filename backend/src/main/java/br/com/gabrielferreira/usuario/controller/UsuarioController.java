@@ -5,6 +5,7 @@ import br.com.gabrielferreira.usuario.dto.request.UsuarioUpdateRequestDTO;
 import br.com.gabrielferreira.usuario.dto.response.UsuarioResponseDTO;
 import br.com.gabrielferreira.usuario.dto.request.UsuarioCreateRequestDTO;
 import br.com.gabrielferreira.usuario.service.UsuarioService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,7 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> cadastrarUsuario(@RequestBody UsuarioCreateRequestDTO usuarioCreateRequestDTO){
+    public ResponseEntity<UsuarioResponseDTO> cadastrarUsuario(@Valid @RequestBody UsuarioCreateRequestDTO usuarioCreateRequestDTO){
         UsuarioDomain usuarioDomain = usuarioService.cadastrarUsuario(toCreateUsuario(usuarioCreateRequestDTO));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
                 .buildAndExpand(usuarioDomain.getId()).toUri();

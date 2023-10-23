@@ -114,4 +114,32 @@ public class Factory {
                 .genero(generoCreateRequestDTO)
                 .build();
     }
+
+    public static UsuarioCreateRequestDTO criarUsuarioInsertVazio(){
+        TipoTelefoneCreateRequestDTO tipoTelefoneCreateRequestDTO = TipoTelefoneCreateRequestDTO.builder()
+                .id(null)
+                .build();
+
+        TelefoneCreateRequestDTO telefoneCreateRequestDTO = TelefoneCreateRequestDTO.builder()
+                .numero(null)
+                .ddd(null)
+                .descricao(null)
+                .tipoTelefone(tipoTelefoneCreateRequestDTO)
+                .build();
+
+        GeneroCreateRequestDTO generoCreateRequestDTO = GeneroCreateRequestDTO.builder()
+                .id(null)
+                .build();
+
+        return UsuarioCreateRequestDTO.builder()
+                .nome(null)
+                .email(null)
+                .cpf(null)
+                .renda(null)
+                .dataNascimento(null)
+                .quantidadeFilhos(null)
+                .telefone(telefoneCreateRequestDTO)
+                .genero(generoCreateRequestDTO)
+                .build();
+    }
 }

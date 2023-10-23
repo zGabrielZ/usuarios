@@ -207,4 +207,23 @@ class UsuarioControllerIntegrationTest {
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.content").exists());
     }
+
+    @Test
+    @DisplayName("Não deve cadastrar um usuário quando não informar campos")
+    @Order(11)
+    void naoDeveCadastrarUsuario() throws Exception{
+        usuarioCreateRequestDTO = criarUsuarioInsertVazio();
+        String jsonBody = objectMapper.writeValueAsString(usuarioCreateRequestDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro validação de campos"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Ocorreu um erro de validação nos campos"));
+        resultActions.andExpect(jsonPath("$.erroFormularios").exists());
+    }
 }
