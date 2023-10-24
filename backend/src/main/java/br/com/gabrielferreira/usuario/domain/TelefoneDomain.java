@@ -5,7 +5,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-import static br.com.gabrielferreira.usuario.entity.enumeration.DominioEnumeration.*;
 import static br.com.gabrielferreira.usuario.utils.MascaraUtils.*;
 
 @Data
@@ -35,10 +34,10 @@ public class TelefoneDomain implements Serializable {
 
     public String getTelefoneFormatado(){
         String dddNumero = this.ddd.concat(this.numero);
-        if(this.tipoTelefone != null && isResidencial(tipoTelefone.getCodigo())){
+        if(this.tipoTelefone != null && this.numero.length() == 8){
             return toTelefoneResidencialFormatado(dddNumero);
         }
 
-        return toTelefoneResidencialCelular(dddNumero);
+        return toTelefoneCelularFormatado(dddNumero);
     }
 }

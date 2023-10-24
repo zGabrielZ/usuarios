@@ -226,4 +226,117 @@ class UsuarioControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.mensagem").value("Ocorreu um erro de validação nos campos"));
         resultActions.andExpect(jsonPath("$.erroFormularios").exists());
     }
+
+    @Test
+    @DisplayName("Não deve cadastrar um usuário quando informar e-mail existente")
+    @Order(12)
+    void naoDeveCadastrarUsuarioQuandoInformarEmailExistente() throws Exception{
+        usuarioCreateRequestDTO.setEmail("lucas-assuncao91@arteche.com.br");
+        String jsonBody = objectMapper.writeValueAsString(usuarioCreateRequestDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro personalizado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Não vai ser possível cadastrar este usuário pois o e-mail 'lucas-assuncao91@arteche.com.br' já foi cadastrado"));
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar um usuário quando informar cpf existente")
+    @Order(13)
+    void naoDeveCadastrarUsuarioQuandoInformarCpfExistente() throws Exception{
+        usuarioCreateRequestDTO.setCpf("19827537733");
+        String jsonBody = objectMapper.writeValueAsString(usuarioCreateRequestDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro personalizado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Não vai ser possível cadastrar este usuário pois o CPF '198.275.377-33' já foi cadastrado"));
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar um usuário quando informar gênero inexistente")
+    @Order(14)
+    void naoDeveCadastrarUsuarioQuandoInformarGeneroInexistente() throws Exception{
+        usuarioCreateRequestDTO.getGenero().setId(-1L);
+        String jsonBody = objectMapper.writeValueAsString(usuarioCreateRequestDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isNotFound());
+        resultActions.andExpect(jsonPath("$.erro").value("Não encontrado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Gênero não encontrado"));
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar um usuário quando informar tipo de telefone inexistente")
+    @Order(15)
+    void naoDeveCadastrarUsuarioQuandoInformarTipoTelefoneInexistente() throws Exception{
+        usuarioCreateRequestDTO.getTelefone().getTipoTelefone().setId(-1L);
+        String jsonBody = objectMapper.writeValueAsString(usuarioCreateRequestDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isNotFound());
+        resultActions.andExpect(jsonPath("$.erro").value("Não encontrado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Tipo de telefone não encontrado"));
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar um usuário quando informar telefone com 8 caracteres e tipo de telefone celular")
+    @Order(16)
+    void naoDeveCadastrarUsuarioQuandoInformarTelefoneComOitoDigitoTipoCelular() throws Exception{
+        usuarioCreateRequestDTO.getTelefone().setDdd("99");
+        usuarioCreateRequestDTO.getTelefone().setNumero("99999999");
+        usuarioCreateRequestDTO.getTelefone().getTipoTelefone().setId(5L);
+        String jsonBody = objectMapper.writeValueAsString(usuarioCreateRequestDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro personalizado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("O número do telefone '(99) 9999-9999' tem ser do tipo residencial"));
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar um usuário quando informar telefone com 9 caracteres e tipo de telefone residencial")
+    @Order(17)
+    void naoDeveCadastrarUsuarioQuandoInformarTelefoneComNoveDigitoTipoResidencial() throws Exception{
+        usuarioCreateRequestDTO.getTelefone().setDdd("99");
+        usuarioCreateRequestDTO.getTelefone().setNumero("999999999");
+        usuarioCreateRequestDTO.getTelefone().getTipoTelefone().setId(4L);
+        String jsonBody = objectMapper.writeValueAsString(usuarioCreateRequestDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro personalizado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("O número de telefone '(99) 99999-9999' tem ser do tipo celular"));
+    }
+
 }

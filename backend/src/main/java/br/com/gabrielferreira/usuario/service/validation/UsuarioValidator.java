@@ -36,8 +36,6 @@ public class UsuarioValidator {
         Optional<Long> idUsuarioEncontrado = usuarioRepository.buscarIdUsuarioPorEmail(usuarioDomain.getEmail());
         if(usuarioDomain.getId() == null && idUsuarioEncontrado.isPresent()){
             throw new MsgException(String.format("Não vai ser possível cadastrar este usuário pois o e-mail '%s' já foi cadastrado", usuarioDomain.getEmail()));
-        } else if(usuarioDomain.getId() != null && idUsuarioEncontrado.isPresent() && !usuarioDomain.getId().equals(idUsuarioEncontrado.get())){
-            throw new MsgException(String.format("Não vai ser possível atualizar este usuário pois o e-mail '%s' já foi cadastrado", usuarioDomain.getNome()));
         }
     }
 
@@ -45,8 +43,6 @@ public class UsuarioValidator {
         Optional<Long> idUsuarioEncontrado = usuarioRepository.buscarIdUsuarioPorCpf(usuarioDomain.getCpf());
         if(usuarioDomain.getId() == null && idUsuarioEncontrado.isPresent()){
             throw new MsgException(String.format("Não vai ser possível cadastrar este usuário pois o CPF '%s' já foi cadastrado", usuarioDomain.getCpfFormatado()));
-        } else if(usuarioDomain.getId() != null && idUsuarioEncontrado.isPresent() && !usuarioDomain.getId().equals(idUsuarioEncontrado.get())){
-            throw new MsgException(String.format("Não vai ser possível atualizar este usuário pois o CPF '%s' já foi cadastrado", usuarioDomain.getCpfFormatado()));
         }
     }
 

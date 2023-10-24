@@ -33,10 +33,6 @@ public class TelefoneValidator {
     }
 
     public void validarNumeroComTipoTelefone(TelefoneDomain telefoneDomain, DominioDomain dominioDomain){
-        if(!isTipoTelefone(dominioDomain.getTipo().getCodigo())){
-            throw new MsgException(String.format("O tipo do domínio tem que ser '%s'", TIPO_TELEFONE.getDescricao()));
-        }
-
         if(telefoneDomain.getNumero().length() == 8 && isCelular(dominioDomain.getCodigo())){
             throw new MsgException(String.format("O número do telefone '%s' tem ser do tipo residencial", telefoneDomain.getTelefoneFormatado()));
         } else if(telefoneDomain.getNumero().length() == 9 && isResidencial(dominioDomain.getCodigo())){

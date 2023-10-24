@@ -50,9 +50,9 @@ public class UsuarioService {
 
         UsuarioDomain usuarioDomainEncontrado = buscarUsuarioPorId(usuarioDomain.getId());
 
-        telefoneValidator.validarTipoTelefone(usuarioDomainEncontrado.getTelefone());
-        usuarioValidator.validarGenero(usuarioDomainEncontrado);
-        telefoneValidator.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), usuarioDomainEncontrado.getTelefone().getTipoTelefone());
+        telefoneValidator.validarTipoTelefone(usuarioDomain.getTelefone());
+        usuarioValidator.validarGenero(usuarioDomain);
+        telefoneValidator.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), usuarioDomain.getTelefone().getTipoTelefone());
 
         Usuario usuario = toUpdateUsuario(usuarioDomainEncontrado, usuarioDomain);
         usuario = usuarioRepository.save(usuario);

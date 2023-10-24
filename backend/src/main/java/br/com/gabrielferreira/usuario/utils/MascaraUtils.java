@@ -32,7 +32,7 @@ public class MascaraUtils {
         }
     }
 
-    public static String toTelefoneResidencialCelular(String numero){
+    public static String toTelefoneCelularFormatado(String numero){
         try {
             MaskFormatter telefoneCelularFormatacao = new MaskFormatter("(##) #####-####");
             telefoneCelularFormatacao.setValueContainsLiteralCharacters(false);
