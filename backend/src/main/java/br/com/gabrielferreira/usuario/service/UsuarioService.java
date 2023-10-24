@@ -45,14 +45,9 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioDomain atualizarUsuario(UsuarioDomain usuarioDomain){
-        usuarioValidator.validarCampos(usuarioDomain);
-        telefoneValidator.validarCampos(usuarioDomain.getTelefone());
+        validarAtualizarUsuario(usuarioDomain);
 
         UsuarioDomain usuarioDomainEncontrado = buscarUsuarioPorId(usuarioDomain.getId());
-
-        telefoneValidator.validarTipoTelefone(usuarioDomain.getTelefone());
-        usuarioValidator.validarGenero(usuarioDomain);
-        telefoneValidator.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), usuarioDomain.getTelefone().getTipoTelefone());
 
         Usuario usuario = toUpdateUsuario(usuarioDomainEncontrado, usuarioDomain);
         usuario = usuarioRepository.save(usuario);
@@ -83,6 +78,15 @@ public class UsuarioService {
         usuarioValidator.validarCampos(usuarioDomain);
         usuarioValidator.validarEmailExistente(usuarioDomain);
         usuarioValidator.validarCpfExistente(usuarioDomain);
+        usuarioValidator.validarGenero(usuarioDomain);
+
+        telefoneValidator.validarCampos(usuarioDomain.getTelefone());
+        telefoneValidator.validarTipoTelefone(usuarioDomain.getTelefone());
+        telefoneValidator.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), usuarioDomain.getTelefone().getTipoTelefone());
+    }
+
+    private void validarAtualizarUsuario(UsuarioDomain usuarioDomain){
+        usuarioValidator.validarCampos(usuarioDomain);
         usuarioValidator.validarGenero(usuarioDomain);
 
         telefoneValidator.validarCampos(usuarioDomain.getTelefone());

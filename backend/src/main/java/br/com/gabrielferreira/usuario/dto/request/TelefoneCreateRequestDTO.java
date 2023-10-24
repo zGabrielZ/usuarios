@@ -24,12 +24,12 @@ public class TelefoneCreateRequestDTO implements Serializable {
 
     @Pattern(regexp = "^[0-9]+$", message = "Apenas números para o número do telefone")
     @NotBlank(message = "É necessário informar o número do telefone")
-    @Size(max = 9, message = "O número do telefone deve ter no máximo 9 caracteres")
+    @Size(min = 8, max = 9, message = "O número do telefone deve ter no mínimo 8 caracteres e no máximo 9 caracteres")
     private String numero;
 
     @Pattern(regexp = "^[0-9]+$", message = "Apenas números para o DDD do telefone")
     @NotBlank(message = "É necessário informar o DDD do telefone")
-    @Size(max = 2, message = "O DDD do telefone deve ter no máximo 2 caracteres")
+    @Size(min = 2, max = 2, message = "O DDD do telefone deve ter no mínimo 2 caracteres e no máximo 2 caracteres")
     private String ddd;
 
     @Size(max = 255, message = "A descrição do telefone deve ter no máximo 255 caracteres")
