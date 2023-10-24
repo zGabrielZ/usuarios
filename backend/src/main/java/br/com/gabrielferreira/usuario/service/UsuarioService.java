@@ -1,11 +1,11 @@
 package br.com.gabrielferreira.usuario.service;
 
-import br.com.gabrielferreira.usuario.domain.DominioDomain;
 import br.com.gabrielferreira.usuario.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuario.entity.Usuario;
-import br.com.gabrielferreira.usuario.entity.enumeration.TipoDominioEnumeration;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuario.repository.UsuarioRepository;
+import br.com.gabrielferreira.usuario.service.validation.TelefoneValidator;
+import br.com.gabrielferreira.usuario.service.validation.UsuarioValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,17 +24,13 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    private final DominioService dominioService;
+    private final UsuarioValidator usuarioValidator;
+
+    private final TelefoneValidator telefoneValidator;
 
     @Transactional
     public UsuarioDomain cadastrarUsuario(UsuarioDomain usuarioDomain){
-        DominioDomain tipoTelefone = dominioService
-                .buscarDominioPorIdPorCodigoTipoDominio(usuarioDomain.getTelefone().getTipoTelefone().getId(), TipoDominioEnumeration.TIPO_TELEFONE);
-        usuarioDomain.getTelefone().setTipoTelefone(tipoTelefone);
-
-        DominioDomain genero = dominioService
-                .buscarDominioPorIdPorCodigoTipoDominio(usuarioDomain.getGenero().getId(), TipoDominioEnumeration.GENERO);
-        usuarioDomain.setGenero(genero);
+        validacaoUsuario(usuarioDomain);
 
         Usuario usuario = toCreateUsuario(usuarioDomain);
         usuario = usuarioRepository.save(usuario);
@@ -49,15 +45,14 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioDomain atualizarUsuario(UsuarioDomain usuarioDomain){
+        usuarioValidator.validarCampos(usuarioDomain);
+        telefoneValidator.validarCampos(usuarioDomain.getTelefone());
+
         UsuarioDomain usuarioDomainEncontrado = buscarUsuarioPorId(usuarioDomain.getId());
 
-        DominioDomain tipoTelefone = dominioService
-                .buscarDominioPorIdPorCodigoTipoDominio(usuarioDomain.getTelefone().getTipoTelefone().getId(), TipoDominioEnumeration.TIPO_TELEFONE);
-        usuarioDomainEncontrado.getTelefone().setTipoTelefone(tipoTelefone);
-
-        DominioDomain genero = dominioService
-                .buscarDominioPorIdPorCodigoTipoDominio(usuarioDomain.getGenero().getId(), TipoDominioEnumeration.GENERO);
-        usuarioDomainEncontrado.setGenero(genero);
+        telefoneValidator.validarTipoTelefone(usuarioDomainEncontrado.getTelefone());
+        usuarioValidator.validarGenero(usuarioDomainEncontrado);
+        telefoneValidator.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), usuarioDomainEncontrado.getTelefone().getTipoTelefone());
 
         Usuario usuario = toUpdateUsuario(usuarioDomainEncontrado, usuarioDomain);
         usuario = usuarioRepository.save(usuario);
@@ -82,5 +77,16 @@ public class UsuarioService {
         atributoDtoToEntity.put("rendaFormatada", "renda");
         atributoDtoToEntity.put("telefone.telefoneFormatado", "telefone.numero");
         return atributoDtoToEntity;
+    }
+
+    private void validacaoUsuario(UsuarioDomain usuarioDomain){
+        usuarioValidator.validarCampos(usuarioDomain);
+        usuarioValidator.validarEmailExistente(usuarioDomain);
+        usuarioValidator.validarCpfExistente(usuarioDomain);
+        usuarioValidator.validarGenero(usuarioDomain);
+
+        telefoneValidator.validarCampos(usuarioDomain.getTelefone());
+        telefoneValidator.validarTipoTelefone(usuarioDomain.getTelefone());
+        telefoneValidator.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), usuarioDomain.getTelefone().getTipoTelefone());
     }
 }

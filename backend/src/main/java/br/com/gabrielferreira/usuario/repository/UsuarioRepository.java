@@ -24,4 +24,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             "JOIN FETCH u.genero g JOIN FETCH g.tipo tdg")
     Page<Usuario> buscarUsuarios(Pageable pageable);
 
+    @Query("SELECT u.id as id FROM Usuario u " +
+            "WHERE u.email = :email")
+    Optional<Long> buscarIdUsuarioPorEmail(@Param("email") String email);
+
+    @Query("SELECT u.id as id FROM Usuario u " +
+            "WHERE u.cpf = :cpf")
+    Optional<Long> buscarIdUsuarioPorCpf(@Param("cpf") String cpf);
+
 }

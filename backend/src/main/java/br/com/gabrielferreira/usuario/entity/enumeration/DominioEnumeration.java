@@ -39,4 +39,8 @@ public enum DominioEnumeration {
     public static boolean isRascunho(String campo){
         return campo.equals(RASCUNHO.name());
     }
+
+    public static boolean isCelular(String campo) {
+        return campo.equals(CELULAR.name());
+    }
 }

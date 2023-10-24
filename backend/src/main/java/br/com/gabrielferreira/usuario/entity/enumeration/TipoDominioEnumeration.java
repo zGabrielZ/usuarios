@@ -13,4 +13,8 @@ public enum TipoDominioEnumeration {
     SITUACAO_TIPO_ANOTACAO("Situação do tipo de anotação");
 
     private final String descricao;
+
+    public static boolean isTipoTelefone(String campo){
+        return campo.equals(TIPO_TELEFONE.name());
+    }
 }
