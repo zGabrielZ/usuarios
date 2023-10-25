@@ -5,6 +5,7 @@ import br.com.gabrielferreira.usuario.dto.request.AnotacaoCreateRequestDTO;
 import br.com.gabrielferreira.usuario.dto.request.AnotacaoUpdateRequestDTO;
 import br.com.gabrielferreira.usuario.dto.response.AnotacaoResponseDTO;
 import br.com.gabrielferreira.usuario.service.AnotacaoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,7 @@ public class AnotacaoController {
     private final AnotacaoService anotacaoService;
 
     @PostMapping
-    public ResponseEntity<AnotacaoResponseDTO> cadastrarAnotacao(@RequestBody AnotacaoCreateRequestDTO anotacaoCreateRequestDTO){
+    public ResponseEntity<AnotacaoResponseDTO> cadastrarAnotacao(@Valid @RequestBody AnotacaoCreateRequestDTO anotacaoCreateRequestDTO){
         AnotacaoDomain anotacaoDomain = anotacaoService.cadastrarAnotacao(toCreateAnotacao(anotacaoCreateRequestDTO));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
                 .buildAndExpand(anotacaoDomain.getId()).toUri();
@@ -40,7 +41,7 @@ public class AnotacaoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AnotacaoResponseDTO> atualizarAnotacao(@PathVariable Long id, @RequestBody AnotacaoUpdateRequestDTO anotacaoUpdateRequestDTO){
+    public ResponseEntity<AnotacaoResponseDTO> atualizarAnotacao(@PathVariable Long id, @Valid @RequestBody AnotacaoUpdateRequestDTO anotacaoUpdateRequestDTO){
         AnotacaoDomain anotacaoDomain = anotacaoService.atualizarAnotacao(toUpdateAnotacao(id, anotacaoUpdateRequestDTO));
         return ResponseEntity.ok().body(toAnotacaoResponseDto(anotacaoDomain));
     }

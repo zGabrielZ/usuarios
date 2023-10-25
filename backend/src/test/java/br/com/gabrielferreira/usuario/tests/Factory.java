@@ -1,11 +1,10 @@
 package br.com.gabrielferreira.usuario.tests;
 
 import br.com.gabrielferreira.usuario.dto.request.*;
+import br.com.gabrielferreira.usuario.utils.DataUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public class Factory {
@@ -15,14 +14,14 @@ public class Factory {
     public static AnotacaoCreateRequestDTO criarAnotacaoInsertEstudo(){
         AnotacaoUsuarioCreateRequestDTO usuario = AnotacaoUsuarioCreateRequestDTO.builder().id(1L).build();
         TipoAnotacaoCreateRequestDTO tipoAnotacao = TipoAnotacaoCreateRequestDTO.builder().id(7L).build();
-        LocalDateTime dataEstudoInicio = LocalDateTime.of(2023, 10, 8, 20, 0, 0);
-        LocalDateTime dataEstudoFim = LocalDateTime.of(2023, 10, 8, 21, 0, 0);
+        ZonedDateTime dataEstudoInicio = ZonedDateTime.now(DataUtils.FUSO_HORARIO_PADRAO_SISTEMA).plusHours(1L);
+        ZonedDateTime dataEstudoFim = dataEstudoInicio.plusHours(2L);
         return AnotacaoCreateRequestDTO.builder()
                 .titulo("titulo estudo")
                 .descricao("descricao estudo")
                 .tipoAnotacao(tipoAnotacao)
-                .dataEstudoInicio(ZonedDateTime.of(dataEstudoInicio,ZoneId.of("America/Sao_Paulo")))
-                .dataEstudoFim(ZonedDateTime.of(dataEstudoFim,ZoneId.of("America/Sao_Paulo")))
+                .dataEstudoInicio(dataEstudoInicio)
+                .dataEstudoFim(dataEstudoFim)
                 .usuario(usuario)
                 .build();
     }
@@ -30,12 +29,12 @@ public class Factory {
     public static AnotacaoCreateRequestDTO criarAnotacaoInsertLembrete(){
         AnotacaoUsuarioCreateRequestDTO usuario = AnotacaoUsuarioCreateRequestDTO.builder().id(1L).build();
         TipoAnotacaoCreateRequestDTO tipoAnotacao = TipoAnotacaoCreateRequestDTO.builder().id(8L).build();
-        LocalDateTime dataLembrete = LocalDateTime.of(2023, 10, 8, 21, 0, 0);
+        ZonedDateTime dataLembrete = ZonedDateTime.now(DataUtils.FUSO_HORARIO_PADRAO_SISTEMA).plusHours(1L);
         return AnotacaoCreateRequestDTO.builder()
                 .titulo("titulo lembrete")
                 .descricao("descricao lembrete")
                 .tipoAnotacao(tipoAnotacao)
-                .dataLembrete(ZonedDateTime.of(dataLembrete,ZoneId.of("America/Sao_Paulo")))
+                .dataLembrete(dataLembrete)
                 .usuario(usuario)
                 .build();
     }
@@ -53,12 +52,12 @@ public class Factory {
 
     public static AnotacaoUpdateRequestDTO criarAnotacaoUpdate(){
         TipoAnotacaoCreateRequestDTO tipoAnotacao = TipoAnotacaoCreateRequestDTO.builder().id(8L).build();
-        LocalDateTime dataLembrete = LocalDateTime.of(2023, 10, 8, 21, 0, 0);
+        ZonedDateTime dataLembrete = ZonedDateTime.now(DataUtils.FUSO_HORARIO_PADRAO_SISTEMA).plusHours(3L);
         return AnotacaoUpdateRequestDTO.builder()
                 .titulo("titulo anotacao update")
                 .descricao("descricao anotacao update")
                 .tipoAnotacao(tipoAnotacao)
-                .dataLembrete(ZonedDateTime.of(dataLembrete,ZoneId.of("America/Sao_Paulo")))
+                .dataLembrete(dataLembrete)
                 .build();
     }
 
@@ -140,6 +139,19 @@ public class Factory {
                 .quantidadeFilhos(null)
                 .telefone(telefoneCreateRequestDTO)
                 .genero(generoCreateRequestDTO)
+                .build();
+    }
+
+    public static AnotacaoCreateRequestDTO criarAnotacaoInsertEstudoVazia(){
+        AnotacaoUsuarioCreateRequestDTO usuario = AnotacaoUsuarioCreateRequestDTO.builder().id(null).build();
+        TipoAnotacaoCreateRequestDTO tipoAnotacao = TipoAnotacaoCreateRequestDTO.builder().id(null).build();
+        return AnotacaoCreateRequestDTO.builder()
+                .titulo(null)
+                .descricao(null)
+                .tipoAnotacao(tipoAnotacao)
+                .dataEstudoInicio(null)
+                .dataEstudoFim(null)
+                .usuario(usuario)
                 .build();
     }
 }

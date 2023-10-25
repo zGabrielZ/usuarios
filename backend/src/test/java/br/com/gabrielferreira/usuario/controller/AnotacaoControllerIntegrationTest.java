@@ -2,6 +2,7 @@ package br.com.gabrielferreira.usuario.controller;
 
 import br.com.gabrielferreira.usuario.dto.request.AnotacaoCreateRequestDTO;
 import br.com.gabrielferreira.usuario.dto.request.AnotacaoUpdateRequestDTO;
+import br.com.gabrielferreira.usuario.utils.DataUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.ZonedDateTime;
 
 import static br.com.gabrielferreira.usuario.tests.Factory.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -281,5 +284,170 @@ class AnotacaoControllerIntegrationTest {
 
         resultActions.andExpect(status().isInternalServerError());
         resultActions.andExpect(jsonPath("$.erro").value("Required request parameter 'idUsuario' for method parameter type Long is present but converted to null"));
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar uma anotação quando não informar campos")
+    @Order(15)
+    void naoDeveCadastrarAnotacao() throws Exception{
+        anotacaoCreateRequestEstudoDTO = criarAnotacaoInsertEstudoVazia();
+        String jsonBody = objectMapper.writeValueAsString(anotacaoCreateRequestEstudoDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro validação de campos"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Ocorreu um erro de validação nos campos"));
+        resultActions.andExpect(jsonPath("$.erroFormularios").exists());
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar uma anotação quando não informar data inicio estudo")
+    @Order(16)
+    void naoDeveCadastrarAnotacaoQuandoNaoInformarDataInicioEstudo() throws Exception{
+        anotacaoCreateRequestEstudoDTO.setDataEstudoInicio(null);
+        String jsonBody = objectMapper.writeValueAsString(anotacaoCreateRequestEstudoDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro personalizado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("É necessário informar a data início estudo da anotação"));
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar uma anotação quando não informar data fim estudo")
+    @Order(17)
+    void naoDeveCadastrarAnotacaoQuandoNaoInformarDataFimEstudo() throws Exception{
+        anotacaoCreateRequestEstudoDTO.setDataEstudoFim(null);
+        String jsonBody = objectMapper.writeValueAsString(anotacaoCreateRequestEstudoDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro personalizado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("É necessário informar a data fim estudo da anotação"));
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar uma anotação quando informar data inicio estudo antes do futuro")
+    @Order(18)
+    void naoDeveCadastrarAnotacaoQuandoInformarDataInicioEstudoAntesFuturo() throws Exception{
+        anotacaoCreateRequestEstudoDTO.setDataEstudoInicio(ZonedDateTime.now(DataUtils.FUSO_HORARIO_PADRAO_SISTEMA).minusDays(1L));
+        String jsonBody = objectMapper.writeValueAsString(anotacaoCreateRequestEstudoDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro personalizado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("A data do estudo início da anotação deve ser no futuro"));
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar uma anotação quando informar data fim estudo antes do futuro")
+    @Order(19)
+    void naoDeveCadastrarAnotacaoQuandoInformarDataFimEstudoAntesFuturo() throws Exception{
+        anotacaoCreateRequestEstudoDTO.setDataEstudoFim(ZonedDateTime.now(DataUtils.FUSO_HORARIO_PADRAO_SISTEMA).minusDays(1L));
+        String jsonBody = objectMapper.writeValueAsString(anotacaoCreateRequestEstudoDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro personalizado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("A data do estudo fim da anotação deve ser no futuro"));
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar uma anotação quando informar data fim estudo maior que data inicio estudo")
+    @Order(20)
+    void naoDeveCadastrarAnotacaoQuandoInformarDataFimEstudoMaiorQueDataIncioEstudo() throws Exception{
+        anotacaoCreateRequestEstudoDTO.setDataEstudoInicio(ZonedDateTime.now(DataUtils.FUSO_HORARIO_PADRAO_SISTEMA).plusHours(3L));
+        anotacaoCreateRequestEstudoDTO.setDataEstudoFim(ZonedDateTime.now(DataUtils.FUSO_HORARIO_PADRAO_SISTEMA).plusHours(2L));
+        String jsonBody = objectMapper.writeValueAsString(anotacaoCreateRequestEstudoDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro personalizado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("A data início do estudo tem que ser antes da data fim"));
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar uma anotação quando o periodo do estudo ultrapassar de 5 horas")
+    @Order(21)
+    void naoDeveCadastrarAnotacaoQuandoPeriodoEstudoUltrapassarCincoHoras() throws Exception{
+        anotacaoCreateRequestEstudoDTO.setDataEstudoInicio(ZonedDateTime.now(DataUtils.FUSO_HORARIO_PADRAO_SISTEMA).plusHours(1L));
+        anotacaoCreateRequestEstudoDTO.setDataEstudoFim(ZonedDateTime.now(DataUtils.FUSO_HORARIO_PADRAO_SISTEMA).plusHours(10L));
+        String jsonBody = objectMapper.writeValueAsString(anotacaoCreateRequestEstudoDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro personalizado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("O estudo não pode ultrapassar de 5 horas"));
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar uma anotação quando não informar data lembrete")
+    @Order(22)
+    void naoDeveCadastrarAnotacaoQuandoNaoInformarDataLembrete() throws Exception{
+        anotacaoCreateRequestLembreteDTO.setDataLembrete(null);
+        String jsonBody = objectMapper.writeValueAsString(anotacaoCreateRequestLembreteDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro personalizado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("É necessário informar a data lembrete da anotação"));
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar uma anotação quando informar data lembrete antes do futuro")
+    @Order(23)
+    void naoDeveCadastrarAnotacaoQuandoInformarDataLembreteAntesFuturo() throws Exception{
+        anotacaoCreateRequestLembreteDTO.setDataLembrete(ZonedDateTime.now(DataUtils.FUSO_HORARIO_PADRAO_SISTEMA).minusDays(1L));
+        String jsonBody = objectMapper.writeValueAsString(anotacaoCreateRequestLembreteDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.erro").value("Erro personalizado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("A data do lembrete da anotação deve ser no futuro"));
     }
 }

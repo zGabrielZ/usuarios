@@ -1,12 +1,10 @@
 package br.com.gabrielferreira.usuario.service;
 
 import br.com.gabrielferreira.usuario.domain.AnotacaoDomain;
-import br.com.gabrielferreira.usuario.domain.DominioDomain;
 import br.com.gabrielferreira.usuario.entity.Anotacao;
-import br.com.gabrielferreira.usuario.entity.enumeration.DominioEnumeration;
-import br.com.gabrielferreira.usuario.entity.enumeration.TipoDominioEnumeration;
 import br.com.gabrielferreira.usuario.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuario.repository.AnotacaoRepository;
+import br.com.gabrielferreira.usuario.service.validation.AnotacaoValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static br.com.gabrielferreira.usuario.factory.entity.AnotacaoFactory.*;
 import static br.com.gabrielferreira.usuario.factory.domain.AnotacaoDomainFactory.*;
-import static br.com.gabrielferreira.usuario.entity.enumeration.DominioEnumeration.*;
 
 
 @Service
@@ -24,14 +21,11 @@ public class AnotacaoService {
 
     private final AnotacaoRepository anotacaoRepository;
 
-    private final UsuarioService usuarioService;
-
-    private final DominioService dominioService;
+    private final AnotacaoValidator anotacaoValidator;
 
     @Transactional
     public AnotacaoDomain cadastrarAnotacao(AnotacaoDomain anotacaoDomain){
-        anotacaoDomain.setUsuario(usuarioService.buscarUsuarioPorId(anotacaoDomain.getUsuario().getId()));
-        validarTipoAnotacao(anotacaoDomain);
+        validarAnotacao(anotacaoDomain);
 
         Anotacao anotacao = toCreateAnotacao(anotacaoDomain);
         anotacao = anotacaoRepository.save(anotacao);
@@ -46,11 +40,12 @@ public class AnotacaoService {
 
     @Transactional
     public AnotacaoDomain atualizarAnotacao(AnotacaoDomain anotacaoDomain){
+        validarAtualizarAnotacao(anotacaoDomain);
+
         Anotacao anotacaoEncontrada = anotacaoRepository.buscarAnotacaoComUsuario(anotacaoDomain.getId())
                 .orElseThrow(() -> new NaoEncontradoException("Anotação não encontrada"));
 
         AnotacaoDomain anotacaoDomainEncontrada = toAnotacaoComUsuario(anotacaoEncontrada);
-        validarTipoAnotacao(anotacaoDomain);
 
         Anotacao anotacao = toUpdateAnotacao(anotacaoDomainEncontrada, anotacaoDomain);
         anotacao = anotacaoRepository.save(anotacao);
@@ -68,23 +63,14 @@ public class AnotacaoService {
         return toAnotacoesDomains(anotacoes);
     }
 
-    private void validarTipoAnotacao(AnotacaoDomain anotacaoDomain){
-        DominioDomain tipoAnotacao = dominioService
-                .buscarDominioPorIdPorCodigoTipoDominio(anotacaoDomain.getTipoAnotacao().getId(), TipoDominioEnumeration.TIPO_ANOTACAO);
-        anotacaoDomain.setTipoAnotacao(tipoAnotacao);
+    private void validarAnotacao(AnotacaoDomain anotacaoDomain){
+        anotacaoValidator.validarCampos(anotacaoDomain);
+        anotacaoValidator.validarTipoAnotacao(anotacaoDomain);
+        anotacaoValidator.validarUsuario(anotacaoDomain);
+    }
 
-        if(isEstudo(tipoAnotacao.getCodigo())){
-            anotacaoDomain.setDataLembrete(null);
-            anotacaoDomain.setSituacaoTipoAnotacao(dominioService.buscarDominioPorCodigo(DominioEnumeration.ESTUDO_ANDAMENTO.name()));
-        } else if(isLembrete(tipoAnotacao.getCodigo())){
-            anotacaoDomain.setDataEstudoInicio(null);
-            anotacaoDomain.setDataEstudoFim(null);
-            anotacaoDomain.setSituacaoTipoAnotacao(dominioService.buscarDominioPorCodigo(DominioEnumeration.LEMBRETE_ABERTO.name()));
-        } else if(isRascunho(tipoAnotacao.getCodigo())){
-            anotacaoDomain.setDataLembrete(null);
-            anotacaoDomain.setDataEstudoInicio(null);
-            anotacaoDomain.setDataEstudoFim(null);
-            anotacaoDomain.setSituacaoTipoAnotacao(dominioService.buscarDominioPorCodigo(DominioEnumeration.RASCUNHO_ABERTO.name()));
-        }
+    private void validarAtualizarAnotacao(AnotacaoDomain anotacaoDomain){
+        anotacaoValidator.validarCampos(anotacaoDomain);
+        anotacaoValidator.validarTipoAnotacao(anotacaoDomain);
     }
 }
