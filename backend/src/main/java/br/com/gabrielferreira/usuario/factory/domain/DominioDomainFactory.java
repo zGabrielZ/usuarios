@@ -6,6 +6,7 @@ import br.com.gabrielferreira.usuario.dto.request.TipoTelefoneCreateRequestDTO;
 import br.com.gabrielferreira.usuario.entity.Dominio;
 import br.com.gabrielferreira.usuario.repository.projection.DominioProjection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static br.com.gabrielferreira.usuario.factory.domain.TipoDominioDomainFactory.*;
@@ -57,6 +58,11 @@ public class DominioDomainFactory {
     }
 
     public static List<DominioDomain> toDominiosDomains(List<DominioProjection> dominioProjections){
-        return dominioProjections.stream().map(DominioDomainFactory::toDominioDomain).toList();
+        List<DominioDomain> dominioDomains = new ArrayList<>();
+        dominioProjections.forEach(dominioProjection -> {
+            DominioDomain dominioDomain = toDominioDomain(dominioProjection);
+            dominioDomains.add(dominioDomain);
+        });
+        return dominioDomains;
     }
 }

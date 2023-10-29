@@ -9,6 +9,7 @@ import br.com.gabrielferreira.usuario.repository.DominioRepository;
 import br.com.gabrielferreira.usuario.repository.projection.DominioProjection;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class DominioService {
 
     private final JdbcTemplate jdbcTemplate;
 
+    @Cacheable(value = "buscarDominios", key = "T(java.lang.String).format('%s_%s_%s_%s', #root.target.Class.simpleName, #root.methodName, #idTipoDominio, #codigoDominio)")
     public List<DominioDomain> buscarDominios(Long idTipoDominio, String codigoDominio){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("select td.id as id, td.codigo as codigo, td.descricao as descricao, ttd.id as idTipoDominio, ttd.codigo as codigoTipoDominio, " +
@@ -45,12 +47,14 @@ public class DominioService {
         return toDominiosDomains(dominioProjections);
     }
 
+    @Cacheable(value = "buscarDominioPorId", key = "T(java.lang.String).format('%s_%s_%s', #root.target.Class.simpleName, #root.methodName, #id)")
     public DominioDomain buscarDominioPorId(Long id){
         Dominio dominio = dominioRepository.buscarDominioPorId(id)
                 .orElseThrow(() -> new NaoEncontradoException("Domínio não encontrado"));
         return toDominioDomain(dominio);
     }
 
+    @Cacheable(value = "buscarDominioPorCodigo", key = "T(java.lang.String).format('%s_%s_%s', #root.target.Class.simpleName, #root.methodName, #codigo)")
     public DominioDomain buscarDominioPorCodigo(String codigo){
         if(StringUtils.isBlank(codigo)){
             throw new MsgException("É necessário informar o código");
@@ -61,6 +65,7 @@ public class DominioService {
         return toDominioDomain(dominio);
     }
 
+    @Cacheable(value = "buscarDominioPorIdPorCodigoTipoDominio", key = "T(java.lang.String).format('%s_%s_%s_%s', #root.target.Class.simpleName, #root.methodName, #id, #tipoDominioEnumeration)")
     public DominioDomain buscarDominioPorIdPorCodigoTipoDominio(Long id, TipoDominioEnumeration tipoDominioEnumeration){
         Dominio dominio = dominioRepository.buscarDominioPorIdPorCodigoTipoDominio(id, tipoDominioEnumeration.name())
                 .orElseThrow(() -> new NaoEncontradoException(String.format("%s não encontrado", tipoDominioEnumeration.getDescricao())));

@@ -2,6 +2,8 @@ package br.com.gabrielferreira.usuario.factory.domain;
 
 import br.com.gabrielferreira.usuario.domain.TipoDominioDomain;
 import br.com.gabrielferreira.usuario.entity.TipoDominio;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class TipoDominioDomainFactory {
@@ -28,6 +30,11 @@ public class TipoDominioDomainFactory {
     }
 
     public static List<TipoDominioDomain> toTiposDominiosDomains(List<TipoDominio> tipoDominios){
-        return tipoDominios.stream().map(TipoDominioDomainFactory::toTipoDominioDomain).toList();
+        List<TipoDominioDomain> tipoDominioDomains = new ArrayList<>();
+        tipoDominios.forEach(tipoDominio -> {
+            TipoDominioDomain tipoDominioDomain = toTipoDominioDomain(tipoDominio);
+            tipoDominioDomains.add(tipoDominioDomain);
+        });
+        return tipoDominioDomains;
     }
 }
