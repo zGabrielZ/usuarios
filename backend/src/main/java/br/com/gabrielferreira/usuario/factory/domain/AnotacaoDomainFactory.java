@@ -7,11 +7,10 @@ import br.com.gabrielferreira.usuario.dto.request.AnotacaoCreateRequestDTO;
 import br.com.gabrielferreira.usuario.dto.request.AnotacaoUpdateRequestDTO;
 import br.com.gabrielferreira.usuario.entity.Anotacao;
 import org.springframework.data.domain.Page;
-import java.time.ZonedDateTime;
 
-import static br.com.gabrielferreira.usuario.utils.DataUtils.FUSO_HORARIO_PADRAO_SISTEMA;
 import static br.com.gabrielferreira.usuario.factory.domain.UsuarioDomainFactory.*;
 import static br.com.gabrielferreira.usuario.factory.domain.DominioDomainFactory.*;
+import static br.com.gabrielferreira.usuario.utils.DataUtils.*;
 
 public class AnotacaoDomainFactory {
 
@@ -52,23 +51,17 @@ public class AnotacaoDomainFactory {
 
     public static AnotacaoDomain toAnotacao(Anotacao anotacao){
         if(anotacao != null){
-            ZonedDateTime dataLembrete = anotacao.getDataLembrete() != null ? anotacao.getDataLembrete().withZoneSameInstant(FUSO_HORARIO_PADRAO_SISTEMA) : null;
-            ZonedDateTime dataEstudoInicio = anotacao.getDataEstudoInicio() != null ? anotacao.getDataEstudoInicio().withZoneSameInstant(FUSO_HORARIO_PADRAO_SISTEMA) : null;
-            ZonedDateTime dataEstudoFim = anotacao.getDataEstudoFim() != null ? anotacao.getDataEstudoFim().withZoneSameInstant(FUSO_HORARIO_PADRAO_SISTEMA) : null;
-
-            ZonedDateTime createdAt = anotacao.getCreatedAt() != null ? anotacao.getCreatedAt().withZoneSameInstant(FUSO_HORARIO_PADRAO_SISTEMA) : null;
-            ZonedDateTime updateAt = anotacao.getUpdatedAt() != null ? anotacao.getUpdatedAt().withZoneSameInstant(FUSO_HORARIO_PADRAO_SISTEMA) : null;
             return AnotacaoDomain.builder()
                     .id(anotacao.getId())
                     .titulo(anotacao.getTitulo())
                     .descricao(anotacao.getDescricao())
                     .tipoAnotacao(toDominioDomain(anotacao.getTipoAnotacao()))
-                    .dataLembrete(dataLembrete)
-                    .dataEstudoInicio(dataEstudoInicio)
-                    .dataEstudoFim(dataEstudoFim)
+                    .dataLembrete(toFusoPadraoSistema(anotacao.getDataLembrete()))
+                    .dataEstudoInicio(toFusoPadraoSistema(anotacao.getDataEstudoInicio()))
+                    .dataEstudoFim(toFusoPadraoSistema(anotacao.getDataEstudoFim()))
                     .situacaoTipoAnotacao(toDominioDomain(anotacao.getSituacaoTipoAnotacao()))
-                    .createdAt(createdAt)
-                    .updatedAt(updateAt)
+                    .createdAt(toFusoPadraoSistema(anotacao.getCreatedAt()))
+                    .updatedAt(toFusoPadraoSistema(anotacao.getUpdatedAt()))
                     .build();
         }
         return null;

@@ -48,7 +48,7 @@ public class UsuarioFactory {
                     .quantidadeFilhos(usuarioDomainUpdate.getQuantidadeFilhos())
                     .telefone(toUpdateTelefone(usuarioDomainEncontrado.getTelefone(), usuarioDomainUpdate.getTelefone()))
                     .genero(toDominio(usuarioDomainUpdate.getGenero()))
-                    .createdAt(usuarioDomainEncontrado.getCreatedAt().withZoneSameInstant(UTC))
+                    .createdAt(toUtc(usuarioDomainEncontrado.getCreatedAt()))
                     .build();
         }
         return null;

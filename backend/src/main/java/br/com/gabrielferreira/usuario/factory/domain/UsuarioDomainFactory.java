@@ -6,8 +6,6 @@ import br.com.gabrielferreira.usuario.dto.request.UsuarioUpdateRequestDTO;
 import br.com.gabrielferreira.usuario.entity.Usuario;
 import org.springframework.data.domain.Page;
 
-import java.time.ZonedDateTime;
-
 import static br.com.gabrielferreira.usuario.factory.domain.DominioDomainFactory.*;
 import static br.com.gabrielferreira.usuario.factory.domain.TelefoneDomainFactory.*;
 import static br.com.gabrielferreira.usuario.utils.DataUtils.*;
@@ -48,8 +46,6 @@ public class UsuarioDomainFactory {
 
     public static UsuarioDomain toUsuario(Usuario usuario){
         if(usuario != null){
-            ZonedDateTime createdAt = usuario.getCreatedAt() != null ? usuario.getCreatedAt().withZoneSameInstant(FUSO_HORARIO_PADRAO_SISTEMA) : null;
-            ZonedDateTime updateAt = usuario.getUpdatedAt() != null ? usuario.getUpdatedAt().withZoneSameInstant(FUSO_HORARIO_PADRAO_SISTEMA) : null;
             return UsuarioDomain.builder()
                     .id(usuario.getId())
                     .nome(usuario.getNome())
@@ -60,8 +56,8 @@ public class UsuarioDomainFactory {
                     .quantidadeFilhos(usuario.getQuantidadeFilhos())
                     .telefone(toTelefoneDomain(usuario.getTelefone()))
                     .genero(toDominioDomain(usuario.getGenero()))
-                    .createdAt(createdAt)
-                    .updatedAt(updateAt)
+                    .createdAt(toFusoPadraoSistema(usuario.getCreatedAt()))
+                    .updatedAt(toFusoPadraoSistema(usuario.getUpdatedAt()))
                     .build();
         }
         return null;

@@ -30,7 +30,7 @@ public class TelefoneFactory {
                     .ddd(telefoneDomainUpdate.getDdd())
                     .descricao(telefoneDomainUpdate.getDescricao())
                     .tipoTelefone(toDominio(telefoneDomainUpdate.getTipoTelefone()))
-                    .createdAt(telefoneDomainEncontrado.getCreatedAt().withZoneSameInstant(UTC))
+                    .createdAt(toUtc(telefoneDomainEncontrado.getCreatedAt()))
                     .build();
         }
         return null;
