@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
-import static br.com.gabrielferreira.usuario.utils.PageUtils.*;
 import static br.com.gabrielferreira.usuario.factory.dto.AnotacaoDTOFactory.*;
 import static br.com.gabrielferreira.usuario.factory.domain.AnotacaoDomainFactory.*;
 
@@ -54,7 +53,6 @@ public class AnotacaoController {
 
     @GetMapping
     public ResponseEntity<Page<AnotacaoResponseDTO>> buscarAnotacoes(@RequestParam Long idUsuario, @PageableDefault(size = 5) Pageable pageable){
-        validarPropriedades(pageable.getSort(), AnotacaoResponseDTO.class);
         Page<AnotacaoDomain> anotacoesDomains = anotacaoService.buscarAnotacoes(idUsuario, pageable);
         return ResponseEntity.ok().body(toAnotacoesResponsesDtos(anotacoesDomains));
     }

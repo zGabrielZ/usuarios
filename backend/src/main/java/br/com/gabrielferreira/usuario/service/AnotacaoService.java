@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static br.com.gabrielferreira.usuario.factory.entity.AnotacaoFactory.*;
 import static br.com.gabrielferreira.usuario.factory.domain.AnotacaoDomainFactory.*;
+import static br.com.gabrielferreira.usuario.utils.PageUtils.propriedadesAnotacao;
+import static br.com.gabrielferreira.usuario.utils.PageUtils.*;
 
 
 @Service
@@ -59,6 +61,7 @@ public class AnotacaoService {
     }
 
     public Page<AnotacaoDomain> buscarAnotacoes(Long idUsuario, Pageable pageable){
+        validarPropriedades(pageable.getSort(), propriedadesAnotacao());
         Page<Anotacao> anotacoes = anotacaoRepository.buscarAnotacoes(idUsuario, pageable);
         return toAnotacoesDomains(anotacoes);
     }

@@ -193,7 +193,7 @@ class UsuarioControllerIntegrationTest {
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isBadRequest());
-        resultActions.andExpect(jsonPath("$.mensagem").value("A propriedade informada nomeee não existe"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("A propriedade informada 'nomeee' não existe"));
     }
 
     @Test

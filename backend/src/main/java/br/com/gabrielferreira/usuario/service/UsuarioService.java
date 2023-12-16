@@ -61,6 +61,7 @@ public class UsuarioService {
     }
 
     public Page<UsuarioDomain> buscarUsuarios(Pageable pageable){
+        validarPropriedades(pageable.getSort(), propriedadesUsuario());
         pageable = validarOrderBy(pageable, atributoDtoToEntity());
         Page<Usuario> usuarios = usuarioRepository.buscarUsuarios(pageable);
         return toUsuariosDomains(usuarios);

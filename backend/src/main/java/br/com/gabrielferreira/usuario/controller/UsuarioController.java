@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
-import static br.com.gabrielferreira.usuario.utils.PageUtils.*;
 import static br.com.gabrielferreira.usuario.factory.domain.UsuarioDomainFactory.*;
 import static br.com.gabrielferreira.usuario.factory.dto.UsuarioDTOFactory.*;
 
@@ -54,7 +53,6 @@ public class UsuarioController {
 
     @GetMapping
     public ResponseEntity<Page<UsuarioResponseDTO>> buscarUsuarios(@PageableDefault(size = 5) Pageable pageable){
-        validarPropriedades(pageable.getSort(), UsuarioResponseDTO.class);
         Page<UsuarioDomain> usuarioDomains = usuarioService.buscarUsuarios(pageable);
         return ResponseEntity.ok().body(toUsuariosResponsesDtos(usuarioDomains));
     }

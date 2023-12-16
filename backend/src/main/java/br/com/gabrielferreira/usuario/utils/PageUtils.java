@@ -4,8 +4,7 @@ import br.com.gabrielferreira.usuario.exception.MsgException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,17 +13,27 @@ public class PageUtils {
 
     private PageUtils(){}
 
-    public static void validarPropriedades(Sort sorts, Class<?> clazz){
-        if(!sorts.isEmpty()){
-            List<String> propriedadesInformadas = sorts.stream().map(Sort.Order::getProperty).toList();
-            List<String> campos = listarAtributosRecursivamente(new ArrayList<>(), "", clazz);
-
-            propriedadesInformadas.forEach(propriedadeInformada -> {
-                if(!campos.contains(propriedadeInformada)){
-                    throw new MsgException(String.format("A propriedade informada %s não existe", propriedadeInformada));
-                }
-            });
+    public static void validarPropriedades(Sort sorts, List<String> propriedades){
+        for (Sort.Order sort : sorts) {
+            String propriedade = sort.getProperty();
+            if(!propriedades.contains(propriedade)){
+                throw new MsgException(String.format("A propriedade informada '%s' não existe", propriedade));
+            }
         }
+    }
+
+    public static List<String> propriedadesAnotacao(){
+        return Arrays.asList("id", "titulo", "descricao", "tipoAnotacao.id", "tipoAnotacao.descricao", "tipoAnotacao.codigo", "tipoAnotacao.tipo.id", "tipoAnotacao.tipo.descricao",
+                "tipoAnotacao.tipo.codigo", "dataLembrete", "dataEstudoInicio", "dataEstudoFim", "situacaoTipoAnotacao.id", "situacaoTipoAnotacao.descricao", "situacaoTipoAnotacao.codigo",
+                "situacaoTipoAnotacao.tipo.id", "situacaoTipoAnotacao.tipo.descricao", "situacaoTipoAnotacao.tipo.codigo","createdAt", "updatedAt");
+    }
+
+    public static List<String> propriedadesUsuario(){
+        return Arrays.asList("id", "nome", "email", "cpf", "cpfFormatado", "renda", "rendaFormatada", "dataNascimento", "quantidadeFilhos",
+                "telefone.id", "telefone.numero", "telefone.ddd", "telefone.telefoneFormatado", "telefone.descricao", "telefone.tipoTelefone.id" ,
+                "telefone.tipoTelefone.descricao", "telefone.tipoTelefone.codigo", "telefone.tipoTelefone.tipo.id", "telefone.tipoTelefone.tipo.descricao",
+                "telefone.tipoTelefone.tipo.codigo", "genero.id", "genero.descricao", "genero.codigo", "genero.tipo.id", "genero.tipo.descricao", "genero.tipo.codigo",
+                "createdAt", "updatedAt");
     }
 
     public static Pageable validarOrderBy(Pageable pageable, Map<String, String> atributoDtoToEntity){
@@ -46,18 +55,5 @@ public class PageUtils {
         }
 
         return pageable;
-    }
-
-    private static List<String> listarAtributosRecursivamente(List<String> campos, String prefixo, Class<?> classe) {
-        for (Field campo : classe.getDeclaredFields()) {
-            String nomeCampo = prefixo.concat(campo.getName());
-            campos.add(nomeCampo);
-
-            if(!campo.getType().isPrimitive() && !campo.getType().getName().startsWith("java.")){
-                campos.remove(nomeCampo);
-                listarAtributosRecursivamente(campos, nomeCampo.concat("."), campo.getType());
-            }
-        }
-        return campos;
     }
 }
