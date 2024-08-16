@@ -29,4 +29,10 @@ public class FindUsuarioAdapter implements FindUsuarioOutput {
         Optional<UsuarioEntity> usuarioEntity = usuarioRepository.findByEmail(email);
         return usuarioEntity.map(usuarioEntityMapper::toOnlyUsuarioDomain);
     }
+
+    @Override
+    public Optional<UsuarioDomain> findById(Long id) {
+        Optional<UsuarioEntity> usuarioEntity = usuarioRepository.findUsuarioById(id);
+        return usuarioEntity.map(usuarioEntityMapper::toUsuarioDomain);
+    }
 }

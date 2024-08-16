@@ -5,13 +5,11 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioCre
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.UsuarioDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.CreateUsuarioInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.FindUsuarioInput;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -23,6 +21,8 @@ public class UsuarioController {
 
     private final CreateUsuarioInput createUsuarioInput;
 
+    private final FindUsuarioInput findUsuarioInput;
+
     private final UsuarioMapper usuarioMapper;
 
     @PostMapping
@@ -32,5 +32,11 @@ public class UsuarioController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
                 .buildAndExpand(usuarioDomain.getId()).toUri();
         return ResponseEntity.created(uri).body(usuarioMapper.toUsuarioDto(usuarioDomain));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> find(@PathVariable Long id){
+        UsuarioDomain usuarioDomain = findUsuarioInput.findById(id);
+        return ResponseEntity.ok(usuarioMapper.toUsuarioDto(usuarioDomain));
     }
 }

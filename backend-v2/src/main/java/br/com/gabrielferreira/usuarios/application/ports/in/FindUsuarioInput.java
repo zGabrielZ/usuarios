@@ -7,4 +7,6 @@ public interface FindUsuarioInput {
     UsuarioDomain findByCpf(String cpf);
 
     UsuarioDomain findByEmail(String email);
+
+    UsuarioDomain findById(Long id);
 }

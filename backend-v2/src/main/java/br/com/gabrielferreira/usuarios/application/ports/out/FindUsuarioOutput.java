@@ -9,4 +9,6 @@ public interface FindUsuarioOutput {
     Optional<UsuarioDomain> findByCpf(String cpf);
 
     Optional<UsuarioDomain> findByEmail(String email);
+
+    Optional<UsuarioDomain> findById(Long id);
 }
