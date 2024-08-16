@@ -32,7 +32,7 @@ public class BeanConfiguration {
 
     @Bean
     public ValidCreateUsuarioUseCase validCreateUsuarioUseCase(FindUsuarioAdapter findUsuarioAdapter){
-        return new ValidCreateUsuarioUseCase(findUsuarioUseCase(findUsuarioAdapter));
+        return new ValidCreateUsuarioUseCase(findUsuarioAdapter);
     }
 
     @Bean
