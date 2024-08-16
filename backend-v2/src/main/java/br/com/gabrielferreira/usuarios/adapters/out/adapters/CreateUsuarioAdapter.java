@@ -20,7 +20,7 @@ public class CreateUsuarioAdapter implements CreateUsuarioOutput {
     @Transactional
     @Override
     public UsuarioDomain create(UsuarioDomain usuarioDomain) {
-        UsuarioEntity usuarioEntity = usuarioEntityMapper.toUsuarioEntity(usuarioDomain);
+        UsuarioEntity usuarioEntity = usuarioEntityMapper.createUsuarioEntity(usuarioDomain);
         usuarioEntity = usuarioRepository.save(usuarioEntity);
         return usuarioEntityMapper.toUsuarioDomain(usuarioEntity);
     }

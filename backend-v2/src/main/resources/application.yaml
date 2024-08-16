@@ -7,3 +7,7 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+
+server:
+  servlet:
+    context-path: '/api-usuarios'

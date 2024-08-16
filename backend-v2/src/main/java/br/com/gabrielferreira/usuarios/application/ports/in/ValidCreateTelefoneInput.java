@@ -7,7 +7,5 @@ public interface ValidCreateTelefoneInput {
 
     void validarCampos(TelefoneDomain telefoneDomain);
 
-    void validarTipoTelefoneExistente(DominioDomain tipoTelefone);
-
     void validarNumeroComTipoTelefone(TelefoneDomain telefoneDomain, DominioDomain tipoTelefone);
 }

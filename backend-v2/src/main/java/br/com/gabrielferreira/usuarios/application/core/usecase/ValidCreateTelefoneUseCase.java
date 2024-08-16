@@ -2,19 +2,11 @@ package br.com.gabrielferreira.usuarios.application.core.usecase;
 
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.TelefoneDomain;
-import br.com.gabrielferreira.usuarios.application.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuarios.application.exception.RegraDeNegocioException;
 import br.com.gabrielferreira.usuarios.application.ports.in.ValidCreateTelefoneInput;
-import br.com.gabrielferreira.usuarios.application.ports.out.FindDominioOutput;
 import io.micrometer.common.util.StringUtils;
 
 public class ValidCreateTelefoneUseCase implements ValidCreateTelefoneInput {
-
-    private final FindDominioOutput findDominioOutput;
-
-    public ValidCreateTelefoneUseCase(FindDominioOutput findDominioOutput) {
-        this.findDominioOutput = findDominioOutput;
-    }
 
     @Override
     public void validarCampos(TelefoneDomain telefoneDomain) {
@@ -23,13 +15,6 @@ public class ValidCreateTelefoneUseCase implements ValidCreateTelefoneInput {
 
         if(!StringUtils.isBlank(telefoneDomain.getDescricao())){
             telefoneDomain.setDescricao(telefoneDomain.getDescricao().trim());
-        }
-    }
-
-    @Override
-    public void validarTipoTelefoneExistente(DominioDomain tipoTelefone) {
-        if(findDominioOutput.findByIdAndTipoCodigo(tipoTelefone.getId(), "TIPO_TELEFONE").isEmpty()){
-            throw new NaoEncontradoException("Tipo de telefone informado não encontrado");
         }
     }
 

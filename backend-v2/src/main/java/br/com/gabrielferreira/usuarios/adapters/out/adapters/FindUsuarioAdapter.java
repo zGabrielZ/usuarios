@@ -21,12 +21,12 @@ public class FindUsuarioAdapter implements FindUsuarioOutput {
     @Override
     public Optional<UsuarioDomain> findByCpf(String cpf) {
         Optional<UsuarioEntity> usuarioEntity = usuarioRepository.findByCpf(cpf);
-        return usuarioEntity.map(usuarioEntityMapper::toUsuarioDomain);
+        return usuarioEntity.map(usuarioEntityMapper::toOnlyUsuarioDomain);
     }
 
     @Override
     public Optional<UsuarioDomain> findByEmail(String email) {
         Optional<UsuarioEntity> usuarioEntity = usuarioRepository.findByEmail(email);
-        return usuarioEntity.map(usuarioEntityMapper::toUsuarioDomain);
+        return usuarioEntity.map(usuarioEntityMapper::toOnlyUsuarioDomain);
     }
 }

@@ -3,10 +3,15 @@ package br.com.gabrielferreira.usuarios.utils;
 import br.com.gabrielferreira.usuarios.application.exception.MsgException;
 
 import javax.swing.text.MaskFormatter;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class MascaraUtils {
 
     private MascaraUtils(){}
+
+    private static final Locale BRASIL = new Locale("pt", "BR");
 
     // TODO: ENCONTRAR UM OUTRO JEITO DE FORMATAR MASCARAS ALEM DO MASK FORMATTER
     public static String toCpfFormatado(String cpf){
@@ -39,5 +44,11 @@ public class MascaraUtils {
         } catch (Exception e){
             throw new MsgException("Erro formatação do telefone celular");
         }
+    }
+
+    // TODO: ENCONTRAR UM OUTRO JEITO DE FORMATAR MASCARAS ALEM DO MASK FORMATTER
+    public static String toValorMonetarioBrasil(BigDecimal valor){
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(BRASIL);
+        return numberFormat.format(valor);
     }
 }

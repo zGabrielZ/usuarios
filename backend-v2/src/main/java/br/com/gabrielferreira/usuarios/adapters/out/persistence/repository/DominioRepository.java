@@ -1,7 +1,9 @@
 package br.com.gabrielferreira.usuarios.adapters.out.persistence.repository;
 
 import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.DominioEntity;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -9,5 +11,9 @@ import java.util.Optional;
 @Repository
 public interface DominioRepository extends JpaRepository<DominioEntity, Long> {
 
-    Optional<DominioEntity> findByIdAndTipoCodigo(Long id, String codigo);
+    @Query("SELECT d FROM DominioEntity d " +
+            "JOIN FETCH d.tipo t " +
+            "WHERE d.id = :id " +
+            "AND t.codigo = :codigo")
+    Optional<DominioEntity> findByIdAndTipoCodigo(@Param("id") Long id, @Param("codigo") String codigo);
 }
