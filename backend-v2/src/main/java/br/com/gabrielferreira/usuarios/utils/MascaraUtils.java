@@ -1,8 +1,7 @@
 package br.com.gabrielferreira.usuarios.utils;
 
-import br.com.gabrielferreira.usuarios.application.exception.MsgException;
+import org.apache.commons.lang3.StringUtils;
 
-import javax.swing.text.MaskFormatter;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -13,42 +12,30 @@ public class MascaraUtils {
 
     private static final Locale BRASIL = new Locale("pt", "BR");
 
-    // TODO: ENCONTRAR UM OUTRO JEITO DE FORMATAR MASCARAS ALEM DO MASK FORMATTER
     public static String toCpfFormatado(String cpf){
-        try {
-            MaskFormatter cpfFormatacao = new MaskFormatter("###.###.###-##");
-            cpfFormatacao.setValueContainsLiteralCharacters(false);
-            return cpfFormatacao.valueToString(cpf);
-        } catch (Exception e){
-            throw new MsgException("Erro formatação do cpf");
+        if(StringUtils.isNotBlank(cpf) && cpf.length() == 11){
+            return cpf.replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
         }
+        return cpf;
     }
 
-    // TODO: ENCONTRAR UM OUTRO JEITO DE FORMATAR MASCARAS ALEM DO MASK FORMATTER
-    public static String toTelefoneResidencialFormatado(String numero){
-        try {
-            MaskFormatter telefoneResidencialFormatacao = new MaskFormatter("(##) ####-####");
-            telefoneResidencialFormatacao.setValueContainsLiteralCharacters(false);
-            return telefoneResidencialFormatacao.valueToString(numero);
-        } catch (Exception e){
-            throw new MsgException("Erro formatação do telefone residencial");
+    public static String toTelefoneFormatado(String ddd, String numero){
+        if(StringUtils.isNotBlank(ddd) && StringUtils.isNotBlank(numero)) {
+            String numeroCompleto = ddd.concat(numero);
+            if (numero.length() == 8) {
+                return numeroCompleto.replaceAll("(\\d{2})(\\d{4})(\\d{4})", "($1) $2-$3");
+            } else if (numero.length() == 9) {
+                return numeroCompleto.replaceAll("(\\d{2})(\\d{5})(\\d{4})", "($1) $2-$3");
+            }
         }
+        return null;
     }
 
-    // TODO: ENCONTRAR UM OUTRO JEITO DE FORMATAR MASCARAS ALEM DO MASK FORMATTER
-    public static String toTelefoneCelularFormatado(String numero){
-        try {
-            MaskFormatter telefoneCelularFormatacao = new MaskFormatter("(##) #####-####");
-            telefoneCelularFormatacao.setValueContainsLiteralCharacters(false);
-            return telefoneCelularFormatacao.valueToString(numero);
-        } catch (Exception e){
-            throw new MsgException("Erro formatação do telefone celular");
-        }
-    }
-
-    // TODO: ENCONTRAR UM OUTRO JEITO DE FORMATAR MASCARAS ALEM DO MASK FORMATTER
     public static String toValorMonetarioBrasil(BigDecimal valor){
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(BRASIL);
-        return numberFormat.format(valor);
+        if(valor != null){
+            NumberFormat numberFormat = NumberFormat.getCurrencyInstance(BRASIL);
+            return numberFormat.format(valor);
+        }
+        return null;
     }
 }

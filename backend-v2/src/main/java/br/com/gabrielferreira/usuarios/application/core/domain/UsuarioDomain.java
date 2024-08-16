@@ -158,10 +158,7 @@ public class UsuarioDomain implements Serializable {
     }
 
     public String getRendaFormatada(){
-        if(this.renda != null){
-            return toValorMonetarioBrasil(this.renda);
-        }
-        return null;
+        return toValorMonetarioBrasil(this.renda);
     }
 
     @Override

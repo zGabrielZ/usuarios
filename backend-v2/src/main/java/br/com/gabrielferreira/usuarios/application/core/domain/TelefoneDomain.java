@@ -95,11 +95,7 @@ public class TelefoneDomain implements Serializable {
     }
 
     public String getTelefoneFormatado(){
-        String dddNumero = this.ddd.concat(this.numero);
-        if(this.tipoTelefone != null && this.numero.length() == 8){
-            return toTelefoneResidencialFormatado(dddNumero);
-        }
-        return toTelefoneCelularFormatado(dddNumero);
+        return toTelefoneFormatado(this.ddd, this.numero);
     }
 
     @Override
