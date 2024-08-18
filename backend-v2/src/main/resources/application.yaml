@@ -10,4 +10,4 @@ spring:
 
 server:
   servlet:
-    context-path: '/api-usuarios'
+    context-path: '/api'
