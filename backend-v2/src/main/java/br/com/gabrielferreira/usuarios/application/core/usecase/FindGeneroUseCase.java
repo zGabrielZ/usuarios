@@ -5,6 +5,8 @@ import br.com.gabrielferreira.usuarios.application.exception.NaoEncontradoExcept
 import br.com.gabrielferreira.usuarios.application.ports.in.FindGeneroInput;
 import br.com.gabrielferreira.usuarios.application.ports.out.FindDominioOutput;
 
+import java.util.List;
+
 public class FindGeneroUseCase implements FindGeneroInput {
 
     private final FindDominioOutput findDominioOutput;
@@ -17,5 +19,10 @@ public class FindGeneroUseCase implements FindGeneroInput {
     public DominioDomain findById(Long id) {
         return findDominioOutput.findByIdAndTipoCodigo(id, "GENERO")
                 .orElseThrow(() -> new NaoEncontradoException("Gênero informado não encontrado"));
+    }
+
+    @Override
+    public List<DominioDomain> findAllByTipoCodigo() {
+        return findDominioOutput.findAllByTipoCodigo("GENERO");
     }
 }

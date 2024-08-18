@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,4 +17,9 @@ public interface DominioRepository extends JpaRepository<DominioEntity, Long> {
             "WHERE d.id = :id " +
             "AND t.codigo = :codigo")
     Optional<DominioEntity> findByIdAndTipoCodigo(@Param("id") Long id, @Param("codigo") String codigo);
+
+    @Query("SELECT d FROM DominioEntity d " +
+            "JOIN FETCH d.tipo t " +
+            "WHERE t.codigo = :codigo")
+    List<DominioEntity> findAllByTipoCodigo(@Param("codigo") String codigo);
 }

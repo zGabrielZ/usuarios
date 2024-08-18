@@ -8,6 +8,7 @@ import br.com.gabrielferreira.usuarios.application.ports.out.FindDominioOutput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -22,5 +23,11 @@ public class FindDominioAdapter implements FindDominioOutput {
     public Optional<DominioDomain> findByIdAndTipoCodigo(Long id, String codigo) {
         Optional<DominioEntity> dominioEntity = dominioRepository.findByIdAndTipoCodigo(id, codigo);
         return dominioEntity.map(dominioEntityMapper::toDominioDomain);
+    }
+
+    @Override
+    public List<DominioDomain> findAllByTipoCodigo(String codigo) {
+        List<DominioEntity> dominioEntities = dominioRepository.findAllByTipoCodigo(codigo);
+        return dominioEntityMapper.toDominiosDomains(dominioEntities);
     }
 }
