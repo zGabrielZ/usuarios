@@ -1,5 +1,6 @@
 package br.com.gabrielferreira.usuarios.application.core.usecase;
 
+import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
 import br.com.gabrielferreira.usuarios.application.ports.out.CreateUsuarioOutput;
@@ -30,14 +31,18 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
 
     @Override
     public UsuarioDomain create(UsuarioDomain usuarioDomain) {
+        DominioDomain genero = findGeneroInput.findById(usuarioDomain.getGenero().getId());
+        DominioDomain tipoTelefone = findTipoTelefoneInput.findById(usuarioDomain.getTelefone().getTipoTelefone().getId());
+
         validCreateUsuarioInput.validarCampos(usuarioDomain);
         validCreateUsuarioInput.validarCpfExistente(usuarioDomain.getCpf());
         validCreateUsuarioInput.validarEmailExistente(usuarioDomain.getEmail());
-        usuarioDomain.setGenero(findGeneroInput.findById(usuarioDomain.getGenero().getId()));
 
         validCreateTelefoneInput.validarCampos(usuarioDomain.getTelefone());
-        usuarioDomain.getTelefone().setTipoTelefone(findTipoTelefoneInput.findById(usuarioDomain.getTelefone().getTipoTelefone().getId()));
-        validCreateTelefoneInput.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), usuarioDomain.getTelefone().getTipoTelefone());
+        validCreateTelefoneInput.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), tipoTelefone);
+
+        usuarioDomain.setGenero(genero);
+        usuarioDomain.getTelefone().setTipoTelefone(tipoTelefone);
 
         return createUsuarioOutput.create(usuarioDomain);
     }
