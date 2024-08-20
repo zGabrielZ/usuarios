@@ -2,6 +2,7 @@ package br.com.gabrielferreira.usuarios.config;
 
 import br.com.gabrielferreira.usuarios.adapters.out.adapters.CreateUsuarioAdapter;
 import br.com.gabrielferreira.usuarios.adapters.out.adapters.FindDominioAdapter;
+import br.com.gabrielferreira.usuarios.adapters.out.adapters.FindTelefoneAdapter;
 import br.com.gabrielferreira.usuarios.adapters.out.adapters.FindUsuarioAdapter;
 import br.com.gabrielferreira.usuarios.application.core.usecase.*;
 import org.springframework.context.annotation.Bean;
@@ -42,5 +43,10 @@ public class BeanConfiguration {
                                                      FindDominioAdapter findTipoTelefoneAdapter){
         return new CreateUsuarioUseCase(createUsuarioAdapter, validCreateUsuarioUseCase(findUsuarioAdapter), validCreateTelefoneUseCase(),
                 findGeneroUseCase(findGeneroAdapter), findTipoTelefoneUseCase(findTipoTelefoneAdapter));
+    }
+
+    @Bean
+    public FindTelefoneUseCase findTelefoneUseCase(FindTelefoneAdapter findTelefoneAdapter){
+        return new FindTelefoneUseCase(findTelefoneAdapter);
     }
 }
