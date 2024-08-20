@@ -18,4 +18,10 @@ public class FindTelefoneUseCase implements FindTelefoneInput {
         return findTelefoneOutput.findByUsuarioId(idUsuario)
                 .orElseThrow(() -> new NaoEncontradoException("Telefone informado não encontrado"));
     }
+
+    @Override
+    public TelefoneDomain findByIdAndUsuarioId(Long id, Long idUsuario) {
+        return findTelefoneOutput.findByIdAndUsuarioId(id, idUsuario)
+                .orElseThrow(() -> new NaoEncontradoException("Telefone informado não encontrado"));
+    }
 }

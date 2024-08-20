@@ -17,4 +17,11 @@ public interface TelefoneRepository extends JpaRepository<TelefoneEntity, Long> 
             "JOIN FETCH tt.tipo tipo " +
             "WHERE u.id = :idUsuario")
     Optional<TelefoneEntity> findByUsuarioId(@Param("idUsuario") Long idUsuario);
+
+    @Query("SELECT t FROM UsuarioEntity u " +
+            "JOIN u.telefone t " +
+            "JOIN FETCH t.tipoTelefone tt " +
+            "JOIN FETCH tt.tipo tipo " +
+            "WHERE u.id = :idUsuario AND t.id = :id")
+    Optional<TelefoneEntity> findByIdAndUsuarioId(@Param("id") Long id, @Param("idUsuario") Long idUsuario);
 }

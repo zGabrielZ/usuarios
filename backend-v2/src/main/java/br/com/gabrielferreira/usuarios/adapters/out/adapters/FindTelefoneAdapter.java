@@ -23,4 +23,10 @@ public class FindTelefoneAdapter implements FindTelefoneOutput {
         Optional<TelefoneEntity> telefoneEntity = telefoneRepository.findByUsuarioId(idUsuario);
         return telefoneEntity.map(telefoneEntityMapper::toTelefoneDomain);
     }
+
+    @Override
+    public Optional<TelefoneDomain> findByIdAndUsuarioId(Long id, Long idUsuario) {
+        Optional<TelefoneEntity> telefoneEntity = telefoneRepository.findByIdAndUsuarioId(id, idUsuario);
+        return telefoneEntity.map(telefoneEntityMapper::toTelefoneDomain);
+    }
 }

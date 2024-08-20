@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface FindTelefoneOutput {
 
     Optional<TelefoneDomain> findByUsuarioId(Long idUsuario);
+
+    Optional<TelefoneDomain> findByIdAndUsuarioId(Long id, Long idUsuario);
 }
