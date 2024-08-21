@@ -54,4 +54,12 @@ public class BeanConfiguration {
                                                        TelefoneMapperAdapter telefoneMapperAdapter){
         return new UpdateTelefoneUseCase(updateTelefoneAdapter, validCreateTelefoneUseCase(), findTipoTelefoneUseCase(findTipoTelefoneAdapter), findTelefoneUseCase(findTelefoneAdapter), telefoneMapperAdapter);
     }
+
+    @Bean
+    public UpdateUsuarioUseCase updateUsuarioUseCase(UpdateUsuarioAdapter updateUsuarioAdapter,
+                                                     FindUsuarioAdapter findUsuarioAdapter,
+                                                     FindDominioAdapter findDominioAdapter,
+                                                     UsuarioMapperAdapter usuarioMapperAdapter){
+        return new UpdateUsuarioUseCase(updateUsuarioAdapter, findUsuarioUseCase(findUsuarioAdapter), validCreateUsuarioUseCase(findUsuarioAdapter), findGeneroUseCase(findDominioAdapter), usuarioMapperAdapter);
+    }
 }

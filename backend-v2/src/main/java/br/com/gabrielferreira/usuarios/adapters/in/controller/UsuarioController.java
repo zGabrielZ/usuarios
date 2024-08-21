@@ -2,11 +2,13 @@ package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
 import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.UsuarioMapper;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioCreateDTO;
+import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioUpdateDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.UsuarioDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.UsuarioResumidoDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.CreateUsuarioInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindUsuarioInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.UpdateUsuarioInput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,6 +32,8 @@ public class UsuarioController {
     private final CreateUsuarioInput createUsuarioInput;
 
     private final FindUsuarioInput findUsuarioInput;
+
+    private final UpdateUsuarioInput updateUsuarioInput;
 
     private final UsuarioMapper usuarioMapper;
 
@@ -92,5 +96,22 @@ public class UsuarioController {
     public ResponseEntity<UsuarioResumidoDTO> findByEmail(@PathVariable String email){
         UsuarioDomain usuarioDomain = findUsuarioInput.findByEmail(email);
         return ResponseEntity.ok(usuarioMapper.toUsuarioResumidoDto(usuarioDomain));
+    }
+
+    @Operation(summary = "Atualizar usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário atualizado",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioDTO.class)) }),
+            @ApiResponse(responseCode = "400", description = "Regra de negócio",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Recurso não encontrado",
+                    content = @Content)
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @Valid @RequestBody UsuarioUpdateDTO usuarioUpdateDTO){
+        UsuarioDomain usuarioDomain = usuarioMapper.updateUsuarioDomain(usuarioUpdateDTO, id);
+        usuarioDomain = updateUsuarioInput.update(usuarioDomain);
+        return ResponseEntity.ok().body(usuarioMapper.toUsuarioDto(usuarioDomain));
     }
 }

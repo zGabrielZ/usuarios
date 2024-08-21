@@ -1,6 +1,7 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller.mapper;
 
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioCreateDTO;
+import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioUpdateDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.UsuarioDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.UsuarioResumidoDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
@@ -21,4 +22,7 @@ public interface UsuarioMapper {
     @Mapping(target = "createdAt", qualifiedByName = "formatData")
     @Mapping(target = "updatedAt", qualifiedByName = "formatData")
     UsuarioResumidoDTO toUsuarioResumidoDto(UsuarioDomain usuarioDomain);
+
+    @Mapping(target = "id", source = "id")
+    UsuarioDomain updateUsuarioDomain(UsuarioUpdateDTO usuarioUpdateDTO, Long id);
 }
