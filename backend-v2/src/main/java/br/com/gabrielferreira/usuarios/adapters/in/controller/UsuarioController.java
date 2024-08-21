@@ -7,6 +7,7 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.response.UsuarioDT
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.UsuarioResumidoDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.CreateUsuarioInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.DeleteUsuarioInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindUsuarioInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.UpdateUsuarioInput;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,6 +35,8 @@ public class UsuarioController {
     private final FindUsuarioInput findUsuarioInput;
 
     private final UpdateUsuarioInput updateUsuarioInput;
+
+    private final DeleteUsuarioInput deleteUsuarioInput;
 
     private final UsuarioMapper usuarioMapper;
 
@@ -113,5 +116,19 @@ public class UsuarioController {
         UsuarioDomain usuarioDomain = usuarioMapper.updateUsuarioDomain(usuarioUpdateDTO, id);
         usuarioDomain = updateUsuarioInput.update(usuarioDomain);
         return ResponseEntity.ok().body(usuarioMapper.toUsuarioDto(usuarioDomain));
+    }
+
+    @Operation(summary = "Atualizar usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Usuário deletado",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioDTO.class)) }),
+            @ApiResponse(responseCode = "404", description = "Recurso não encontrado",
+                    content = @Content)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        deleteUsuarioInput.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

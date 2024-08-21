@@ -62,4 +62,10 @@ public class BeanConfiguration {
                                                      UsuarioMapperAdapter usuarioMapperAdapter){
         return new UpdateUsuarioUseCase(updateUsuarioAdapter, findUsuarioUseCase(findUsuarioAdapter), validCreateUsuarioUseCase(findUsuarioAdapter), findGeneroUseCase(findDominioAdapter), usuarioMapperAdapter);
     }
+
+    @Bean
+    public DeleteUsuarioUseCase deleteUsuarioUseCase(DeleteUsuarioAdapter deleteUsuarioAdapter,
+                                                     FindUsuarioAdapter findUsuarioAdapter){
+        return new DeleteUsuarioUseCase(deleteUsuarioAdapter, findUsuarioUseCase(findUsuarioAdapter));
+    }
 }
