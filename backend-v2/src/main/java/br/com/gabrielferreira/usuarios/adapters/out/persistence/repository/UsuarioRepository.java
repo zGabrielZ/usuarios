@@ -2,6 +2,9 @@ package br.com.gabrielferreira.usuarios.adapters.out.persistence.repository;
 
 import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.UsuarioEntity;
 import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -23,4 +26,6 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
             "JOIN FETCH g.tipo gtp " +
             "WHERE u.id = :id")
     Optional<UsuarioEntity> findUsuarioById(@Param("id") Long id);
+
+    Page<UsuarioEntity> findAll(Specification<UsuarioEntity> specification, Pageable pageable);
 }

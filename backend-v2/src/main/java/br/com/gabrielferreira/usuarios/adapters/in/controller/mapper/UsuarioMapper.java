@@ -8,6 +8,8 @@ import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", uses = {AbstractObjetMapper.class})
 public interface UsuarioMapper {
 
@@ -25,4 +27,8 @@ public interface UsuarioMapper {
 
     @Mapping(target = "id", source = "id")
     UsuarioDomain updateUsuarioDomain(UsuarioUpdateDTO usuarioUpdateDTO, Long id);
+
+    default List<UsuarioResumidoDTO> toUsuarioResumidoDtos(List<UsuarioDomain> usuarioDomains){
+        return usuarioDomains.stream().map(this::toUsuarioResumidoDto).toList();
+    }
 }

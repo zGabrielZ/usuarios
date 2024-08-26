@@ -1,10 +1,12 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
+import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.PageInfoMapper;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.UsuarioMapper;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioCreateDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioUpdateDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.UsuarioDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.UsuarioResumidoDTO;
+import br.com.gabrielferreira.usuarios.application.core.domain.PageInfo;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.CreateUsuarioInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.DeleteUsuarioInput;
@@ -18,11 +20,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
+import java.util.List;
 
 @Tag(name = "Usuário Controller", description = "Endpoints para realizar requisições de usuários")
 @RestController
@@ -39,6 +49,8 @@ public class UsuarioController {
     private final DeleteUsuarioInput deleteUsuarioInput;
 
     private final UsuarioMapper usuarioMapper;
+
+    private final PageInfoMapper pageInfoMapper;
 
     @Operation(summary = "Cadastrar usuário")
     @ApiResponses(value = {
@@ -130,5 +142,21 @@ public class UsuarioController {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         deleteUsuarioInput.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Buscar usuários paginados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuários encontrados",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioResumidoDTO.class)) })
+    })
+    @GetMapping
+    public ResponseEntity<Page<UsuarioResumidoDTO>> findAll(@ParameterObject @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+                                        @RequestParam(required = false) String nome,
+                                        @RequestParam(required = false) String email,
+                                        @RequestParam(required = false) BigDecimal renda){
+        PageInfo pageInfo = pageInfoMapper.toPageInfo(pageable);
+        List<UsuarioResumidoDTO> usuarioResumidoDTOS = usuarioMapper.toUsuarioResumidoDtos(findUsuarioInput.findAll(pageInfo, nome, email, renda));
+        return ResponseEntity.ok().body(new PageImpl<>(usuarioResumidoDTOS, pageable, usuarioResumidoDTOS.size()));
     }
 }

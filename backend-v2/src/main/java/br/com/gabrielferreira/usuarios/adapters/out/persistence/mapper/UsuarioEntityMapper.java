@@ -5,6 +5,9 @@ import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UsuarioEntityMapper {
@@ -36,4 +39,8 @@ public interface UsuarioEntityMapper {
     @Mapping(target = "createdAt", source = "usuarioDomainEncontrado.createdAt")
     @Mapping(target = "updatedAt", ignore = true)
     UsuarioDomain updateUsuario(UsuarioDomain usuarioDomain, UsuarioDomain usuarioDomainEncontrado, DominioDomain genero);
+
+    default List<UsuarioDomain> toUsuariosDomains(Page<UsuarioEntity> usuarioEntities){
+        return usuarioEntities.stream().map(this::toOnlyUsuarioDomain).toList();
+    }
 }
