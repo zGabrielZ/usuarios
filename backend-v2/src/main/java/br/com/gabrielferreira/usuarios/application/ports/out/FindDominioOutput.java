@@ -10,4 +10,6 @@ public interface FindDominioOutput {
     Optional<DominioDomain> findByIdAndTipoCodigo(Long id, String codigo);
 
     List<DominioDomain> findAllByTipoCodigo(String codigo);
+
+    Optional<DominioDomain> findByCodigoAndTipoCodigo(String codigo, String tipoCodigo);
 }

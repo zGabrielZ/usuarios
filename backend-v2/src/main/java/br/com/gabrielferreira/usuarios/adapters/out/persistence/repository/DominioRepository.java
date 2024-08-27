@@ -22,4 +22,10 @@ public interface DominioRepository extends JpaRepository<DominioEntity, Long> {
             "JOIN FETCH d.tipo t " +
             "WHERE t.codigo = :codigo")
     List<DominioEntity> findAllByTipoCodigo(@Param("codigo") String codigo);
+
+    @Query("SELECT d FROM DominioEntity d " +
+            "JOIN FETCH d.tipo t " +
+            "WHERE d.codigo = :codigo " +
+            "AND t.codigo = :tipoCodigo")
+    Optional<DominioEntity> findByCodigoAndTipoCodigo(@Param("codigo") String codigo, @Param("tipoCodigo") String tipoCodigo);
 }

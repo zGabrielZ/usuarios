@@ -33,4 +33,11 @@ public class FindDominioAdapter implements FindDominioOutput {
         List<DominioEntity> dominioEntities = dominioRepository.findAllByTipoCodigo(codigo);
         return dominioEntityMapper.toDominiosDomains(dominioEntities);
     }
+
+    @Cacheable(unless = "#result == null", value = "findByCodigoAndTipoCodigo", key = "T(java.lang.String).format('%s_%s_%s_%s', #root.target.Class.simpleName, #root.methodName, #codigo, #tipoCodigo)")
+    @Override
+    public Optional<DominioDomain> findByCodigoAndTipoCodigo(String codigo, String tipoCodigo) {
+        Optional<DominioEntity> dominioEntity = dominioRepository.findByCodigoAndTipoCodigo(codigo, tipoCodigo);
+        return dominioEntity.map(dominioEntityMapper::toDominioDomain);
+    }
 }

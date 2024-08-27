@@ -68,4 +68,28 @@ public class BeanConfig {
                                                      FindUsuarioAdapter findUsuarioAdapter){
         return new DeleteUsuarioUseCase(deleteUsuarioAdapter, findUsuarioUseCase(findUsuarioAdapter));
     }
+
+    @Bean
+    public ValidCreateAnotacaoUseCase validCreateAnotacaoUseCase(){
+        return new ValidCreateAnotacaoUseCase();
+    }
+
+    @Bean
+    public FindTipoAnotacaoUseCase findTipoAnotacaoUseCase(FindDominioAdapter findDominioAdapter){
+        return new FindTipoAnotacaoUseCase(findDominioAdapter);
+    }
+
+    @Bean
+    public FindSituacaoAnotacaoUseCase findSituacaoAnotacaoUseCase(FindDominioAdapter findDominioAdapter){
+        return new FindSituacaoAnotacaoUseCase(findDominioAdapter);
+    }
+
+    @Bean
+    public CreateAnotacaoRascunhoUseCase createAnotacaoRascunhoUseCase(CreateAnotacaoAdapter createAnotacaoAdapter,
+                                                                       FindDominioAdapter findTipoAnotacao,
+                                                                       FindUsuarioAdapter findUsuarioAdapter,
+                                                                       FindDominioAdapter findSituacaoAnotacao){
+        return new CreateAnotacaoRascunhoUseCase(createAnotacaoAdapter, findTipoAnotacaoUseCase(findTipoAnotacao), findUsuarioUseCase(findUsuarioAdapter),
+                findSituacaoAnotacaoUseCase(findSituacaoAnotacao), validCreateAnotacaoUseCase());
+    }
 }
