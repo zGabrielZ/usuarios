@@ -4,11 +4,11 @@ import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
-import br.com.gabrielferreira.usuarios.application.ports.out.CreateAnotacaoOutput;
+import br.com.gabrielferreira.usuarios.application.ports.out.CreateAnotacaoRascunhoOutput;
 
 public class CreateAnotacaoRascunhoUseCase implements CreateAnotacaoRascunhoInput {
 
-    private final CreateAnotacaoOutput createAnotacaoOutput;
+    private final CreateAnotacaoRascunhoOutput createAnotacaoRascunhoOutput;
 
     private final FindTipoAnotacaoInput findTipoAnotacaoInput;
 
@@ -18,12 +18,12 @@ public class CreateAnotacaoRascunhoUseCase implements CreateAnotacaoRascunhoInpu
 
     private final ValidCreateAnotacaoInput validCreateAnotacaoInput;
 
-    public CreateAnotacaoRascunhoUseCase(CreateAnotacaoOutput createAnotacaoOutput,
+    public CreateAnotacaoRascunhoUseCase(CreateAnotacaoRascunhoOutput createAnotacaoRascunhoOutput,
                                          FindTipoAnotacaoInput findTipoAnotacaoInput,
                                          FindUsuarioInput findUsuarioInput,
                                          FindSituacaoAnotacaoInput findSituacaoAnotacaoInput,
                                          ValidCreateAnotacaoInput validCreateAnotacaoInput) {
-        this.createAnotacaoOutput = createAnotacaoOutput;
+        this.createAnotacaoRascunhoOutput = createAnotacaoRascunhoOutput;
         this.findTipoAnotacaoInput = findTipoAnotacaoInput;
         this.findUsuarioInput = findUsuarioInput;
         this.findSituacaoAnotacaoInput = findSituacaoAnotacaoInput;
@@ -42,6 +42,6 @@ public class CreateAnotacaoRascunhoUseCase implements CreateAnotacaoRascunhoInpu
         anotacaoDomain.setUsuario(usuarioDomain);
         anotacaoDomain.setSituacaoTipoAnotacao(situacaoAnotacaoDomain);
 
-        return createAnotacaoOutput.create(anotacaoDomain);
+        return createAnotacaoRascunhoOutput.create(anotacaoDomain);
     }
 }
