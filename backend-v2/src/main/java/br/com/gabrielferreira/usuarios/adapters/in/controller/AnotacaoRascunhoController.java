@@ -6,6 +6,7 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.response.AnotacaoR
 import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.CreateAnotacaoRascunhoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoRascunhoInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.UpdateAnotacaoRascunhoInput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,6 +30,8 @@ public class AnotacaoRascunhoController {
     private final CreateAnotacaoRascunhoInput createAnotacaoRascunhoInput;
 
     private final FindAnotacaoRascunhoInput findAnotacaoRascunhoInput;
+
+    private final UpdateAnotacaoRascunhoInput updateAnotacaoRascunhoInput;
 
     private final AnotacaoMapper anotacaoMapper;
 
@@ -61,7 +64,21 @@ public class AnotacaoRascunhoController {
         return ResponseEntity.ok(anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain));
     }
 
-    // finalizar o rascunho
+    @Operation(summary = "Finalizar anotação rascunho por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Anotação atualizado",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Void.class)) }),
+            @ApiResponse(responseCode = "404", description = "Anotação não encontrado",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Regra de negócio",
+                    content = @Content)
+    })
+    @PutMapping("/{id}/finalizar")
+    public ResponseEntity<Void> finalizarAnotacaoRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id){
+        updateAnotacaoRascunhoInput.finalizarAnotacao(id, idUsuario);
+        return ResponseEntity.ok().build();
+    }
 
     // editar o rascunho, caso ja tiver finalizado, nao pode mais editar
 

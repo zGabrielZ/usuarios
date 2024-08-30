@@ -10,6 +10,8 @@ public interface AnotacaoEntityMapper {
 
     AnotacaoEntity createAnotacaoEntity(AnotacaoDomain anotacaoDomain);
 
-    @Mapping(target = "usuario", ignore = true)
+    @Mapping(target = "usuario.telefone", ignore = true)
+    @Mapping(target = "usuario.genero", ignore = true)
+    @Mapping(target = "usuario.anotacoes", ignore = true)
     AnotacaoDomain toAnotacaoDomain(AnotacaoEntity anotacaoEntity);
 }

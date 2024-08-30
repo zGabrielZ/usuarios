@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-public class CreateAnotacaoRascunhoRascunhoAdapter implements CreateAnotacaoRascunhoOutput {
+public class CreateAnotacaoRascunhoAdapter implements CreateAnotacaoRascunhoOutput {
 
     private final AnotacaoRepository anotacaoRepository;
 

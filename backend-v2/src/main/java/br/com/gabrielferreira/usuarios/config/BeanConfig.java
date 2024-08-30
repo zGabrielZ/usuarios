@@ -85,7 +85,7 @@ public class BeanConfig {
     }
 
     @Bean
-    public CreateAnotacaoRascunhoUseCase createAnotacaoRascunhoUseCase(CreateAnotacaoRascunhoRascunhoAdapter createAnotacaoRascunhoAdapter,
+    public CreateAnotacaoRascunhoUseCase createAnotacaoRascunhoUseCase(CreateAnotacaoRascunhoAdapter createAnotacaoRascunhoAdapter,
                                                                        FindDominioAdapter findTipoAnotacao,
                                                                        FindUsuarioAdapter findUsuarioAdapter,
                                                                        FindDominioAdapter findSituacaoAnotacao){
@@ -96,5 +96,12 @@ public class BeanConfig {
     @Bean
     public FindAnotacaoRascunhoUseCase findAnotacaoUseCase(FindAnotacaoRascunhoAdapter findAnotacaoRascunhoAdapter){
         return new FindAnotacaoRascunhoUseCase(findAnotacaoRascunhoAdapter);
+    }
+
+    @Bean
+    public UpdateAnotacaoRascunhoUseCase updateAnotacaoRascunhoUseCase(UpdateAnotacaoRascunhoAdapter updateAnotacaoRascunhoAdapter,
+                                                                       FindAnotacaoRascunhoAdapter findAnotacaoRascunhoAdapter,
+                                                                       FindDominioAdapter findDominioAdapter){
+        return new UpdateAnotacaoRascunhoUseCase(updateAnotacaoRascunhoAdapter, findAnotacaoUseCase(findAnotacaoRascunhoAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter));
     }
 }
