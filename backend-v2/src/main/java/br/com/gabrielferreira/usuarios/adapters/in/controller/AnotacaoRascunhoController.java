@@ -80,6 +80,22 @@ public class AnotacaoRascunhoController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Reabrir anotação rascunho por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Anotação atualizado",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Void.class)) }),
+            @ApiResponse(responseCode = "404", description = "Anotação não encontrado",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Regra de negócio",
+                    content = @Content)
+    })
+    @PutMapping("/{id}/reabrir")
+    public ResponseEntity<Void> reabrirAnotacaoRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id){
+        updateAnotacaoRascunhoInput.reabrirAnotacao(id, idUsuario);
+        return ResponseEntity.ok().build();
+    }
+
     // editar o rascunho, caso ja tiver finalizado, nao pode mais editar
 
     // criar o lembrete

@@ -19,7 +19,7 @@ public class UpdateAnotacaoRascunhoAdapter implements UpdateAnotacaoRascunhoOutp
 
     @Transactional
     @Override
-    public void finalizarAnotacao(AnotacaoDomain anotacaoDomain) {
+    public void updateAnotacao(AnotacaoDomain anotacaoDomain) {
         AnotacaoEntity anotacaoEntity = anotacaoEntityMapper.createAnotacaoEntity(anotacaoDomain);
         anotacaoRepository.save(anotacaoEntity);
     }

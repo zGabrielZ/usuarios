@@ -4,5 +4,5 @@ import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 
 public interface UpdateAnotacaoRascunhoOutput {
 
-    void finalizarAnotacao(AnotacaoDomain anotacaoDomain);
+    void updateAnotacao(AnotacaoDomain anotacaoDomain);
 }

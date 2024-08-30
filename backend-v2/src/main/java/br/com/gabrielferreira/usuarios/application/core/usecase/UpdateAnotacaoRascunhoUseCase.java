@@ -34,6 +34,19 @@ public class UpdateAnotacaoRascunhoUseCase implements UpdateAnotacaoRascunhoInpu
 
         DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo("RASCUNHO_FINALIZADO");
         anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
-        updateAnotacaoRascunhoOutput.finalizarAnotacao(anotacaoDomain);
+        updateAnotacaoRascunhoOutput.updateAnotacao(anotacaoDomain);
+    }
+
+    @Override
+    public void reabrirAnotacao(Long id, Long idUsuario) {
+        AnotacaoDomain anotacaoDomain = findAnotacaoRascunhoInput.findByIdTipoAnotacaoRascunho(id, idUsuario);
+
+        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals("RASCUNHO_ABERTO")){
+            throw new RegraDeNegocioException("Não é possível reabrir a anotação pois já está em aberto");
+        }
+
+        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo("RASCUNHO_ABERTO");
+        anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
+        updateAnotacaoRascunhoOutput.updateAnotacao(anotacaoDomain);
     }
 }
