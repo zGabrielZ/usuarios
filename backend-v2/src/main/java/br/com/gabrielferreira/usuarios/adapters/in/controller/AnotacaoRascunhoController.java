@@ -96,17 +96,20 @@ public class AnotacaoRascunhoController {
         return ResponseEntity.ok().build();
     }
 
-    // editar o rascunho, caso ja tiver finalizado, nao pode mais editar
-
-    // criar o lembrete
-
-    // buscar o lembrete
-
-    // finalizar o lembrete
-
-    // editar o lembrete, mesma regra
-
-    // fazer isso tbm pro estudo
-
-    // uma busca geral de anotação
+    @Operation(summary = "Editar anotação rascunho por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Anotação atualizado",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class)) }),
+            @ApiResponse(responseCode = "404", description = "Anotação não encontrado",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Regra de negócio",
+                    content = @Content)
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<AnotacaoRascunhoDTO> editarAnotacaoRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id, @Valid @RequestBody AnotacaoRascunhoCreateDTO anotacaoRascunhoCreateDTO){
+        AnotacaoDomain anotacaoDomain = anotacaoMapper.createAnotacaoDomain(anotacaoRascunhoCreateDTO);
+        anotacaoDomain = updateAnotacaoRascunhoInput.updateAnotacao(id, idUsuario, anotacaoDomain);
+        return ResponseEntity.ok().body(anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain));
+    }
 }

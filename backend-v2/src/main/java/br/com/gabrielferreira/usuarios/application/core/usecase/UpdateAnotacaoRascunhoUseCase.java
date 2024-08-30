@@ -49,4 +49,17 @@ public class UpdateAnotacaoRascunhoUseCase implements UpdateAnotacaoRascunhoInpu
         anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
         updateAnotacaoRascunhoOutput.updateAnotacao(anotacaoDomain);
     }
+
+    @Override
+    public AnotacaoDomain updateAnotacao(Long id, Long idUsuario, AnotacaoDomain anotacaoDomainUpdate) {
+        AnotacaoDomain anotacaoDomainEncontrado = findAnotacaoRascunhoInput.findByIdTipoAnotacaoRascunho(id, idUsuario);
+
+        if(anotacaoDomainEncontrado.getSituacaoTipoAnotacao().getCodigo().equals("RASCUNHO_FINALIZADO")){
+            throw new RegraDeNegocioException("Não é possível editar a anotação pois já está finalizado");
+        }
+
+        anotacaoDomainEncontrado.setTitulo(anotacaoDomainUpdate.getTitulo());
+        anotacaoDomainEncontrado.setDescricao(anotacaoDomainUpdate.getDescricao());
+        return updateAnotacaoRascunhoOutput.updateAnotacao(anotacaoDomainEncontrado);
+    }
 }
