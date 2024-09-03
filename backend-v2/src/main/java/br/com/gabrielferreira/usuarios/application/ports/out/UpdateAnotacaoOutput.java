@@ -2,7 +2,7 @@ package br.com.gabrielferreira.usuarios.application.ports.out;
 
 import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 
-public interface CreateAnotacaoRascunhoOutput {
+public interface UpdateAnotacaoOutput {
 
-    AnotacaoDomain create(AnotacaoDomain anotacaoDomain);
+    AnotacaoDomain updateAnotacao(AnotacaoDomain anotacaoDomain);
 }

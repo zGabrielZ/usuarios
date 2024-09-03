@@ -4,23 +4,24 @@ import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.AnotacaoE
 import br.com.gabrielferreira.usuarios.adapters.out.persistence.mapper.AnotacaoEntityMapper;
 import br.com.gabrielferreira.usuarios.adapters.out.persistence.repository.AnotacaoRepository;
 import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
-import br.com.gabrielferreira.usuarios.application.ports.out.FindAnotacaoRascunhoOutput;
+import br.com.gabrielferreira.usuarios.application.ports.out.CreateAnotacaoOutput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-public class FindAnotacaoRascunhoAdapter implements FindAnotacaoRascunhoOutput {
+public class CreateAnotacaoAdapter implements CreateAnotacaoOutput {
 
     private final AnotacaoRepository anotacaoRepository;
 
     private final AnotacaoEntityMapper anotacaoEntityMapper;
 
+    @Transactional
     @Override
-    public Optional<AnotacaoDomain> findByIdAndTipoAnotacaoAndIdUsuario(Long id, String tipoAnotacao, Long idUsuario) {
-        Optional<AnotacaoEntity> anotacaoEntity = anotacaoRepository.findByIdAndIdUsuarioAndTipoAnotacao(id, idUsuario, tipoAnotacao);
-        return anotacaoEntity.map(anotacaoEntityMapper::toAnotacaoDomain);
+    public AnotacaoDomain create(AnotacaoDomain anotacaoDomain) {
+        AnotacaoEntity anotacaoEntity = anotacaoEntityMapper.createAnotacaoEntity(anotacaoDomain);
+        anotacaoEntity = anotacaoRepository.save(anotacaoEntity);
+        return anotacaoEntityMapper.toAnotacaoDomain(anotacaoEntity);
     }
 }

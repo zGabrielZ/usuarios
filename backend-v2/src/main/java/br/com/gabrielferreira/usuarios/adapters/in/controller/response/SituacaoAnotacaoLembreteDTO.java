@@ -4,14 +4,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 
-public record SituacaoAnotacaoDTO(
-        @Schema(description = "ID da situação da anotação", example = "11")
+public record SituacaoAnotacaoLembreteDTO(
+        @Schema(description = "ID da situação da anotação", example = "13")
         Long id,
 
-        @Schema(description = "Descrição da situação da anotação", example = "Rascunho em aberto")
+        @Schema(description = "Descrição da situação da anotação", example = "Lembrete em aberto")
         String descricao,
 
-        @Schema(description = "Código da situação da anotação", example = "RASCUNHO_ABERTO")
+        @Schema(description = "Código da situação da anotação", example = "LEMBRETE_ABERTO")
         String codigo,
 
         @Schema(description = "Tipo da situação da anotação")

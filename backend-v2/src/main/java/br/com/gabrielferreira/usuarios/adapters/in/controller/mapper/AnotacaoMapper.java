@@ -21,5 +21,6 @@ public interface AnotacaoMapper {
 
     @Mapping(target = "createdAt", qualifiedByName = "formatData")
     @Mapping(target = "updatedAt", qualifiedByName = "formatData")
+    @Mapping(target = "dataLembrete", qualifiedByName = "formatData")
     AnotacaoLembreteDTO toAnotacaoLembreteDto(AnotacaoDomain anotacaoDomain);
 }

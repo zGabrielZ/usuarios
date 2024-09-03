@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 
-public record TipoAnotacaoDTO(
-        @Schema(description = "ID do tipo de anotação", example = "1")
+public record TipoAnotacaoRascunhoDTO(
+        @Schema(description = "ID do tipo de anotação", example = "6")
         Long id,
 
         @Schema(description = "Descrição do tipo de anotação", example = "Rascunho")

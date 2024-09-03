@@ -4,14 +4,14 @@ import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.AnotacaoE
 import br.com.gabrielferreira.usuarios.adapters.out.persistence.mapper.AnotacaoEntityMapper;
 import br.com.gabrielferreira.usuarios.adapters.out.persistence.repository.AnotacaoRepository;
 import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
-import br.com.gabrielferreira.usuarios.application.ports.out.UpdateAnotacaoRascunhoOutput;
+import br.com.gabrielferreira.usuarios.application.ports.out.UpdateAnotacaoOutput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
-public class UpdateAnotacaoRascunhoAdapter implements UpdateAnotacaoRascunhoOutput {
+public class UpdateAnotacaoAdapter implements UpdateAnotacaoOutput {
 
     private final AnotacaoRepository anotacaoRepository;
 

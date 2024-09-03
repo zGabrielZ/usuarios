@@ -16,10 +16,10 @@ public record AnotacaoLembreteDTO(
         String descricao,
 
         @Schema(description = "Tipo anotação")
-        TipoAnotacaoDTO tipoAnotacao,
+        TipoAnotacaoLembreteDTO tipoAnotacao,
 
         @Schema(description = "Situação da anotação")
-        SituacaoAnotacaoDTO situacaoTipoAnotacao,
+        SituacaoAnotacaoLembreteDTO situacaoTipoAnotacao,
 
         @Schema(description = "Data lembrete da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
         ZonedDateTime dataLembrete,

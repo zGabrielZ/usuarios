@@ -16,10 +16,10 @@ public record AnotacaoRascunhoDTO(
         String descricao,
 
         @Schema(description = "Tipo anotação")
-        TipoAnotacaoDTO tipoAnotacao,
+        TipoAnotacaoRascunhoDTO tipoAnotacao,
 
         @Schema(description = "Situação da anotação")
-        SituacaoAnotacaoDTO situacaoTipoAnotacao,
+        SituacaoAnotacaoRascunhoDTO situacaoTipoAnotacao,
 
         @Schema(description = "Criação da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
         ZonedDateTime createdAt,

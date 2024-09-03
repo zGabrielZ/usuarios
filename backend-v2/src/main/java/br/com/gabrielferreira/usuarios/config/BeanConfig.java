@@ -85,23 +85,23 @@ public class BeanConfig {
     }
 
     @Bean
-    public CreateAnotacaoRascunhoUseCase createAnotacaoRascunhoUseCase(CreateAnotacaoRascunhoAdapter createAnotacaoRascunhoAdapter,
-                                                                       FindDominioAdapter findTipoAnotacao,
-                                                                       FindUsuarioAdapter findUsuarioAdapter,
-                                                                       FindDominioAdapter findSituacaoAnotacao){
-        return new CreateAnotacaoRascunhoUseCase(createAnotacaoRascunhoAdapter, findTipoAnotacaoUseCase(findTipoAnotacao), findUsuarioUseCase(findUsuarioAdapter),
-                findSituacaoAnotacaoUseCase(findSituacaoAnotacao), validCreateAnotacaoUseCase());
+    public CreateAnotacaoUseCase createAnotacaoUseCase(CreateAnotacaoAdapter createAnotacaoAdapter,
+                                                       FindDominioAdapter findTipoAnotacao,
+                                                       FindUsuarioAdapter findUsuarioAdapter,
+                                                       FindDominioAdapter findSituacaoAnotacao){
+        return new CreateAnotacaoUseCase(createAnotacaoAdapter, validCreateAnotacaoUseCase(), findTipoAnotacaoUseCase(findTipoAnotacao),
+                findSituacaoAnotacaoUseCase(findSituacaoAnotacao), findUsuarioUseCase(findUsuarioAdapter));
     }
 
     @Bean
-    public FindAnotacaoRascunhoUseCase findAnotacaoUseCase(FindAnotacaoRascunhoAdapter findAnotacaoRascunhoAdapter){
-        return new FindAnotacaoRascunhoUseCase(findAnotacaoRascunhoAdapter);
+    public FindAnotacaoUseCase findAnotacaoUseCase(FindAnotacaoAdapter findAnotacaoAdapter){
+        return new FindAnotacaoUseCase(findAnotacaoAdapter);
     }
 
     @Bean
-    public UpdateAnotacaoRascunhoUseCase updateAnotacaoRascunhoUseCase(UpdateAnotacaoRascunhoAdapter updateAnotacaoRascunhoAdapter,
-                                                                       FindAnotacaoRascunhoAdapter findAnotacaoRascunhoAdapter,
-                                                                       FindDominioAdapter findDominioAdapter){
-        return new UpdateAnotacaoRascunhoUseCase(updateAnotacaoRascunhoAdapter, findAnotacaoUseCase(findAnotacaoRascunhoAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter));
+    public UpdateAnotacaoUseCase updateAnotacaoUseCase(UpdateAnotacaoAdapter updateAnotacaoAdapter,
+                                                       FindAnotacaoAdapter findAnotacaoAdapter,
+                                                       FindDominioAdapter findDominioAdapter){
+        return new UpdateAnotacaoUseCase(updateAnotacaoAdapter, findAnotacaoUseCase(findAnotacaoAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter));
     }
 }

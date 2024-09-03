@@ -1,8 +1,8 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
 import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.AnotacaoMapper;
-import br.com.gabrielferreira.usuarios.adapters.in.controller.request.AnotacaoRascunhoCreateDTO;
-import br.com.gabrielferreira.usuarios.adapters.in.controller.response.AnotacaoRascunhoDTO;
+import br.com.gabrielferreira.usuarios.adapters.in.controller.request.AnotacaoLembreteCreateDTO;
+import br.com.gabrielferreira.usuarios.adapters.in.controller.response.AnotacaoLembreteDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.CreateAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoInput;
@@ -21,11 +21,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-@Tag(name = "Anotação Rascunho Controller", description = "Endpoints para realizar requisições de anotações do tipo rascunho")
+@Tag(name = "Anotação Lembrete Controller", description = "Endpoints para realizar requisições de anotações do tipo lembrete")
 @RestController
-@RequestMapping("/v1/usuarios/{idUsuario}/anotacoes/rascunhos")
+@RequestMapping("/v1/usuarios/{idUsuario}/anotacoes/lembretes")
 @RequiredArgsConstructor
-public class AnotacaoRascunhoController {
+public class AnotacaoLembreteController {
 
     private final CreateAnotacaoInput createAnotacaoInput;
 
@@ -35,36 +35,36 @@ public class AnotacaoRascunhoController {
 
     private final AnotacaoMapper anotacaoMapper;
 
-    @Operation(summary = "Cadastrar anotação rascunho")
+    @Operation(summary = "Cadastrar anotação lembrete")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Anotação cadastrada",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class)) })
+                            schema = @Schema(implementation = AnotacaoLembreteDTO.class)) })
     })
     @PostMapping
-    public ResponseEntity<AnotacaoRascunhoDTO> createRascunho(@PathVariable Long idUsuario, @Valid @RequestBody AnotacaoRascunhoCreateDTO anotacaoRascunhoCreateDTO){
-        AnotacaoDomain anotacaoDomain = anotacaoMapper.createAnotacaoDomain(anotacaoRascunhoCreateDTO);
-        anotacaoDomain = createAnotacaoInput.createRascunho(anotacaoDomain, idUsuario);
+    public ResponseEntity<AnotacaoLembreteDTO> createLembrete(@PathVariable Long idUsuario, @Valid @RequestBody AnotacaoLembreteCreateDTO anotacaoLembreteCreateDTO){
+        AnotacaoDomain anotacaoDomain = anotacaoMapper.createAnotacaoDomain(anotacaoLembreteCreateDTO);
+        anotacaoDomain = createAnotacaoInput.createLembrete(anotacaoDomain, idUsuario);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
                 .buildAndExpand(anotacaoDomain.getId()).toUri();
-        return ResponseEntity.created(uri).body(anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain));
+        return ResponseEntity.created(uri).body(anotacaoMapper.toAnotacaoLembreteDto(anotacaoDomain));
     }
 
-    @Operation(summary = "Buscar anotação por rascunho por id")
+    @Operation(summary = "Buscar anotação por lembrete por id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Anotação encontrado",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class)) }),
+                            schema = @Schema(implementation = AnotacaoLembreteDTO.class)) }),
             @ApiResponse(responseCode = "404", description = "Anotação não encontrado",
                     content = @Content)
     })
     @GetMapping("/{id}")
-    public ResponseEntity<AnotacaoRascunhoDTO> findRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id){
-        AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoRascunho(id, idUsuario);
-        return ResponseEntity.ok(anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain));
+    public ResponseEntity<AnotacaoLembreteDTO> findLembreteById(@PathVariable Long idUsuario, @PathVariable Long id){
+        AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoLembrete(id, idUsuario);
+        return ResponseEntity.ok(anotacaoMapper.toAnotacaoLembreteDto(anotacaoDomain));
     }
 
-    @Operation(summary = "Finalizar anotação rascunho por id")
+    @Operation(summary = "Finalizar anotação lembrete por id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Anotação atualizado",
                     content = { @Content(mediaType = "application/json",
@@ -75,12 +75,12 @@ public class AnotacaoRascunhoController {
                     content = @Content)
     })
     @PutMapping("/{id}/finalizar")
-    public ResponseEntity<Void> finalizarAnotacaoRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id){
-        updateAnotacaoInput.finalizarAnotacaoRascunho(id, idUsuario);
+    public ResponseEntity<Void> finalizarAnotacaoLembreteById(@PathVariable Long idUsuario, @PathVariable Long id){
+        updateAnotacaoInput.finalizarAnotacaoLembrete(id, idUsuario);
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Reabrir anotação rascunho por id")
+    @Operation(summary = "Reabrir anotação lembrete por id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Anotação atualizado",
                     content = { @Content(mediaType = "application/json",
@@ -91,25 +91,25 @@ public class AnotacaoRascunhoController {
                     content = @Content)
     })
     @PutMapping("/{id}/reabrir")
-    public ResponseEntity<Void> reabrirAnotacaoRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id){
-        updateAnotacaoInput.reabrirAnotacaoRascunho(id, idUsuario);
+    public ResponseEntity<Void> reabrirAnotacaoLembreteById(@PathVariable Long idUsuario, @PathVariable Long id){
+        updateAnotacaoInput.reabrirAnotacaoLembrete(id, idUsuario);
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Editar anotação rascunho por id")
+    @Operation(summary = "Editar anotação lembrete por id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Anotação atualizado",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class)) }),
+                            schema = @Schema(implementation = AnotacaoLembreteDTO.class)) }),
             @ApiResponse(responseCode = "404", description = "Anotação não encontrado",
                     content = @Content),
             @ApiResponse(responseCode = "400", description = "Regra de negócio",
                     content = @Content)
     })
     @PutMapping("/{id}")
-    public ResponseEntity<AnotacaoRascunhoDTO> editarAnotacaoRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id, @Valid @RequestBody AnotacaoRascunhoCreateDTO anotacaoRascunhoCreateDTO){
-        AnotacaoDomain anotacaoDomain = anotacaoMapper.createAnotacaoDomain(anotacaoRascunhoCreateDTO);
-        anotacaoDomain = updateAnotacaoInput.updateAnotacaoRascunho(id, idUsuario, anotacaoDomain);
-        return ResponseEntity.ok().body(anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain));
+    public ResponseEntity<AnotacaoLembreteDTO> editarAnotacaoLembreteById(@PathVariable Long idUsuario, @PathVariable Long id, @Valid @RequestBody AnotacaoLembreteCreateDTO anotacaoLembreteCreateDTO){
+        AnotacaoDomain anotacaoDomain = anotacaoMapper.createAnotacaoDomain(anotacaoLembreteCreateDTO);
+        anotacaoDomain = updateAnotacaoInput.updateAnotacaoLembrete(id, idUsuario, anotacaoDomain);
+        return ResponseEntity.ok().body(anotacaoMapper.toAnotacaoLembreteDto(anotacaoDomain));
     }
 }

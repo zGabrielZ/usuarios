@@ -4,7 +4,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 
 import java.util.Optional;
 
-public interface FindAnotacaoRascunhoOutput {
+public interface FindAnotacaoOutput {
 
-    Optional<AnotacaoDomain> findByIdAndTipoAnotacaoAndIdUsuario(Long id, String tipoAnotacao, Long idUsuario);
+    Optional<AnotacaoDomain> findByIdAndTipoAnotacaoAndIdUsuario(Long id, String codigoTipoAnotacao, Long idUsuario);
 }
