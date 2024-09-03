@@ -10,6 +10,10 @@ import br.com.gabrielferreira.usuarios.application.ports.out.UpdateAnotacaoOutpu
 
 public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
+    private static final String RASCUNHO_FINALIZADO = "RASCUNHO_FINALIZADO";
+
+    private static final String LEMBRETE_FINALIZADO = "LEMBRETE_FINALIZADO";
+
     private final UpdateAnotacaoOutput updateAnotacaoOutput;
 
     private final FindAnotacaoInput findAnotacaoInput;
@@ -28,11 +32,11 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
     public void finalizarAnotacaoRascunho(Long id, Long idUsuario) {
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoRascunho(id, idUsuario);
 
-        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals("RASCUNHO_FINALIZADO")){
+        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals(RASCUNHO_FINALIZADO)){
             throw new RegraDeNegocioException("Não é possível finalizar a anotação pois já está finalizado");
         }
 
-        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo("RASCUNHO_FINALIZADO");
+        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(RASCUNHO_FINALIZADO);
         anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
         updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
     }
@@ -54,7 +58,7 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
     public AnotacaoDomain updateAnotacaoRascunho(Long id, Long idUsuario, AnotacaoDomain anotacaoDomainUpdate) {
         AnotacaoDomain anotacaoDomainEncontrado = findAnotacaoInput.findByIdTipoAnotacaoRascunho(id, idUsuario);
 
-        if(anotacaoDomainEncontrado.getSituacaoTipoAnotacao().getCodigo().equals("RASCUNHO_FINALIZADO")){
+        if(anotacaoDomainEncontrado.getSituacaoTipoAnotacao().getCodigo().equals(RASCUNHO_FINALIZADO)){
             throw new RegraDeNegocioException("Não é possível editar a anotação pois já está finalizado");
         }
 
@@ -82,11 +86,11 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
     public void finalizarAnotacaoLembrete(Long id, Long idUsuario) {
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoLembrete(id, idUsuario);
 
-        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals("LEMBRETE_FINALIZADO")){
+        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals(LEMBRETE_FINALIZADO)){
             throw new RegraDeNegocioException("Não é possível finalizar a anotação pois já está finalizado");
         }
 
-        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo("LEMBRETE_FINALIZADO");
+        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(LEMBRETE_FINALIZADO);
         anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
         updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
     }
@@ -108,7 +112,7 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
     public AnotacaoDomain updateAnotacaoLembrete(Long id, Long idUsuario, AnotacaoDomain anotacaoDomainUpdate) {
         AnotacaoDomain anotacaoDomainEncontrado = findAnotacaoInput.findByIdTipoAnotacaoLembrete(id, idUsuario);
 
-        if(anotacaoDomainEncontrado.getSituacaoTipoAnotacao().getCodigo().equals("LEMBRETE_FINALIZADO")){
+        if(anotacaoDomainEncontrado.getSituacaoTipoAnotacao().getCodigo().equals(LEMBRETE_FINALIZADO)){
             throw new RegraDeNegocioException("Não é possível editar a anotação pois já está finalizado");
         }
 
