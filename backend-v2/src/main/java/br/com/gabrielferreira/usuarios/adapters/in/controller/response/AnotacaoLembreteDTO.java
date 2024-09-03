@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-public record AnotacaoRascunhoDTO(
+public record AnotacaoLembreteDTO(
         @Schema(description = "ID da anotação", example = "1")
         Long id,
 
@@ -20,6 +20,9 @@ public record AnotacaoRascunhoDTO(
 
         @Schema(description = "Situação da anotação")
         SituacaoAnotacaoDTO situacaoTipoAnotacao,
+
+        @Schema(description = "Data lembrete da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
+        ZonedDateTime dataLembrete,
 
         @Schema(description = "Criação da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
         ZonedDateTime createdAt,

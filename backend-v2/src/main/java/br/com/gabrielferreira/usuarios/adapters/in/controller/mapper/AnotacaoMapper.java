@@ -1,6 +1,8 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller.mapper;
 
+import br.com.gabrielferreira.usuarios.adapters.in.controller.request.AnotacaoLembreteCreateDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.AnotacaoRascunhoCreateDTO;
+import br.com.gabrielferreira.usuarios.adapters.in.controller.response.AnotacaoLembreteDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.AnotacaoRascunhoDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import org.mapstruct.Mapper;
@@ -14,4 +16,10 @@ public interface AnotacaoMapper {
     @Mapping(target = "createdAt", qualifiedByName = "formatData")
     @Mapping(target = "updatedAt", qualifiedByName = "formatData")
     AnotacaoRascunhoDTO toAnotacaoRascunhoDto(AnotacaoDomain anotacaoDomain);
+
+    AnotacaoDomain createAnotacaoDomain(AnotacaoLembreteCreateDTO anotacaoLembreteCreateDTO);
+
+    @Mapping(target = "createdAt", qualifiedByName = "formatData")
+    @Mapping(target = "updatedAt", qualifiedByName = "formatData")
+    AnotacaoLembreteDTO toAnotacaoLembreteDto(AnotacaoDomain anotacaoDomain);
 }
