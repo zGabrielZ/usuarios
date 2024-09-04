@@ -49,7 +49,20 @@ public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
 
     @Override
     public AnotacaoDomain createEstudo(AnotacaoDomain anotacaoDomain, Long idUsuario) {
-        return null;
+        validCreateAnotacaoInput.validarCampos(anotacaoDomain);
+        validCreateAnotacaoInput.validarDataInicioDataFimEstudo(anotacaoDomain);
+
+        DominioDomain tipoAnotacaoDomain = findTipoAnotacaoInput.findByCodigo("ESTUDO");
+        DominioDomain situacaoAnotacaoDomain = findSituacaoAnotacaoInput.findByCodigo("ESTUDO_ANDAMENTO");
+        UsuarioDomain usuarioDomain = findUsuarioInput.findById(idUsuario);
+
+        anotacaoDomain.setTipoAnotacao(tipoAnotacaoDomain);
+        anotacaoDomain.setUsuario(usuarioDomain);
+        anotacaoDomain.setSituacaoTipoAnotacao(situacaoAnotacaoDomain);
+        anotacaoDomain.setDataEstudoInicio(toUtc(anotacaoDomain.getDataEstudoInicio()));
+        anotacaoDomain.setDataEstudoFim(toUtc(anotacaoDomain.getDataEstudoFim()));
+
+        return createAnotacaoOutput.create(anotacaoDomain);
     }
 
     @Override

@@ -7,6 +7,8 @@ import br.com.gabrielferreira.usuarios.application.ports.out.FindAnotacaoOutput;
 
 public class FindAnotacaoUseCase implements FindAnotacaoInput {
 
+    private static final String ANOTACAO_NAO_ENCONTRADA = "Anotação informado não encontrado";
+
     private final FindAnotacaoOutput findAnotacaoOutput;
 
     public FindAnotacaoUseCase(FindAnotacaoOutput findAnotacaoOutput) {
@@ -16,17 +18,18 @@ public class FindAnotacaoUseCase implements FindAnotacaoInput {
     @Override
     public AnotacaoDomain findByIdTipoAnotacaoRascunho(Long id, Long idUsuario) {
         return findAnotacaoOutput.findByIdAndTipoAnotacaoAndIdUsuario(id, "RASCUNHO", idUsuario)
-                .orElseThrow(() -> new NaoEncontradoException("Anotação informado não encontrado"));
+                .orElseThrow(() -> new NaoEncontradoException(ANOTACAO_NAO_ENCONTRADA));
     }
 
     @Override
     public AnotacaoDomain findByIdTipoAnotacaoEstudo(Long id, Long idUsuario) {
-        return null;
+        return findAnotacaoOutput.findByIdAndTipoAnotacaoAndIdUsuario(id, "ESTUDO", idUsuario)
+                .orElseThrow(() -> new NaoEncontradoException(ANOTACAO_NAO_ENCONTRADA));
     }
 
     @Override
     public AnotacaoDomain findByIdTipoAnotacaoLembrete(Long id, Long idUsuario) {
         return findAnotacaoOutput.findByIdAndTipoAnotacaoAndIdUsuario(id, "LEMBRETE", idUsuario)
-                .orElseThrow(() -> new NaoEncontradoException("Anotação informado não encontrado"));
+                .orElseThrow(() -> new NaoEncontradoException(ANOTACAO_NAO_ENCONTRADA));
     }
 }

@@ -5,4 +5,6 @@ import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 public interface ValidCreateAnotacaoInput {
 
     void validarCampos(AnotacaoDomain anotacaoDomain);
+
+    void validarDataInicioDataFimEstudo(AnotacaoDomain anotacaoDomain);
 }

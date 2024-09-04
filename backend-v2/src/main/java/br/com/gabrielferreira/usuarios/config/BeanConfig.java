@@ -102,6 +102,6 @@ public class BeanConfig {
     public UpdateAnotacaoUseCase updateAnotacaoUseCase(UpdateAnotacaoAdapter updateAnotacaoAdapter,
                                                        FindAnotacaoAdapter findAnotacaoAdapter,
                                                        FindDominioAdapter findDominioAdapter){
-        return new UpdateAnotacaoUseCase(updateAnotacaoAdapter, findAnotacaoUseCase(findAnotacaoAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter));
+        return new UpdateAnotacaoUseCase(updateAnotacaoAdapter, findAnotacaoUseCase(findAnotacaoAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter), validCreateAnotacaoUseCase());
     }
 }
