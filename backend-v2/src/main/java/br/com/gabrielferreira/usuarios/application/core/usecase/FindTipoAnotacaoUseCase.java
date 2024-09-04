@@ -1,6 +1,7 @@
 package br.com.gabrielferreira.usuarios.application.core.usecase;
 
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
+import br.com.gabrielferreira.usuarios.application.core.domain.enums.SituacaoAnotacaoEnum;
 import br.com.gabrielferreira.usuarios.application.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindTipoAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.out.FindDominioOutput;
@@ -15,7 +16,7 @@ public class FindTipoAnotacaoUseCase implements FindTipoAnotacaoInput {
 
     @Override
     public DominioDomain findByCodigo(String codigo) {
-        return findDominioOutput.findByCodigoAndTipoCodigo(codigo, "TIPO_ANOTACAO")
+        return findDominioOutput.findByCodigoAndTipoCodigo(codigo, SituacaoAnotacaoEnum.TIPO_ANOTACAO.name())
                 .orElseThrow(() -> new NaoEncontradoException("Tipo de anotação informado não encontrado"));
     }
 }

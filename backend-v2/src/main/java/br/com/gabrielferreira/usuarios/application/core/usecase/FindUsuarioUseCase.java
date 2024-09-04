@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FindUsuarioUseCase implements FindUsuarioInput {
 
-    private static final String MSG_LOG = "Usuário informado não encontrado";
+    private static final String MSG_USUARIO = "Usuário informado não encontrado";
 
     private final FindUsuarioOutput findUsuarioOutput;
 
@@ -23,19 +23,19 @@ public class FindUsuarioUseCase implements FindUsuarioInput {
     public UsuarioDomain findByCpf(String cpf) {
         cpf = cpf.replaceAll("[.\\-]", "");
         return findUsuarioOutput.findByCpf(cpf).
-                orElseThrow(() -> new NaoEncontradoException(MSG_LOG));
+                orElseThrow(() -> new NaoEncontradoException(MSG_USUARIO));
     }
 
     @Override
     public UsuarioDomain findByEmail(String email) {
         return findUsuarioOutput.findByEmail(email).
-                orElseThrow(() -> new NaoEncontradoException(MSG_LOG));
+                orElseThrow(() -> new NaoEncontradoException(MSG_USUARIO));
     }
 
     @Override
     public UsuarioDomain findById(Long id) {
         return findUsuarioOutput.findById(id).
-                orElseThrow(() -> new NaoEncontradoException(MSG_LOG));
+                orElseThrow(() -> new NaoEncontradoException(MSG_USUARIO));
     }
 
     @Override

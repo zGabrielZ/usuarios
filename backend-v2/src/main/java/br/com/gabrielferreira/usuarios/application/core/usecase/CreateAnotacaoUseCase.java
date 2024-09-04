@@ -3,10 +3,11 @@ package br.com.gabrielferreira.usuarios.application.core.usecase;
 import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
+import br.com.gabrielferreira.usuarios.application.core.domain.enums.TipoAnotacaoEnum;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
 import br.com.gabrielferreira.usuarios.application.ports.out.CreateAnotacaoOutput;
 
-import static br.com.gabrielferreira.usuarios.utils.DataUtils.*;
+import static br.com.gabrielferreira.usuarios.utils.DataUtils.toUtc;
 
 public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
 
@@ -36,8 +37,8 @@ public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
     public AnotacaoDomain createRascunho(AnotacaoDomain anotacaoDomain, Long idUsuario) {
         validCreateAnotacaoInput.validarCampos(anotacaoDomain);
 
-        DominioDomain tipoAnotacaoDomain = findTipoAnotacaoInput.findByCodigo("RASCUNHO");
-        DominioDomain situacaoAnotacaoDomain = findSituacaoAnotacaoInput.findByCodigo("RASCUNHO_ABERTO");
+        DominioDomain tipoAnotacaoDomain = findTipoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.RASCUNHO.name());
+        DominioDomain situacaoAnotacaoDomain = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.RASCUNHO_ABERTO.name());
         UsuarioDomain usuarioDomain = findUsuarioInput.findById(idUsuario);
 
         anotacaoDomain.setTipoAnotacao(tipoAnotacaoDomain);
@@ -52,8 +53,8 @@ public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
         validCreateAnotacaoInput.validarCampos(anotacaoDomain);
         validCreateAnotacaoInput.validarDataInicioDataFimEstudo(anotacaoDomain);
 
-        DominioDomain tipoAnotacaoDomain = findTipoAnotacaoInput.findByCodigo("ESTUDO");
-        DominioDomain situacaoAnotacaoDomain = findSituacaoAnotacaoInput.findByCodigo("ESTUDO_ANDAMENTO");
+        DominioDomain tipoAnotacaoDomain = findTipoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.ESTUDO.name());
+        DominioDomain situacaoAnotacaoDomain = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.ESTUDO_ANDAMENTO.name());
         UsuarioDomain usuarioDomain = findUsuarioInput.findById(idUsuario);
 
         anotacaoDomain.setTipoAnotacao(tipoAnotacaoDomain);
@@ -69,8 +70,8 @@ public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
     public AnotacaoDomain createLembrete(AnotacaoDomain anotacaoDomain, Long idUsuario) {
         validCreateAnotacaoInput.validarCampos(anotacaoDomain);
 
-        DominioDomain tipoAnotacaoDomain = findTipoAnotacaoInput.findByCodigo("LEMBRETE");
-        DominioDomain situacaoAnotacaoDomain = findSituacaoAnotacaoInput.findByCodigo("RASCUNHO_ABERTO");
+        DominioDomain tipoAnotacaoDomain = findTipoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.LEMBRETE.name());
+        DominioDomain situacaoAnotacaoDomain = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.LEMBRETE_ABERTO.name());
         UsuarioDomain usuarioDomain = findUsuarioInput.findById(idUsuario);
 
         anotacaoDomain.setTipoAnotacao(tipoAnotacaoDomain);

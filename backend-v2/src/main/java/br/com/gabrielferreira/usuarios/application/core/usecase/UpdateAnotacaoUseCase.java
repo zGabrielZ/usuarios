@@ -2,6 +2,7 @@ package br.com.gabrielferreira.usuarios.application.core.usecase;
 
 import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
+import br.com.gabrielferreira.usuarios.application.core.domain.enums.TipoAnotacaoEnum;
 import br.com.gabrielferreira.usuarios.application.exception.RegraDeNegocioException;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindSituacaoAnotacaoInput;
@@ -12,14 +13,6 @@ import br.com.gabrielferreira.usuarios.application.ports.out.UpdateAnotacaoOutpu
 import static br.com.gabrielferreira.usuarios.utils.DataUtils.*;
 
 public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
-
-    private static final String RASCUNHO_FINALIZADO = "RASCUNHO_FINALIZADO";
-
-    private static final String LEMBRETE_FINALIZADO = "LEMBRETE_FINALIZADO";
-
-    private static final String ESTUDO_FINALIZADO = "ESTUDO_FINALIZADO";
-
-    private static final String ESTUDO_ANDAMENTO = "ESTUDO_ANDAMENTO";
 
     private static final String MSG_FINALIZAR = "Não é possível finalizar a anotação pois já está finalizado";
 
@@ -49,11 +42,11 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
     public void finalizarAnotacaoRascunho(Long id, Long idUsuario) {
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoRascunho(id, idUsuario);
 
-        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals(RASCUNHO_FINALIZADO)){
+        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals(TipoAnotacaoEnum.RASCUNHO_FINALIZADO.name())){
             throw new RegraDeNegocioException(MSG_FINALIZAR);
         }
 
-        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(RASCUNHO_FINALIZADO);
+        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.RASCUNHO_FINALIZADO.name());
         anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
         updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
     }
@@ -62,11 +55,11 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
     public void reabrirAnotacaoRascunho(Long id, Long idUsuario) {
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoRascunho(id, idUsuario);
 
-        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals("RASCUNHO_ABERTO")){
+        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals(TipoAnotacaoEnum.RASCUNHO_ABERTO.name())){
             throw new RegraDeNegocioException(MSG_REABRIR);
         }
 
-        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo("RASCUNHO_ABERTO");
+        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.RASCUNHO_ABERTO.name());
         anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
         updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
     }
@@ -77,7 +70,7 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
         validCreateAnotacaoInput.validarCampos(anotacaoDomainUpdate);
 
-        if(anotacaoDomainEncontrado.getSituacaoTipoAnotacao().getCodigo().equals(RASCUNHO_FINALIZADO)){
+        if(anotacaoDomainEncontrado.getSituacaoTipoAnotacao().getCodigo().equals(TipoAnotacaoEnum.RASCUNHO_FINALIZADO.name())){
             throw new RegraDeNegocioException(MSG_EDITAR);
         }
 
@@ -90,11 +83,11 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
     public void finalizarAnotacaoEstudo(Long id, Long idUsuario) {
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoEstudo(id, idUsuario);
 
-        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals(ESTUDO_FINALIZADO)){
+        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals(TipoAnotacaoEnum.ESTUDO_FINALIZADO.name())){
             throw new RegraDeNegocioException(MSG_FINALIZAR);
         }
 
-        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(ESTUDO_FINALIZADO);
+        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.ESTUDO_FINALIZADO.name());
         anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
         updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
     }
@@ -103,11 +96,11 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
     public void reabrirAnotacaoEstudo(Long id, Long idUsuario) {
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoEstudo(id, idUsuario);
 
-        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals(ESTUDO_ANDAMENTO)){
+        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals(TipoAnotacaoEnum.ESTUDO_ANDAMENTO.name())){
             throw new RegraDeNegocioException(MSG_REABRIR);
         }
 
-        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(ESTUDO_ANDAMENTO);
+        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.ESTUDO_ANDAMENTO.name());
         anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
         updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
     }
@@ -119,7 +112,7 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
         validCreateAnotacaoInput.validarCampos(anotacaoDomainUpdate);
         validCreateAnotacaoInput.validarDataInicioDataFimEstudo(anotacaoDomainUpdate);
 
-        if(anotacaoDomainEncontrado.getSituacaoTipoAnotacao().getCodigo().equals(ESTUDO_FINALIZADO)){
+        if(anotacaoDomainEncontrado.getSituacaoTipoAnotacao().getCodigo().equals(TipoAnotacaoEnum.ESTUDO_FINALIZADO.name())){
             throw new RegraDeNegocioException(MSG_EDITAR);
         }
 
@@ -134,11 +127,11 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
     public void finalizarAnotacaoLembrete(Long id, Long idUsuario) {
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoLembrete(id, idUsuario);
 
-        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals(LEMBRETE_FINALIZADO)){
+        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals(TipoAnotacaoEnum.LEMBRETE_FINALIZADO.name())){
             throw new RegraDeNegocioException(MSG_FINALIZAR);
         }
 
-        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(LEMBRETE_FINALIZADO);
+        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.LEMBRETE_FINALIZADO.name());
         anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
         updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
     }
@@ -147,11 +140,11 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
     public void reabrirAnotacaoLembrete(Long id, Long idUsuario) {
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoLembrete(id, idUsuario);
 
-        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals("LEMBRETE_ABERTO")){
+        if(anotacaoDomain.getSituacaoTipoAnotacao().getCodigo().equals(TipoAnotacaoEnum.LEMBRETE_ABERTO.name())){
             throw new RegraDeNegocioException(MSG_REABRIR);
         }
 
-        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo("LEMBRETE_ABERTO");
+        DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.LEMBRETE_ABERTO.name());
         anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
         updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
     }
@@ -162,7 +155,7 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
         validCreateAnotacaoInput.validarCampos(anotacaoDomainUpdate);
 
-        if(anotacaoDomainEncontrado.getSituacaoTipoAnotacao().getCodigo().equals(LEMBRETE_FINALIZADO)){
+        if(anotacaoDomainEncontrado.getSituacaoTipoAnotacao().getCodigo().equals(TipoAnotacaoEnum.LEMBRETE_FINALIZADO.name())){
             throw new RegraDeNegocioException(MSG_EDITAR);
         }
 
