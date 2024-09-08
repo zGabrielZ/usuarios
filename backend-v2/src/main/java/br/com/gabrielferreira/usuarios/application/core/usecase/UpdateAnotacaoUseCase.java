@@ -8,9 +8,8 @@ import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindSituacaoAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.UpdateAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.ValidCreateAnotacaoInput;
+import br.com.gabrielferreira.usuarios.application.ports.out.AnotacaoMapperOutput;
 import br.com.gabrielferreira.usuarios.application.ports.out.UpdateAnotacaoOutput;
-
-import static br.com.gabrielferreira.usuarios.utils.DataUtils.*;
 
 public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
@@ -28,14 +27,18 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
     private final ValidCreateAnotacaoInput validCreateAnotacaoInput;
 
+    private final AnotacaoMapperOutput anotacaoMapperOutput;
+
     public UpdateAnotacaoUseCase(UpdateAnotacaoOutput updateAnotacaoOutput,
                                  FindAnotacaoInput findAnotacaoInput,
                                  FindSituacaoAnotacaoInput findSituacaoAnotacaoInput,
-                                 ValidCreateAnotacaoInput validCreateAnotacaoInput) {
+                                 ValidCreateAnotacaoInput validCreateAnotacaoInput,
+                                 AnotacaoMapperOutput anotacaoMapperOutput) {
         this.updateAnotacaoOutput = updateAnotacaoOutput;
         this.findAnotacaoInput = findAnotacaoInput;
         this.findSituacaoAnotacaoInput = findSituacaoAnotacaoInput;
         this.validCreateAnotacaoInput = validCreateAnotacaoInput;
+        this.anotacaoMapperOutput = anotacaoMapperOutput;
     }
 
     @Override
@@ -47,8 +50,8 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
         }
 
         DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.RASCUNHO_FINALIZADO.name());
-        anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
-        updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
+        AnotacaoDomain anotacaoDomainUpdate = anotacaoMapperOutput.updateFinalizarReabrir(anotacaoDomain, situacaoTipoAnotacao);
+        updateAnotacaoOutput.updateAnotacao(anotacaoDomainUpdate);
     }
 
     @Override
@@ -60,8 +63,8 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
         }
 
         DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.RASCUNHO_ABERTO.name());
-        anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
-        updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
+        AnotacaoDomain anotacaoDomainUpdate = anotacaoMapperOutput.updateFinalizarReabrir(anotacaoDomain, situacaoTipoAnotacao);
+        updateAnotacaoOutput.updateAnotacao(anotacaoDomainUpdate);
     }
 
     @Override
@@ -74,9 +77,8 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
             throw new RegraDeNegocioException(MSG_EDITAR);
         }
 
-        anotacaoDomainEncontrado.setTitulo(anotacaoDomainUpdate.getTitulo());
-        anotacaoDomainEncontrado.setDescricao(anotacaoDomainUpdate.getDescricao());
-        return updateAnotacaoOutput.updateAnotacao(anotacaoDomainEncontrado);
+        AnotacaoDomain anotacaoDomain = anotacaoMapperOutput.updateAnotacao(anotacaoDomainEncontrado, anotacaoDomainUpdate);
+        return updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
     }
 
     @Override
@@ -88,8 +90,8 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
         }
 
         DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.ESTUDO_FINALIZADO.name());
-        anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
-        updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
+        AnotacaoDomain anotacaoDomainUpdate = anotacaoMapperOutput.updateFinalizarReabrir(anotacaoDomain, situacaoTipoAnotacao);
+        updateAnotacaoOutput.updateAnotacao(anotacaoDomainUpdate);
     }
 
     @Override
@@ -101,8 +103,8 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
         }
 
         DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.ESTUDO_ANDAMENTO.name());
-        anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
-        updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
+        AnotacaoDomain anotacaoDomainUpdate = anotacaoMapperOutput.updateFinalizarReabrir(anotacaoDomain, situacaoTipoAnotacao);
+        updateAnotacaoOutput.updateAnotacao(anotacaoDomainUpdate);
     }
 
     @Override
@@ -116,11 +118,8 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
             throw new RegraDeNegocioException(MSG_EDITAR);
         }
 
-        anotacaoDomainEncontrado.setTitulo(anotacaoDomainUpdate.getTitulo());
-        anotacaoDomainEncontrado.setDescricao(anotacaoDomainUpdate.getDescricao());
-        anotacaoDomainEncontrado.setDataEstudoInicio(toUtc(anotacaoDomainUpdate.getDataEstudoInicio()));
-        anotacaoDomainEncontrado.setDataEstudoFim(toUtc(anotacaoDomainUpdate.getDataEstudoFim()));
-        return updateAnotacaoOutput.updateAnotacao(anotacaoDomainEncontrado);
+        AnotacaoDomain anotacaoDomain = anotacaoMapperOutput.updateAnotacao(anotacaoDomainEncontrado, anotacaoDomainUpdate);
+        return updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
     }
 
     @Override
@@ -132,8 +131,8 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
         }
 
         DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.LEMBRETE_FINALIZADO.name());
-        anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
-        updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
+        AnotacaoDomain anotacaoDomainUpdate = anotacaoMapperOutput.updateFinalizarReabrir(anotacaoDomain, situacaoTipoAnotacao);
+        updateAnotacaoOutput.updateAnotacao(anotacaoDomainUpdate);
     }
 
     @Override
@@ -145,8 +144,8 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
         }
 
         DominioDomain situacaoTipoAnotacao = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.LEMBRETE_ABERTO.name());
-        anotacaoDomain.setSituacaoTipoAnotacao(situacaoTipoAnotacao);
-        updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
+        AnotacaoDomain anotacaoDomainUpdate = anotacaoMapperOutput.updateFinalizarReabrir(anotacaoDomain, situacaoTipoAnotacao);
+        updateAnotacaoOutput.updateAnotacao(anotacaoDomainUpdate);
     }
 
     @Override
@@ -159,9 +158,7 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
             throw new RegraDeNegocioException(MSG_EDITAR);
         }
 
-        anotacaoDomainEncontrado.setTitulo(anotacaoDomainUpdate.getTitulo());
-        anotacaoDomainEncontrado.setDescricao(anotacaoDomainUpdate.getDescricao());
-        anotacaoDomainEncontrado.setDataLembrete(toUtc(anotacaoDomainUpdate.getDataLembrete()));
-        return updateAnotacaoOutput.updateAnotacao(anotacaoDomainEncontrado);
+        AnotacaoDomain anotacaoDomain = anotacaoMapperOutput.updateAnotacao(anotacaoDomainEncontrado, anotacaoDomainUpdate);
+        return updateAnotacaoOutput.updateAnotacao(anotacaoDomain);
     }
 }

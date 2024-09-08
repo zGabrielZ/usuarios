@@ -4,6 +4,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
 import br.com.gabrielferreira.usuarios.application.ports.out.CreateUsuarioOutput;
+import br.com.gabrielferreira.usuarios.application.ports.out.UsuarioMapperOutput;
 
 public class CreateUsuarioUseCase implements CreateUsuarioInput {
 
@@ -17,16 +18,20 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
 
     private final FindTipoTelefoneInput findTipoTelefoneInput;
 
+    private final UsuarioMapperOutput usuarioMapperOutput;
+
     public CreateUsuarioUseCase(CreateUsuarioOutput createUsuarioOutput,
                                 ValidCreateUsuarioInput validCreateUsuarioInput,
                                 ValidCreateTelefoneInput validCreateTelefoneInput,
                                 FindGeneroInput findGeneroInput,
-                                FindTipoTelefoneInput findTipoTelefoneInput){
+                                FindTipoTelefoneInput findTipoTelefoneInput,
+                                UsuarioMapperOutput usuarioMapperOutput){
         this.createUsuarioOutput = createUsuarioOutput;
         this.validCreateUsuarioInput = validCreateUsuarioInput;
         this.validCreateTelefoneInput = validCreateTelefoneInput;
         this.findGeneroInput = findGeneroInput;
         this.findTipoTelefoneInput = findTipoTelefoneInput;
+        this.usuarioMapperOutput = usuarioMapperOutput;
     }
 
     @Override
@@ -41,9 +46,7 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
         validCreateTelefoneInput.validarCampos(usuarioDomain.getTelefone());
         validCreateTelefoneInput.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), tipoTelefone);
 
-        usuarioDomain.setGenero(genero);
-        usuarioDomain.getTelefone().setTipoTelefone(tipoTelefone);
-
-        return createUsuarioOutput.create(usuarioDomain);
+        UsuarioDomain usuarioDomainCreate = usuarioMapperOutput.createUsuarioDomain(usuarioDomain, genero, tipoTelefone);
+        return createUsuarioOutput.create(usuarioDomainCreate);
     }
 }

@@ -26,21 +26,22 @@ public interface UsuarioEntityMapper {
     @Mapping(source = "usuarioDomain.anotacoes", target = "anotacoes", ignore = true)
     UsuarioEntity updateUsuarioEntity(UsuarioDomain usuarioDomain);
 
-    @Mapping(target = "id", source = "usuarioDomainEncontrado.id")
-    @Mapping(target = "nome", source = "usuarioDomain.nome")
-    @Mapping(target = "email", source = "usuarioDomainEncontrado.email")
-    @Mapping(target = "cpf", source = "usuarioDomainEncontrado.cpf")
-    @Mapping(target = "renda", source = "usuarioDomain.renda")
-    @Mapping(target = "dataNascimento", source = "usuarioDomain.dataNascimento")
-    @Mapping(target = "quantidadeFilhos", source = "usuarioDomain.quantidadeFilhos")
-    @Mapping(target = "telefone", source = "usuarioDomainEncontrado.telefone")
-    @Mapping(target = "genero", source = "genero")
-    @Mapping(target = "anotacoes", source = "usuarioDomainEncontrado.anotacoes")
-    @Mapping(target = "createdAt", source = "usuarioDomainEncontrado.createdAt")
-    @Mapping(target = "updatedAt", ignore = true)
-    UsuarioDomain updateUsuario(UsuarioDomain usuarioDomain, UsuarioDomain usuarioDomainEncontrado, DominioDomain genero);
+    default UsuarioDomain updateUsuario(UsuarioDomain usuarioDomain, UsuarioDomain usuarioDomainEncontrado, DominioDomain genero){
+        usuarioDomainEncontrado.setNome(usuarioDomain.getNome());
+        usuarioDomainEncontrado.setRenda(usuarioDomain.getRenda());
+        usuarioDomainEncontrado.setDataNascimento(usuarioDomain.getDataNascimento());
+        usuarioDomainEncontrado.setQuantidadeFilhos(usuarioDomain.getQuantidadeFilhos());
+        usuarioDomainEncontrado.setGenero(genero);
+        return usuarioDomainEncontrado;
+    }
 
     default List<UsuarioDomain> toUsuariosDomains(Page<UsuarioEntity> usuarioEntities){
         return usuarioEntities.stream().map(this::toOnlyUsuarioDomain).toList();
+    }
+
+    default UsuarioDomain createUsuarioDomain(UsuarioDomain usuarioDomain, DominioDomain generoDomain, DominioDomain tipoTelefoneDomain){
+        usuarioDomain.setGenero(generoDomain);
+        usuarioDomain.getTelefone().setTipoTelefone(tipoTelefoneDomain);
+        return usuarioDomain;
     }
 }

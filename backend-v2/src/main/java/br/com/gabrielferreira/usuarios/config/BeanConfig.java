@@ -37,9 +37,10 @@ public class BeanConfig {
     public CreateUsuarioUseCase createUsuarioUseCase(CreateUsuarioAdapter createUsuarioAdapter,
                                                      FindUsuarioAdapter findUsuarioAdapter,
                                                      FindDominioAdapter findGeneroAdapter,
-                                                     FindDominioAdapter findTipoTelefoneAdapter){
+                                                     FindDominioAdapter findTipoTelefoneAdapter,
+                                                     UsuarioMapperAdapter usuarioMapperAdapter){
         return new CreateUsuarioUseCase(createUsuarioAdapter, validCreateUsuarioUseCase(findUsuarioAdapter), validCreateTelefoneUseCase(),
-                findGeneroUseCase(findGeneroAdapter), findTipoTelefoneUseCase(findTipoTelefoneAdapter));
+                findGeneroUseCase(findGeneroAdapter), findTipoTelefoneUseCase(findTipoTelefoneAdapter), usuarioMapperAdapter);
     }
 
     @Bean
@@ -88,9 +89,10 @@ public class BeanConfig {
     public CreateAnotacaoUseCase createAnotacaoUseCase(CreateAnotacaoAdapter createAnotacaoAdapter,
                                                        FindDominioAdapter findTipoAnotacao,
                                                        FindUsuarioAdapter findUsuarioAdapter,
-                                                       FindDominioAdapter findSituacaoAnotacao){
+                                                       FindDominioAdapter findSituacaoAnotacao,
+                                                       AnotacaoMapperAdapter anotacaoMapperAdapter){
         return new CreateAnotacaoUseCase(createAnotacaoAdapter, validCreateAnotacaoUseCase(), findTipoAnotacaoUseCase(findTipoAnotacao),
-                findSituacaoAnotacaoUseCase(findSituacaoAnotacao), findUsuarioUseCase(findUsuarioAdapter));
+                findSituacaoAnotacaoUseCase(findSituacaoAnotacao), findUsuarioUseCase(findUsuarioAdapter), anotacaoMapperAdapter);
     }
 
     @Bean
@@ -101,7 +103,8 @@ public class BeanConfig {
     @Bean
     public UpdateAnotacaoUseCase updateAnotacaoUseCase(UpdateAnotacaoAdapter updateAnotacaoAdapter,
                                                        FindAnotacaoAdapter findAnotacaoAdapter,
-                                                       FindDominioAdapter findDominioAdapter){
-        return new UpdateAnotacaoUseCase(updateAnotacaoAdapter, findAnotacaoUseCase(findAnotacaoAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter), validCreateAnotacaoUseCase());
+                                                       FindDominioAdapter findDominioAdapter,
+                                                       AnotacaoMapperAdapter anotacaoMapperAdapter){
+        return new UpdateAnotacaoUseCase(updateAnotacaoAdapter, findAnotacaoUseCase(findAnotacaoAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter), validCreateAnotacaoUseCase(), anotacaoMapperAdapter);
     }
 }

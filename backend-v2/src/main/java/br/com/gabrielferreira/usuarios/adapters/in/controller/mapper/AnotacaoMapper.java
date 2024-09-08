@@ -19,6 +19,7 @@ public interface AnotacaoMapper {
     @Mapping(target = "updatedAt", qualifiedByName = "formatData")
     AnotacaoRascunhoDTO toAnotacaoRascunhoDto(AnotacaoDomain anotacaoDomain);
 
+    @Mapping(target = "dataLembrete", qualifiedByName = "formatData")
     AnotacaoDomain createAnotacaoDomain(AnotacaoLembreteCreateDTO anotacaoLembreteCreateDTO);
 
     @Mapping(target = "createdAt", qualifiedByName = "formatData")
@@ -26,6 +27,8 @@ public interface AnotacaoMapper {
     @Mapping(target = "dataLembrete", qualifiedByName = "formatData")
     AnotacaoLembreteDTO toAnotacaoLembreteDto(AnotacaoDomain anotacaoDomain);
 
+    @Mapping(target = "dataEstudoInicio", qualifiedByName = "formatData")
+    @Mapping(target = "dataEstudoFim", qualifiedByName = "formatData")
     AnotacaoDomain createAnotacaoDomain(AnotacaoEstudoCreateDTO anotacaoEstudoCreateDTO);
 
     @Mapping(target = "createdAt", qualifiedByName = "formatData")

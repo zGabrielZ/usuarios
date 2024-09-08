@@ -14,6 +14,11 @@ public class UsuarioMapperAdapter implements UsuarioMapperOutput {
     private final UsuarioEntityMapper usuarioEntityMapper;
 
     @Override
+    public UsuarioDomain createUsuarioDomain(UsuarioDomain usuarioDomain, DominioDomain generoDomain, DominioDomain tipoTelefoneDomain) {
+        return usuarioEntityMapper.createUsuarioDomain(usuarioDomain, generoDomain, tipoTelefoneDomain);
+    }
+
+    @Override
     public UsuarioDomain update(UsuarioDomain usuarioDomain, UsuarioDomain usuarioDomainEncontrado, DominioDomain generoDomain) {
         return usuarioEntityMapper.updateUsuario(usuarioDomain, usuarioDomainEncontrado, generoDomain);
     }
