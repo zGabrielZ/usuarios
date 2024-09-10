@@ -96,15 +96,17 @@ public class BeanConfig {
     }
 
     @Bean
-    public FindAnotacaoUseCase findAnotacaoUseCase(FindAnotacaoAdapter findAnotacaoAdapter){
-        return new FindAnotacaoUseCase(findAnotacaoAdapter);
+    public FindAnotacaoUseCase findAnotacaoUseCase(FindAnotacaoAdapter findAnotacaoAdapter,
+                                                   FindUsuarioAdapter findUsuarioAdapter){
+        return new FindAnotacaoUseCase(findAnotacaoAdapter, findUsuarioUseCase(findUsuarioAdapter));
     }
 
     @Bean
     public UpdateAnotacaoUseCase updateAnotacaoUseCase(UpdateAnotacaoAdapter updateAnotacaoAdapter,
                                                        FindAnotacaoAdapter findAnotacaoAdapter,
                                                        FindDominioAdapter findDominioAdapter,
-                                                       AnotacaoMapperAdapter anotacaoMapperAdapter){
-        return new UpdateAnotacaoUseCase(updateAnotacaoAdapter, findAnotacaoUseCase(findAnotacaoAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter), validCreateAnotacaoUseCase(), anotacaoMapperAdapter);
+                                                       AnotacaoMapperAdapter anotacaoMapperAdapter,
+                                                       FindUsuarioAdapter findUsuarioAdapter){
+        return new UpdateAnotacaoUseCase(updateAnotacaoAdapter, findAnotacaoUseCase(findAnotacaoAdapter, findUsuarioAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter), validCreateAnotacaoUseCase(), anotacaoMapperAdapter);
     }
 }

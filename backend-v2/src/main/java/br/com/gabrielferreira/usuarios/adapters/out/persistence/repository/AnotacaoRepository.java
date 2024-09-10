@@ -2,6 +2,9 @@ package br.com.gabrielferreira.usuarios.adapters.out.persistence.repository;
 
 import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.AnotacaoEntity;
 import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -21,4 +24,6 @@ public interface AnotacaoRepository extends JpaRepository<AnotacaoEntity, Long> 
             "AND u.id = :idUsuario " +
             "AND ta.codigo = :codigo")
     Optional<AnotacaoEntity> findByIdAndIdUsuarioAndTipoAnotacao(@Param("id") Long id, @Param("idUsuario") Long idUsuario, @Param("codigo") String codigo);
+
+    Page<AnotacaoEntity> findAll(Specification<AnotacaoEntity> specification, Pageable pageable);
 }

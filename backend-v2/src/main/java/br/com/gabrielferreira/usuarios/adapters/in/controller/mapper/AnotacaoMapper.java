@@ -6,9 +6,12 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.request.AnotacaoRa
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.AnotacaoEstudoDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.AnotacaoLembreteDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.AnotacaoRascunhoDTO;
+import br.com.gabrielferreira.usuarios.adapters.in.controller.response.AnotacaoResumidoDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {AbstractObjetMapper.class})
 public interface AnotacaoMapper {
@@ -36,4 +39,12 @@ public interface AnotacaoMapper {
     @Mapping(target = "dataEstudoInicio", qualifiedByName = "formatData")
     @Mapping(target = "dataEstudoFim", qualifiedByName = "formatData")
     AnotacaoEstudoDTO toAnotacaoEstudoDto(AnotacaoDomain anotacaoDomain);
+
+    @Mapping(target = "createdAt", qualifiedByName = "formatData")
+    @Mapping(target = "updatedAt", qualifiedByName = "formatData")
+    AnotacaoResumidoDTO toAnotacaoResumitoDto(AnotacaoDomain anotacaoDomain);
+
+    default List<AnotacaoResumidoDTO> toAnotacoesResumidosDtos(List<AnotacaoDomain> anotacaoDomains){
+        return anotacaoDomains.stream().map(this::toAnotacaoResumitoDto).toList();
+    }
 }

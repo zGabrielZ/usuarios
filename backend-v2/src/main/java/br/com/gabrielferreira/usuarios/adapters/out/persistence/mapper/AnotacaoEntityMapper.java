@@ -6,6 +6,9 @@ import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface AnotacaoEntityMapper {
@@ -16,6 +19,13 @@ public interface AnotacaoEntityMapper {
     @Mapping(target = "usuario.genero", ignore = true)
     @Mapping(target = "usuario.anotacoes", ignore = true)
     AnotacaoDomain toAnotacaoDomain(AnotacaoEntity anotacaoEntity);
+
+    @Mapping(target = "usuario", ignore = true)
+    AnotacaoDomain toAnotacaoResumidoDomain(AnotacaoEntity anotacaoEntity);
+
+    default List<AnotacaoDomain> toAnotacoesDomains(Page<AnotacaoEntity> anotacaoEntities){
+        return anotacaoEntities.stream().map(this::toAnotacaoResumidoDomain).toList();
+    }
 
     default AnotacaoDomain createAnotacaoDomainRascunho(AnotacaoDomain anotacaoDomainCreate, DominioDomain tipoAnotacaoDomain, DominioDomain situacaoAnotacaoDomain, UsuarioDomain usuarioDomain){
         anotacaoDomainCreate.setTipoAnotacao(tipoAnotacaoDomain);
