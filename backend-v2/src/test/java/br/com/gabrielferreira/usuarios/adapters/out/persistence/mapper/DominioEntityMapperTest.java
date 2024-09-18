@@ -4,6 +4,7 @@ import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.DominioEn
 import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.TipoDominioEntity;
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import org.junit.jupiter.api.*;
+import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DominioEntityMapperTest {
 
-    DominioEntityMapper dominioEntityMapper = DominioEntityMapper.INSTANCE;
+    DominioEntityMapper dominioEntityMapper = Mappers.getMapper(DominioEntityMapper.class);
 
     @Test
     @DisplayName("Deve criar dominio domain")
