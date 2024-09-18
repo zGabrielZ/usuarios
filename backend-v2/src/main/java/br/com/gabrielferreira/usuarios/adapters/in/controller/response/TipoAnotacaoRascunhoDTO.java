@@ -11,7 +11,7 @@ public record TipoAnotacaoRascunhoDTO(
         @Schema(description = "Descrição do tipo de anotação", example = "Rascunho")
         String descricao,
 
-        @Schema(description = "Código do tipo de anotação", example = "ESTUDO")
+        @Schema(description = "Código do tipo de anotação", example = "RASCUNHO")
         String codigo,
 
         @Schema(description = "Tipo de anotação")
