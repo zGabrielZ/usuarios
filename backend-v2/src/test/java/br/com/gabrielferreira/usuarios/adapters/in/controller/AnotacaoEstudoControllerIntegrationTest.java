@@ -107,7 +107,7 @@ class AnotacaoEstudoControllerIntegrationTest {
         String url = URL.concat("/").concat(idUsuarioExistente.toString())
                 .concat("/anotacoes/estudos");
 
-        anotacaoEstudoCreateDTO = createAnotacaoEstudo("Estudo", "Estudo...", ZonedDateTime.now().plusHours(1L), ZonedDateTime.now());
+        anotacaoEstudoCreateDTO = createAnotacaoEstudo("Estudo", "Estudo...", ZonedDateTime.now().plusHours(2), ZonedDateTime.now().plusHours(1));
         String jsonBody = objectMapper.writeValueAsString(anotacaoEstudoCreateDTO);
 
         ResultActions resultActions = mockMvc
@@ -263,7 +263,7 @@ class AnotacaoEstudoControllerIntegrationTest {
                 .concat("/anotacoes/estudos/")
                 .concat(idAnotacaoExistente.toString());
 
-        anotacaoEstudoCreateDTO = createAnotacaoEstudo("Estudo editado", "Estudo descrição editado", ZonedDateTime.now(), ZonedDateTime.now().plusHours(3));
+        anotacaoEstudoCreateDTO = createAnotacaoEstudo("Estudo editado", "Estudo descrição editado", ZonedDateTime.now().plusHours(1), ZonedDateTime.now().plusHours(3));
         String jsonBody = objectMapper.writeValueAsString(anotacaoEstudoCreateDTO);
 
         ResultActions resultActions = mockMvc
