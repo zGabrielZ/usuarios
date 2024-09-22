@@ -1,5 +1,6 @@
 package br.com.gabrielferreira.usuarios.factory;
 
+import br.com.gabrielferreira.usuarios.adapters.in.controller.request.AnotacaoEstudoCreateDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.AnotacaoLembreteCreateDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.AnotacaoRascunhoCreateDTO;
 
@@ -15,5 +16,9 @@ public class AnotacaoFactory {
 
     public static AnotacaoLembreteCreateDTO createAnotacaoLembrete(String titulo, String descricao, ZonedDateTime dataLembrete){
         return new AnotacaoLembreteCreateDTO(titulo, descricao, dataLembrete);
+    }
+
+    public static AnotacaoEstudoCreateDTO createAnotacaoEstudo(String titulo, String descricao, ZonedDateTime dataEstudoInicio, ZonedDateTime dataEstudoFim){
+        return new AnotacaoEstudoCreateDTO(titulo, descricao, dataEstudoInicio, dataEstudoFim);
     }
 }
