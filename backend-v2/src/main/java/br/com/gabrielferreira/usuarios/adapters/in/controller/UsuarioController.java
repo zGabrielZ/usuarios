@@ -89,7 +89,7 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário encontrado",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioDTO.class)) }),
+                            schema = @Schema(implementation = UsuarioResumidoDTO.class)) }),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado",
                     content = @Content)
     })
@@ -103,7 +103,7 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário encontrado",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioDTO.class)) }),
+                            schema = @Schema(implementation = UsuarioResumidoDTO.class)) }),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado",
                     content = @Content)
     })
@@ -113,7 +113,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioMapper.toUsuarioResumidoDto(usuarioDomain));
     }
 
-    @Operation(summary = "Atualizar usuário")
+    @Operation(summary = "Deletar usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário atualizado",
                     content = { @Content(mediaType = "application/json",
@@ -134,7 +134,7 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Usuário deletado",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioDTO.class)) }),
+                            schema = @Schema(implementation = Void.class)) }),
             @ApiResponse(responseCode = "404", description = "Recurso não encontrado",
                     content = @Content)
     })
