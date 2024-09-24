@@ -1,4 +1,4 @@
-package br.com.gabrielferreira.usuarios.factory;
+package br.com.gabrielferreira.usuarios.tests;
 
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.*;
 

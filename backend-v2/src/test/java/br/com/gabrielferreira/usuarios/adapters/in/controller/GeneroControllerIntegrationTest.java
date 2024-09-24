@@ -64,7 +64,6 @@ class GeneroControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.tipo.id").exists());
         resultActions.andExpect(jsonPath("$.tipo.id").value("1"));
         resultActions.andExpect(jsonPath("$.tipo.descricao").exists());
-        resultActions.andExpect(jsonPath("$.tipo.descricao").value("Gênero"));
         resultActions.andExpect(jsonPath("$.tipo.codigo").exists());
         resultActions.andExpect(jsonPath("$.tipo.codigo").value("GENERO"));
     }

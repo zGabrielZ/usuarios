@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 
-import static br.com.gabrielferreira.usuarios.factory.AnotacaoFactory.createAnotacaoEstudo;
+import static br.com.gabrielferreira.usuarios.tests.AnotacaoFactory.createAnotacaoEstudo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
