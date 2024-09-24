@@ -1,9 +1,13 @@
-server:
-  port: 8080
-
 spring:
   profiles:
     active:
-      - test
+      - ${APP_PROFILE:dev}
   jpa:
     open-in-view: false
+  output:
+    ansi:
+      enabled: ALWAYS
+
+server:
+  servlet:
+    context-path: '/api'
