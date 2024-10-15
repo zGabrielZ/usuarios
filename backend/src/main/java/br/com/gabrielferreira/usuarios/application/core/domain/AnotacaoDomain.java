@@ -32,20 +32,6 @@ public class AnotacaoDomain implements Serializable {
 
     private ZonedDateTime updatedAt;
 
-    public AnotacaoDomain(Long id, String titulo, String descricao, UsuarioDomain usuario, DominioDomain tipoAnotacao, ZonedDateTime dataLembrete, ZonedDateTime dataEstudoInicio, ZonedDateTime dataEstudoFim, DominioDomain situacaoTipoAnotacao, ZonedDateTime createdAt, ZonedDateTime updatedAt) {
-        this.id = id;
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.usuario = usuario;
-        this.tipoAnotacao = tipoAnotacao;
-        this.dataLembrete = dataLembrete;
-        this.dataEstudoInicio = dataEstudoInicio;
-        this.dataEstudoFim = dataEstudoFim;
-        this.situacaoTipoAnotacao = situacaoTipoAnotacao;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
     public AnotacaoDomain() {}
 
     public Long getId() {

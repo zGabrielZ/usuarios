@@ -55,8 +55,7 @@ class AnotacaoMapperIntegrationTest {
         situacaoDomain.setId(1L);
         situacaoDomain.setDescricao("situacao");
 
-        AnotacaoDomain anotacaoDomain = new AnotacaoDomain(1L, "titulo", "descricao", usuarioDomain, dominioDomain, ZonedDateTime.now(),
-                ZonedDateTime.now(), ZonedDateTime.now(), situacaoDomain, ZonedDateTime.now(), ZonedDateTime.now());
+        AnotacaoDomain anotacaoDomain = build(usuarioDomain, dominioDomain, situacaoDomain);
 
         AnotacaoRascunhoDTO anotacaoRascunhoDTO = anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain);
         assertEquals(anotacaoDomain.getId(), anotacaoRascunhoDTO.id());
@@ -98,8 +97,7 @@ class AnotacaoMapperIntegrationTest {
         situacaoDomain.setId(1L);
         situacaoDomain.setDescricao("situacao");
 
-        AnotacaoDomain anotacaoDomain = new AnotacaoDomain(1L, "titulo", "descricao", usuarioDomain, dominioDomain, ZonedDateTime.now(),
-                ZonedDateTime.now(), ZonedDateTime.now(), situacaoDomain, ZonedDateTime.now(), ZonedDateTime.now());
+        AnotacaoDomain anotacaoDomain = build(usuarioDomain, dominioDomain, situacaoDomain);
 
         AnotacaoLembreteDTO anotacaoLembreteDto = anotacaoMapper.toAnotacaoLembreteDto(anotacaoDomain);
         assertEquals(anotacaoDomain.getId(), anotacaoLembreteDto.id());
@@ -144,8 +142,7 @@ class AnotacaoMapperIntegrationTest {
         situacaoDomain.setId(1L);
         situacaoDomain.setDescricao("situacao");
 
-        AnotacaoDomain anotacaoDomain = new AnotacaoDomain(1L, "titulo", "descricao", usuarioDomain, dominioDomain, ZonedDateTime.now(),
-                ZonedDateTime.now(), ZonedDateTime.now(), situacaoDomain, ZonedDateTime.now(), ZonedDateTime.now());
+        AnotacaoDomain anotacaoDomain = build(usuarioDomain, dominioDomain, situacaoDomain);
 
         AnotacaoEstudoDTO anotacaoEstudoDTO = anotacaoMapper.toAnotacaoEstudoDto(anotacaoDomain);
         assertEquals(anotacaoDomain.getId(), anotacaoEstudoDTO.id());
@@ -177,12 +174,27 @@ class AnotacaoMapperIntegrationTest {
         situacaoDomain.setId(1L);
         situacaoDomain.setDescricao("situacao");
 
-        AnotacaoDomain anotacaoDomain = new AnotacaoDomain(1L, "titulo", "descricao", usuarioDomain, dominioDomain, ZonedDateTime.now(),
-                ZonedDateTime.now(), ZonedDateTime.now(), situacaoDomain, ZonedDateTime.now(), ZonedDateTime.now());
+        AnotacaoDomain anotacaoDomain = build(usuarioDomain, dominioDomain, situacaoDomain);
         List<AnotacaoDomain> anotacaoDomains = new ArrayList<>();
         anotacaoDomains.add(anotacaoDomain);
 
         List<AnotacaoResumidoDTO> anotacaoResumidoDTOS = anotacaoMapper.toAnotacoesResumidosDtos(anotacaoDomains);
         assertFalse(anotacaoResumidoDTOS.isEmpty());
+    }
+
+    private AnotacaoDomain build(UsuarioDomain usuarioDomain, DominioDomain dominioDomain, DominioDomain situacaoDomain){
+        AnotacaoDomain anotacaoDomain = new AnotacaoDomain();
+        anotacaoDomain.setId(1L);
+        anotacaoDomain.setTitulo("titulo");
+        anotacaoDomain.setDescricao("descricao");
+        anotacaoDomain.setUsuario(usuarioDomain);
+        anotacaoDomain.setTipoAnotacao(dominioDomain);
+        anotacaoDomain.setSituacaoTipoAnotacao(situacaoDomain);
+        anotacaoDomain.setDataLembrete(ZonedDateTime.now());
+        anotacaoDomain.setDataEstudoInicio(ZonedDateTime.now());
+        anotacaoDomain.setDataEstudoFim(ZonedDateTime.now());
+        anotacaoDomain.setCreatedAt(ZonedDateTime.now());
+        anotacaoDomain.setUpdatedAt(ZonedDateTime.now());
+        return anotacaoDomain;
     }
 }

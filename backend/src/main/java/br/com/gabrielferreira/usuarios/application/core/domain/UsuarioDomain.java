@@ -40,21 +40,6 @@ public class UsuarioDomain implements Serializable {
 
     private ZonedDateTime updatedAt;
 
-    public UsuarioDomain(Long id, String nome, String email, String cpf, BigDecimal renda, LocalDate dataNascimento, Integer quantidadeFilhos, TelefoneDomain telefone, DominioDomain genero, List<AnotacaoDomain> anotacoes, ZonedDateTime createdAt, ZonedDateTime updatedAt) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.cpf = cpf;
-        this.renda = renda;
-        this.dataNascimento = dataNascimento;
-        this.quantidadeFilhos = quantidadeFilhos;
-        this.telefone = telefone;
-        this.genero = genero;
-        this.anotacoes = anotacoes;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
     public UsuarioDomain() {}
 
     public Long getId() {

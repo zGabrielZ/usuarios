@@ -22,6 +22,7 @@ class AnotacaoControllerIntegrationTest {
 
     private static final String URL = "/v1/usuarios";
     private static final MediaType MEDIA_TYPE_JSON = MediaType.APPLICATION_JSON;
+    private static final String QUERY_PARAM = "?idUsuario=1&page=0&size=5&sort=id,desc";
 
     @Autowired
     protected MockMvc mockMvc;
@@ -42,7 +43,7 @@ class AnotacaoControllerIntegrationTest {
     void deveBuscarAnotacaoPaginadas() throws Exception {
         String url = URL.concat("/").concat(idUsuarioExistente.toString())
                 .concat("/anotacoes")
-                .concat("?idUsuario=1&page=0&size=5&sort=id,desc");
+                .concat(QUERY_PARAM);
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
@@ -61,7 +62,7 @@ class AnotacaoControllerIntegrationTest {
     void naoDeveBuscarAnotacaoPaginadaQuandoNaoEncontrarUsuario() throws Exception {
         String url = URL.concat("/").concat(idUsuarioInexistente.toString())
                 .concat("/anotacoes")
-                .concat("?idUsuario=1&page=0&size=5&sort=id,desc");
+                .concat(QUERY_PARAM);
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)

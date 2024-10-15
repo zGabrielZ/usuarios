@@ -37,8 +37,7 @@ class AnotacaoEntityMapperTest {
         situacaoDomain.setId(1L);
         situacaoDomain.setDescricao("situacao");
 
-        AnotacaoDomain anotacaoDomain = new AnotacaoDomain(1L, "titulo", "descricao", usuarioDomain, dominioDomain, ZonedDateTime.now(),
-                ZonedDateTime.now(), ZonedDateTime.now(), situacaoDomain, ZonedDateTime.now(), ZonedDateTime.now());
+        AnotacaoDomain anotacaoDomain = build(usuarioDomain, dominioDomain, situacaoDomain);
         AnotacaoEntity anotacaoEntity = anotacaoEntityMapper.createAnotacaoEntity(anotacaoDomain);
         assertEquals(anotacaoDomain.getId(), anotacaoEntity.getId());
         assertEquals(anotacaoDomain.getTitulo(), anotacaoEntity.getTitulo());
@@ -191,5 +190,21 @@ class AnotacaoEntityMapperTest {
         assertEquals(anotacaoDomain.getDataEstudoInicio(), anotacaoDomainCreate.getDataEstudoInicio());
         assertEquals(anotacaoDomain.getDataEstudoFim(), anotacaoDomainCreate.getDataEstudoFim());
         assertEquals(anotacaoDomain.getDataLembrete(), anotacaoDomainCreate.getDataLembrete());
+    }
+
+    private AnotacaoDomain build(UsuarioDomain usuarioDomain, DominioDomain dominioDomain, DominioDomain situacaoDomain){
+        AnotacaoDomain anotacaoDomain = new AnotacaoDomain();
+        anotacaoDomain.setId(1L);
+        anotacaoDomain.setTitulo("titulo");
+        anotacaoDomain.setDescricao("descricao");
+        anotacaoDomain.setUsuario(usuarioDomain);
+        anotacaoDomain.setTipoAnotacao(dominioDomain);
+        anotacaoDomain.setSituacaoTipoAnotacao(situacaoDomain);
+        anotacaoDomain.setDataLembrete(ZonedDateTime.now());
+        anotacaoDomain.setDataEstudoInicio(ZonedDateTime.now());
+        anotacaoDomain.setDataEstudoFim(ZonedDateTime.now());
+        anotacaoDomain.setCreatedAt(ZonedDateTime.now());
+        anotacaoDomain.setUpdatedAt(ZonedDateTime.now());
+        return anotacaoDomain;
     }
 }

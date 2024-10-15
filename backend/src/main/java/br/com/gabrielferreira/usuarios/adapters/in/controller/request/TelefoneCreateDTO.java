@@ -11,13 +11,13 @@ import java.io.Serializable;
 
 public record TelefoneCreateDTO(
         @Schema(description = "Número de telefone do usuário", example = "34655691")
-        @Pattern(regexp = "^[0-9]+$")
+        @Pattern(regexp = "\\d+")
         @NotBlank
         @Size(min = 8, max = 9)
         String numero,
 
         @Schema(description = "DDD do número do telefone do usuário", example = "11")
-        @Pattern(regexp = "^[0-9]+$")
+        @Pattern(regexp = "\\d+")
         @NotBlank
         @Size(min = 2, max = 2)
         String ddd,

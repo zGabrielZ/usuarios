@@ -21,7 +21,7 @@ public record UsuarioCreateDTO(
         String email,
 
         @Schema(description = "CPF do usuário", example = "46188190061")
-        @Pattern(regexp = "^[0-9]+$")
+        @Pattern(regexp = "\\d+")
         @CPF
         @NotBlank
         @Size(max = 11)
