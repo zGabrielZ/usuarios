@@ -109,4 +109,9 @@ public class BeanConfig {
                                                        FindUsuarioAdapter findUsuarioAdapter){
         return new UpdateAnotacaoUseCase(updateAnotacaoAdapter, findAnotacaoUseCase(findAnotacaoAdapter, findUsuarioAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter), validCreateAnotacaoUseCase(), anotacaoMapperAdapter);
     }
+
+    @Bean
+    public FindPerfilUseCase findPerfilUseCase(FindPerfilAdapter findPerfilAdapter){
+        return new FindPerfilUseCase(findPerfilAdapter);
+    }
 }

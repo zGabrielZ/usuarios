@@ -17,7 +17,7 @@ import static br.com.gabrielferreira.usuarios.utils.DataUtils.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = {"telefone", "anotacoes", "genero"})
+@ToString(exclude = {"telefone", "anotacoes", "genero", "perfis"})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "TB_USUARIO")
@@ -65,6 +65,12 @@ public class UsuarioEntity implements Serializable {
 
     @Column(name = "UPDATED_AT")
     private ZonedDateTime updatedAt;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "TB_USUARIO_PERFIL",
+            joinColumns = @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID", table = "TB_USUARIO"),
+            inverseJoinColumns = @JoinColumn(name = "ID_PERFIL", referencedColumnName = "ID", table = "TB_PERFIL"))
+    private List<PerfilEntity> perfis = new ArrayList<>();
 
     @PrePersist
     public void prePersist(){

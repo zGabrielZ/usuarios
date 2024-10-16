@@ -40,6 +40,8 @@ public class UsuarioDomain implements Serializable {
 
     private ZonedDateTime updatedAt;
 
+    private List<PerfilDomain> perfis = new ArrayList<>();
+
     public UsuarioDomain() {}
 
     public Long getId() {
@@ -144,6 +146,14 @@ public class UsuarioDomain implements Serializable {
 
     public String getRendaFormatada(){
         return toValorMonetarioBrasil(this.renda);
+    }
+
+    public List<PerfilDomain> getPerfis() {
+        return perfis;
+    }
+
+    public void setPerfis(List<PerfilDomain> perfis) {
+        this.perfis = perfis;
     }
 
     @Override
