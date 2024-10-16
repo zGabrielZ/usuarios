@@ -10,4 +10,6 @@ public interface FindPerfilOutput {
     Optional<PerfilDomain> findById(Long id);
 
     List<PerfilDomain> findAll();
+
+    Optional<PerfilDomain> findByRole(String role);
 }

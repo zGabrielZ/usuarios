@@ -2,6 +2,7 @@ package br.com.gabrielferreira.usuarios.adapters.out.persistence.mapper;
 
 import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.UsuarioEntity;
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
+import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -39,9 +40,10 @@ public interface UsuarioEntityMapper {
         return usuarioEntities.stream().map(this::toOnlyUsuarioDomain).toList();
     }
 
-    default UsuarioDomain createUsuarioDomain(UsuarioDomain usuarioDomain, DominioDomain generoDomain, DominioDomain tipoTelefoneDomain){
+    default UsuarioDomain createUsuarioDomain(UsuarioDomain usuarioDomain, DominioDomain generoDomain, DominioDomain tipoTelefoneDomain, PerfilDomain perfilDomain){
         usuarioDomain.setGenero(generoDomain);
         usuarioDomain.getTelefone().setTipoTelefone(tipoTelefoneDomain);
+        usuarioDomain.getPerfis().add(perfilDomain);
         return usuarioDomain;
     }
 }

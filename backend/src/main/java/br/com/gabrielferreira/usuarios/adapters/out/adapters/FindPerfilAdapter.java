@@ -33,4 +33,11 @@ public class FindPerfilAdapter implements FindPerfilOutput {
         List<PerfilEntity> perfis = perfilRepository.findAllByOrderByTitulo();
         return perfilEntityMapper.toPerfisDomains(perfis);
     }
+
+    @Cacheable(unless = "#result == null", value = "findByRole", key = "T(java.lang.String).format('%s_%s_%s', #root.target.Class.simpleName, #root.methodName, #role)")
+    @Override
+    public Optional<PerfilDomain> findByRole(String role) {
+        Optional<PerfilEntity> perfilEntityOptional = perfilRepository.findByAutoriedade(role);
+        return perfilEntityOptional.map(perfilEntityMapper::toPerfilDomain);
+    }
 }

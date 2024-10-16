@@ -38,9 +38,10 @@ public class BeanConfig {
                                                      FindUsuarioAdapter findUsuarioAdapter,
                                                      FindDominioAdapter findGeneroAdapter,
                                                      FindDominioAdapter findTipoTelefoneAdapter,
-                                                     UsuarioMapperAdapter usuarioMapperAdapter){
+                                                     UsuarioMapperAdapter usuarioMapperAdapter,
+                                                     FindPerfilAdapter findPerfilAdapter){
         return new CreateUsuarioUseCase(createUsuarioAdapter, validCreateUsuarioUseCase(findUsuarioAdapter), validCreateTelefoneUseCase(),
-                findGeneroUseCase(findGeneroAdapter), findTipoTelefoneUseCase(findTipoTelefoneAdapter), usuarioMapperAdapter);
+                findGeneroUseCase(findGeneroAdapter), findTipoTelefoneUseCase(findTipoTelefoneAdapter), usuarioMapperAdapter, findPerfilUseCase(findPerfilAdapter));
     }
 
     @Bean

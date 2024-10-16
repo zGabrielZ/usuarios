@@ -9,4 +9,6 @@ public interface FindPerfilInput {
     PerfilDomain findById(Long id);
 
     List<PerfilDomain> findAll();
+
+    PerfilDomain findByRole(String role);
 }

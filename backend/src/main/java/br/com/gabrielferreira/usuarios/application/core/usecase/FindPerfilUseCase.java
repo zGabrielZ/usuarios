@@ -25,4 +25,10 @@ public class FindPerfilUseCase implements FindPerfilInput {
     public List<PerfilDomain> findAll() {
         return findPerfilOutput.findAll();
     }
+
+    @Override
+    public PerfilDomain findByRole(String role) {
+        return findPerfilOutput.findByRole(role)
+                .orElseThrow(() -> new NaoEncontradoException("Perfil informado não encontrado"));
+    }
 }
