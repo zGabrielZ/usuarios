@@ -1,10 +1,13 @@
 package br.com.gabrielferreira.usuarios.application.core.usecase;
 
+import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.exception.RegraDeNegocioException;
 import br.com.gabrielferreira.usuarios.application.ports.in.ValidCreateUsuarioInput;
 import br.com.gabrielferreira.usuarios.application.ports.out.FindUsuarioOutput;
 import io.micrometer.common.util.StringUtils;
+
+import java.util.List;
 
 public class ValidCreateUsuarioUseCase implements ValidCreateUsuarioInput {
 
@@ -41,5 +44,13 @@ public class ValidCreateUsuarioUseCase implements ValidCreateUsuarioInput {
                 .ifPresent(usuarioDomain -> {
                     throw new RegraDeNegocioException(String.format("Não vai ser possível cadastrar este usuário pois o CPF '%s' já foi cadastrado", usuarioDomain.getCpfFormatado()));
                 });
+    }
+
+    @Override
+    public void validarPerfilUsuario(UsuarioDomain usuarioDomain, PerfilDomain perfilDomain, String mensagem) {
+        List<Long> idsPerfis = usuarioDomain.getPerfis().stream().map(PerfilDomain::getId).toList();
+        if(idsPerfis.contains(perfilDomain.getId())){
+            throw new RegraDeNegocioException(mensagem);
+        }
     }
 }

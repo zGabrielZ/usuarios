@@ -4,12 +4,9 @@ import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.enums.RoleEnum;
-import br.com.gabrielferreira.usuarios.application.exception.RegraDeNegocioException;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
 import br.com.gabrielferreira.usuarios.application.ports.out.UpdateUsuarioOutput;
 import br.com.gabrielferreira.usuarios.application.ports.out.UsuarioMapperOutput;
-
-import java.util.List;
 
 public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
 
@@ -55,10 +52,7 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
         UsuarioDomain usuarioDomainEncontrado = findUsuarioInput.findById(id);
         PerfilDomain perfilDomain = findPerfilInput.findByRole(RoleEnum.ROLE_ADMIN.name());
 
-        List<Long> idsPerfis = usuarioDomainEncontrado.getPerfis().stream().map(PerfilDomain::getId).toList();
-        if(idsPerfis.contains(perfilDomain.getId())){
-            throw new RegraDeNegocioException("Este usuário contém perfil admin");
-        }
+        validCreateUsuarioInput.validarPerfilUsuario(usuarioDomainEncontrado, perfilDomain, "Este usuário contém perfil admin");
 
 
         usuarioDomainEncontrado.getPerfis().clear();
@@ -71,10 +65,7 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
         UsuarioDomain usuarioDomainEncontrado = findUsuarioInput.findById(id);
         PerfilDomain perfilDomain = findPerfilInput.findByRole(RoleEnum.ROLE_CLIENT.name());
 
-        List<Long> idsPerfis = usuarioDomainEncontrado.getPerfis().stream().map(PerfilDomain::getId).toList();
-        if(idsPerfis.contains(perfilDomain.getId())){
-            throw new RegraDeNegocioException("Este usuário contém perfil cliente");
-        }
+        validCreateUsuarioInput.validarPerfilUsuario(usuarioDomainEncontrado, perfilDomain, "Este usuário contém perfil cliente");
 
         usuarioDomainEncontrado.getPerfis().clear();
         usuarioDomainEncontrado.getPerfis().add(perfilDomain);

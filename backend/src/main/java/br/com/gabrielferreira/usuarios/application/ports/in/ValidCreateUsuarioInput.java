@@ -1,5 +1,6 @@
 package br.com.gabrielferreira.usuarios.application.ports.in;
 
+import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 
 public interface ValidCreateUsuarioInput {
@@ -9,4 +10,6 @@ public interface ValidCreateUsuarioInput {
     void validarEmailExistente(String email);
 
     void validarCpfExistente(String cpf);
+
+    void validarPerfilUsuario(UsuarioDomain usuarioDomain, PerfilDomain perfilDomain, String mensagem);
 }
