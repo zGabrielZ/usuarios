@@ -61,8 +61,9 @@ public class BeanConfig {
     public UpdateUsuarioUseCase updateUsuarioUseCase(UpdateUsuarioAdapter updateUsuarioAdapter,
                                                      FindUsuarioAdapter findUsuarioAdapter,
                                                      FindDominioAdapter findDominioAdapter,
-                                                     UsuarioMapperAdapter usuarioMapperAdapter){
-        return new UpdateUsuarioUseCase(updateUsuarioAdapter, findUsuarioUseCase(findUsuarioAdapter), validCreateUsuarioUseCase(findUsuarioAdapter), findGeneroUseCase(findDominioAdapter), usuarioMapperAdapter);
+                                                     UsuarioMapperAdapter usuarioMapperAdapter,
+                                                     FindPerfilAdapter findPerfilAdapter){
+        return new UpdateUsuarioUseCase(updateUsuarioAdapter, findUsuarioUseCase(findUsuarioAdapter), validCreateUsuarioUseCase(findUsuarioAdapter), findGeneroUseCase(findDominioAdapter), usuarioMapperAdapter, findPerfilUseCase(findPerfilAdapter));
     }
 
     @Bean

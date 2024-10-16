@@ -2,6 +2,10 @@ package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioCreateDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioUpdateDTO;
+import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.PerfilEntity;
+import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.UsuarioEntity;
+import br.com.gabrielferreira.usuarios.adapters.out.persistence.repository.PerfilRepository;
+import br.com.gabrielferreira.usuarios.adapters.out.persistence.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +37,12 @@ class UsuarioControllerIntegrationTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected PerfilRepository perfilRepository;
+
+    @Autowired
+    protected UsuarioRepository usuarioRepository;
 
     private Long idUsuarioExistente;
 
@@ -321,5 +331,83 @@ class UsuarioControllerIntegrationTest {
 
         String conteudo = resultActions.andReturn().getResponse().getContentAsString();
         assertNotNull(conteudo);
+    }
+
+    @Test
+    @DisplayName("Deve atualizar perfil usuário para admin")
+    @Order(12)
+    void deveAtualizarPerfilAdmin() throws Exception {
+        setUpPerfilClient();
+
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/admin");
+
+        ResultActions resultActions = mockMvc
+                .perform(put(url)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Não deve atualizar perfil usuário para admin quando já tiver com admin")
+    @Order(13)
+    void naoDeveAtualizarPerfilAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/admin");
+
+        ResultActions resultActions = mockMvc
+                .perform(put(url)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.titulo").value("Regra de negócio"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Este usuário contém perfil admin"));
+    }
+
+    @Test
+    @DisplayName("Deve atualizar perfil usuário para client")
+    @Order(14)
+    void deveAtualizarPerfilClient() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/client");
+
+        ResultActions resultActions = mockMvc
+                .perform(put(url)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Não deve atualizar perfil usuário para client quando já tiver com client")
+    @Order(15)
+    void naoDeveAtualizarPerfilClient() throws Exception {
+        setUpPerfilClient();
+
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/client");
+
+        ResultActions resultActions = mockMvc
+                .perform(put(url)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.titulo").value("Regra de negócio"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Este usuário contém perfil cliente"));
+    }
+
+    void setUpPerfilClient(){
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuarioExistente)
+                .orElseThrow();
+        PerfilEntity perfilEntity = perfilRepository.findById(2L)
+                .orElseThrow();
+        usuarioEntity.getPerfis().clear();
+        usuarioEntity.getPerfis().add(perfilEntity);
+        usuarioRepository.save(usuarioEntity);
     }
 }

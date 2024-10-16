@@ -113,7 +113,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioMapper.toUsuarioResumidoDto(usuarioDomain));
     }
 
-    @Operation(summary = "Deletar usuário")
+    @Operation(summary = "Atualizar usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário atualizado",
                     content = { @Content(mediaType = "application/json",
@@ -130,7 +130,7 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuarioMapper.toUsuarioDto(usuarioDomain));
     }
 
-    @Operation(summary = "Atualizar usuário")
+    @Operation(summary = "Deletar usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Usuário deletado",
                     content = { @Content(mediaType = "application/json",
@@ -158,5 +158,33 @@ public class UsuarioController {
         PageInfo pageInfo = pageInfoMapper.toPageInfo(pageable);
         List<UsuarioResumidoDTO> usuarioResumidoDTOS = usuarioMapper.toUsuarioResumidoDtos(findUsuarioInput.findAll(pageInfo, nome, email, renda));
         return ResponseEntity.ok().body(new PageImpl<>(usuarioResumidoDTOS, pageable, usuarioResumidoDTOS.size()));
+    }
+
+    @Operation(summary = "Atualizar usuário para admin")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Usuário atualizado",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Void.class)) }),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado",
+                    content = @Content)
+    })
+    @PutMapping("/{id}/admin")
+    public ResponseEntity<Void> updateRoleAdmin(@PathVariable Long id){
+        updateUsuarioInput.updateRoleAdmin(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Atualizar usuário para cliente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Usuário atualizado",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Void.class)) }),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado",
+                    content = @Content)
+    })
+    @PutMapping("/{id}/client")
+    public ResponseEntity<Void> updateRoleClient(@PathVariable Long id){
+        updateUsuarioInput.updateRoleClient(id);
+        return ResponseEntity.noContent().build();
     }
 }
