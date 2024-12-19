@@ -1,8 +1,5 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
-import br.com.gabrielferreira.usuarios.adapters.in.controller.response.GeneroDTO;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,13 +9,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -31,9 +24,6 @@ class GeneroControllerIntegrationTest {
 
     @Autowired
     protected MockMvc mockMvc;
-
-    @Autowired
-    protected ObjectMapper objectMapper;
 
     private Long idGeneroExistente;
 
@@ -91,11 +81,9 @@ class GeneroControllerIntegrationTest {
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isOk());
-
-        String conteudo = resultActions.andReturn().getResponse().getContentAsString();
-        List<GeneroDTO> generos = objectMapper.readValue(conteudo, new TypeReference<>() {});
-        assertFalse(generos.isEmpty());
-        assertEquals("MASCULINO", generos.get(0).codigo());
-        assertEquals("Masculino", generos.get(0).descricao());
+        resultActions.andExpect(jsonPath("$._embedded.generos").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
+        resultActions.andExpect(jsonPath("$._embedded.generos[0].descricao").value("Masculino"));
+        resultActions.andExpect(jsonPath("$._embedded.generos[0].codigo").value("MASCULINO"));
     }
 }

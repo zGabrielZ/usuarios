@@ -15,7 +15,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest
@@ -57,12 +58,12 @@ class UsuarioMapperIntegrationTest {
         UsuarioDTO usuarioDTO = usuarioMapper.toUsuarioDto(usuarioDomain);
         assertEquals(usuarioDomain.getId(), usuarioDTO.id());
         assertEquals(usuarioDomain.getNome(), usuarioDTO.nome());
-        assertEquals(usuarioDomain.getGenero().getId(), usuarioDTO.genero().id());
-        assertEquals(usuarioDomain.getGenero().getDescricao(), usuarioDTO.genero().descricao());
-        assertEquals(usuarioDomain.getGenero().getCodigo(), usuarioDTO.genero().codigo());
-        assertEquals(usuarioDomain.getGenero().getTipo().getId(), usuarioDTO.genero().tipo().id());
-        assertEquals(usuarioDomain.getGenero().getTipo().getDescricao(), usuarioDTO.genero().tipo().descricao());
-        assertEquals(usuarioDomain.getGenero().getTipo().getCodigo(), usuarioDTO.genero().tipo().codigo());
+        assertEquals(usuarioDomain.getGenero().getId(), usuarioDTO.genero().getId());
+        assertEquals(usuarioDomain.getGenero().getDescricao(), usuarioDTO.genero().getDescricao());
+        assertEquals(usuarioDomain.getGenero().getCodigo(), usuarioDTO.genero().getCodigo());
+        assertEquals(usuarioDomain.getGenero().getTipo().getId(), usuarioDTO.genero().getTipo().id());
+        assertEquals(usuarioDomain.getGenero().getTipo().getDescricao(), usuarioDTO.genero().getTipo().descricao());
+        assertEquals(usuarioDomain.getGenero().getTipo().getCodigo(), usuarioDTO.genero().getTipo().codigo());
     }
 
     @Test

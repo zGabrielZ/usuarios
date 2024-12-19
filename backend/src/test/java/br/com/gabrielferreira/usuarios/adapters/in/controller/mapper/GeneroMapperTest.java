@@ -25,12 +25,12 @@ class GeneroMapperTest {
                 new TipoDominioDomain(1L, "Gênero", "GENERO"));
 
         GeneroDTO generoDTO = generoMapper.toGeneroDto(genero);
-        assertEquals(genero.getId(), generoDTO.id());
-        assertEquals(genero.getDescricao(), generoDTO.descricao());
-        assertEquals(genero.getCodigo(), generoDTO.codigo());
-        assertEquals(genero.getTipo().getId(), generoDTO.tipo().id());
-        assertEquals(genero.getTipo().getDescricao(), generoDTO.tipo().descricao());
-        assertEquals(genero.getTipo().getCodigo(), generoDTO.tipo().codigo());
+        assertEquals(genero.getId(), generoDTO.getId());
+        assertEquals(genero.getDescricao(), generoDTO.getDescricao());
+        assertEquals(genero.getCodigo(), generoDTO.getCodigo());
+        assertEquals(genero.getTipo().getId(), generoDTO.getTipo().id());
+        assertEquals(genero.getTipo().getDescricao(), generoDTO.getTipo().descricao());
+        assertEquals(genero.getTipo().getCodigo(), generoDTO.getTipo().codigo());
     }
 
     @Test
@@ -44,11 +44,11 @@ class GeneroMapperTest {
 
         List<GeneroDTO> generoDTOS = generoMapper.toGenerosDtos(generos);
         assertFalse(generoDTOS.isEmpty());
-        assertEquals(genero.getId(), generoDTOS.get(0).id());
-        assertEquals(genero.getDescricao(), generoDTOS.get(0).descricao());
-        assertEquals(genero.getCodigo(), generoDTOS.get(0).codigo());
-        assertEquals(genero.getTipo().getId(), generoDTOS.get(0).tipo().id());
-        assertEquals(genero.getTipo().getDescricao(), generoDTOS.get(0).tipo().descricao());
-        assertEquals(genero.getTipo().getCodigo(), generoDTOS.get(0).tipo().codigo());
+        assertEquals(genero.getId(), generoDTOS.get(0).getId());
+        assertEquals(genero.getDescricao(), generoDTOS.get(0).getDescricao());
+        assertEquals(genero.getCodigo(), generoDTOS.get(0).getCodigo());
+        assertEquals(genero.getTipo().getId(), generoDTOS.get(0).getTipo().id());
+        assertEquals(genero.getTipo().getDescricao(), generoDTOS.get(0).getTipo().descricao());
+        assertEquals(genero.getTipo().getCodigo(), generoDTOS.get(0).getTipo().codigo());
     }
 }
