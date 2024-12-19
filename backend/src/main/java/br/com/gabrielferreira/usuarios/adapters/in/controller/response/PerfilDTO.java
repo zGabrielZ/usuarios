@@ -1,17 +1,30 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
+import java.io.Serial;
 import java.io.Serializable;
 
-public record PerfilDTO(
-        @Schema(description = "ID do perfil", example = "1")
-        Long id,
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Relation(collectionRelation = "perfis")
+public class PerfilDTO extends RepresentationModel<PerfilDTO> implements Serializable {
 
-        @Schema(description = "Título do perfil", example = "Adminstrador")
-        String titulo,
+    @Serial
+    private static final long serialVersionUID = -7448476876939143727L;
 
-        @Schema(description = "Autoriedade do perfil", example = "ROLE_ADMIN")
-        String autoriedade
-) implements Serializable {
+    @Schema(description = "ID do perfil", example = "1")
+    private Long id;
+
+    @Schema(description = "Título do perfil", example = "Adminstrador")
+    private String titulo;
+
+    @Schema(description = "Autoriedade do perfil", example = "ROLE_ADMIN")
+    private String autoriedade;
 }

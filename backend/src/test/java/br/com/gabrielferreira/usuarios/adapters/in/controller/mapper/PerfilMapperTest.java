@@ -22,9 +22,9 @@ class PerfilMapperTest {
         PerfilDomain perfilDomain = new PerfilDomain(1L, "Cliente", "ROLE_CLIENT");
 
         PerfilDTO perfilDTO = perfilMapper.toPerfilDto(perfilDomain);
-        assertEquals(perfilDomain.getId(), perfilDTO.id());
-        assertEquals(perfilDomain.getTitulo(), perfilDTO.titulo());
-        assertEquals(perfilDomain.getAutoriedade(), perfilDTO.autoriedade());
+        assertEquals(perfilDomain.getId(), perfilDTO.getId());
+        assertEquals(perfilDomain.getTitulo(), perfilDTO.getTitulo());
+        assertEquals(perfilDomain.getAutoriedade(), perfilDTO.getAutoriedade());
     }
 
     @Test

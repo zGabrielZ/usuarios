@@ -79,9 +79,10 @@ class PerfilControllerIntegrationTest {
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isOk());
-        resultActions.andExpect(jsonPath("$", IsCollectionWithSize.hasSize(2)));
-        resultActions.andExpect(jsonPath("$[0].id").exists());
-        resultActions.andExpect(jsonPath("$[0].titulo").exists());
-        resultActions.andExpect(jsonPath("$[0].autoriedade").exists());
+        resultActions.andExpect(jsonPath("$._embedded.perfis", IsCollectionWithSize.hasSize(2)));
+        resultActions.andExpect(jsonPath("$._embedded.perfis").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
+        resultActions.andExpect(jsonPath("$._embedded.perfis[0].titulo").value("Adminstrador"));
+        resultActions.andExpect(jsonPath("$._embedded.perfis[0].autoriedade").value("ROLE_ADMIN"));
     }
 }
