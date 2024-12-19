@@ -1,8 +1,5 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
-import br.com.gabrielferreira.usuarios.adapters.in.controller.response.TipoTelefoneDTO;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,10 +9,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,9 +24,6 @@ class TipoTelefoneControllerIntegrationTest {
 
     @Autowired
     protected MockMvc mockMvc;
-
-    @Autowired
-    protected ObjectMapper objectMapper;
 
     private Long idTipoTelefoneExistente;
 
@@ -92,11 +82,9 @@ class TipoTelefoneControllerIntegrationTest {
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isOk());
-
-        String conteudo = resultActions.andReturn().getResponse().getContentAsString();
-        List<TipoTelefoneDTO> tiposTelefones = objectMapper.readValue(conteudo, new TypeReference<>() {});
-        assertFalse(tiposTelefones.isEmpty());
-        assertEquals("RESIDENCIAL", tiposTelefones.get(0).codigo());
-        assertEquals("Residencial", tiposTelefones.get(0).descricao());
+        resultActions.andExpect(jsonPath("$._embedded.tiposTelefones").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
+        resultActions.andExpect(jsonPath("$._embedded.tiposTelefones[0].descricao").value("Residencial"));
+        resultActions.andExpect(jsonPath("$._embedded.tiposTelefones[0].codigo").value("RESIDENCIAL"));
     }
 }

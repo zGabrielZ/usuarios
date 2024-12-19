@@ -25,12 +25,12 @@ class TipoTelefoneMapperTest {
                 new TipoDominioDomain(2L, "Tipo de telefone", "TIPO_TELEFONE"));
 
         TipoTelefoneDTO tipoTelefoneDTO = tipoTelefoneMapper.toTipoTelefoneDto(tipoTelefone);
-        assertEquals(tipoTelefone.getId(), tipoTelefoneDTO.id());
-        assertEquals(tipoTelefone.getDescricao(), tipoTelefoneDTO.descricao());
-        assertEquals(tipoTelefone.getCodigo(), tipoTelefoneDTO.codigo());
-        assertEquals(tipoTelefone.getTipo().getId(), tipoTelefoneDTO.tipo().id());
-        assertEquals(tipoTelefone.getTipo().getDescricao(), tipoTelefoneDTO.tipo().descricao());
-        assertEquals(tipoTelefone.getTipo().getCodigo(), tipoTelefoneDTO.tipo().codigo());
+        assertEquals(tipoTelefone.getId(), tipoTelefoneDTO.getId());
+        assertEquals(tipoTelefone.getDescricao(), tipoTelefoneDTO.getDescricao());
+        assertEquals(tipoTelefone.getCodigo(), tipoTelefoneDTO.getCodigo());
+        assertEquals(tipoTelefone.getTipo().getId(), tipoTelefoneDTO.getTipo().id());
+        assertEquals(tipoTelefone.getTipo().getDescricao(), tipoTelefoneDTO.getTipo().descricao());
+        assertEquals(tipoTelefone.getTipo().getCodigo(), tipoTelefoneDTO.getTipo().codigo());
     }
 
     @Test
@@ -44,11 +44,11 @@ class TipoTelefoneMapperTest {
 
         List<TipoTelefoneDTO> tipoTelefoneDTOS = tipoTelefoneMapper.toTiposTelefonesDtos(tipos);
         assertFalse(tipoTelefoneDTOS.isEmpty());
-        assertEquals(tipoTelefone.getId(), tipoTelefoneDTOS.get(0).id());
-        assertEquals(tipoTelefone.getDescricao(), tipoTelefoneDTOS.get(0).descricao());
-        assertEquals(tipoTelefone.getCodigo(), tipoTelefoneDTOS.get(0).codigo());
-        assertEquals(tipoTelefone.getTipo().getId(), tipoTelefoneDTOS.get(0).tipo().id());
-        assertEquals(tipoTelefone.getTipo().getDescricao(), tipoTelefoneDTOS.get(0).tipo().descricao());
-        assertEquals(tipoTelefone.getTipo().getCodigo(), tipoTelefoneDTOS.get(0).tipo().codigo());
+        assertEquals(tipoTelefone.getId(), tipoTelefoneDTOS.get(0).getId());
+        assertEquals(tipoTelefone.getDescricao(), tipoTelefoneDTOS.get(0).getDescricao());
+        assertEquals(tipoTelefone.getCodigo(), tipoTelefoneDTOS.get(0).getCodigo());
+        assertEquals(tipoTelefone.getTipo().getId(), tipoTelefoneDTOS.get(0).getTipo().id());
+        assertEquals(tipoTelefone.getTipo().getDescricao(), tipoTelefoneDTOS.get(0).getTipo().descricao());
+        assertEquals(tipoTelefone.getTipo().getCodigo(), tipoTelefoneDTOS.get(0).getTipo().codigo());
     }
 }
