@@ -83,6 +83,8 @@ class TelefoneControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.tipoTelefone.tipo.codigo").exists());
         resultActions.andExpect(jsonPath("$.tipoTelefone.tipo.codigo").value("TIPO_TELEFONE"));
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$.tipoTelefone._links.self").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test
@@ -138,6 +140,8 @@ class TelefoneControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.tipoTelefone.tipo.codigo").exists());
         resultActions.andExpect(jsonPath("$.tipoTelefone.tipo.codigo").value("TIPO_TELEFONE"));
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$.tipoTelefone._links.self").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test

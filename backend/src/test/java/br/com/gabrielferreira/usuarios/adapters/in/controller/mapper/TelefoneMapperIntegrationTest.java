@@ -30,20 +30,20 @@ class TelefoneMapperIntegrationTest {
                 ZonedDateTime.now(), ZonedDateTime.now());
 
         TelefoneDTO telefoneDTO = telefoneMapper.toTelefoneDto(telefoneDomain);
-        assertEquals(telefoneDomain.getId(), telefoneDTO.id());
-        assertEquals(telefoneDomain.getNumero(), telefoneDTO.numero());
-        assertEquals(telefoneDomain.getDdd(), telefoneDTO.ddd());
-        assertEquals(telefoneDomain.getDescricao(), telefoneDTO.descricao());
-        assertEquals(telefoneDomain.getCreatedAt(), telefoneDTO.createdAt());
-        assertEquals(telefoneDomain.getUpdatedAt(), telefoneDTO.updatedAt());
-        assertEquals(telefoneDomain.getTipoTelefone().getId(), telefoneDTO.tipoTelefone().getId());
-        assertEquals(telefoneDomain.getTipoTelefone().getDescricao(), telefoneDTO.tipoTelefone().getDescricao());
-        assertEquals(telefoneDomain.getTipoTelefone().getCodigo(), telefoneDTO.tipoTelefone().getCodigo());
-        assertEquals(telefoneDomain.getTipoTelefone().getTipo().getId(), telefoneDTO.tipoTelefone().getTipo().id());
-        assertEquals(telefoneDomain.getTipoTelefone().getTipo().getDescricao(), telefoneDTO.tipoTelefone().getTipo().descricao());
-        assertEquals(telefoneDomain.getTipoTelefone().getTipo().getCodigo(), telefoneDTO.tipoTelefone().getTipo().codigo());
-        assertEquals(telefoneDomain.getTelefoneFormatado(), telefoneDTO.telefoneFormatado());
-        assertEquals("(11) 99999-9999", telefoneDTO.telefoneFormatado());
+        assertEquals(telefoneDomain.getId(), telefoneDTO.getId());
+        assertEquals(telefoneDomain.getNumero(), telefoneDTO.getNumero());
+        assertEquals(telefoneDomain.getDdd(), telefoneDTO.getDdd());
+        assertEquals(telefoneDomain.getDescricao(), telefoneDTO.getDescricao());
+        assertEquals(telefoneDomain.getCreatedAt(), telefoneDTO.getCreatedAt());
+        assertEquals(telefoneDomain.getUpdatedAt(), telefoneDTO.getUpdatedAt());
+        assertEquals(telefoneDomain.getTipoTelefone().getId(), telefoneDTO.getTipoTelefone().getId());
+        assertEquals(telefoneDomain.getTipoTelefone().getDescricao(), telefoneDTO.getTipoTelefone().getDescricao());
+        assertEquals(telefoneDomain.getTipoTelefone().getCodigo(), telefoneDTO.getTipoTelefone().getCodigo());
+        assertEquals(telefoneDomain.getTipoTelefone().getTipo().getId(), telefoneDTO.getTipoTelefone().getTipo().id());
+        assertEquals(telefoneDomain.getTipoTelefone().getTipo().getDescricao(), telefoneDTO.getTipoTelefone().getTipo().descricao());
+        assertEquals(telefoneDomain.getTipoTelefone().getTipo().getCodigo(), telefoneDTO.getTipoTelefone().getTipo().codigo());
+        assertEquals(telefoneDomain.getTelefoneFormatado(), telefoneDTO.getTelefoneFormatado());
+        assertEquals("(11) 99999-9999", telefoneDTO.getTelefoneFormatado());
     }
 
     @Test
