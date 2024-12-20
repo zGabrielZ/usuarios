@@ -9,7 +9,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,10 +49,9 @@ class AnotacaoControllerIntegrationTest {
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isOk());
-        resultActions.andExpect(jsonPath("$.content").exists());
-
-        String conteudo = resultActions.andReturn().getResponse().getContentAsString();
-        assertNotNull(conteudo);
+        resultActions.andExpect(jsonPath("$._embedded.anotacoes").exists());
+        resultActions.andExpect(jsonPath("$._links.self.href").exists());
+        resultActions.andExpect(jsonPath("$.page").exists());
     }
 
     @Test
@@ -86,10 +84,9 @@ class AnotacaoControllerIntegrationTest {
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isOk());
-        resultActions.andExpect(jsonPath("$.content").exists());
-
-        String conteudo = resultActions.andReturn().getResponse().getContentAsString();
-        assertNotNull(conteudo);
+        resultActions.andExpect(jsonPath("$._embedded.anotacoes").exists());
+        resultActions.andExpect(jsonPath("$._links.self.href").exists());
+        resultActions.andExpect(jsonPath("$.page").exists());
     }
 
     @Test
@@ -105,9 +102,8 @@ class AnotacaoControllerIntegrationTest {
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isOk());
-        resultActions.andExpect(jsonPath("$.content").exists());
-
-        String conteudo = resultActions.andReturn().getResponse().getContentAsString();
-        assertNotNull(conteudo);
+        resultActions.andExpect(jsonPath("$._embedded.anotacoes").exists());
+        resultActions.andExpect(jsonPath("$._links.self.href").exists());
+        resultActions.andExpect(jsonPath("$.page").exists());
     }
 }
