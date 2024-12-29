@@ -1,50 +1,63 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
-public record UsuarioDTO(
-        @Schema(description = "ID do usuário", example = "1")
-        Long id,
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Relation(collectionRelation = "usuarios")
+public class UsuarioDTO extends RepresentationModel<UsuarioDTO> implements Serializable {
 
-        @Schema(description = "Nome do usuário", example = "Gabriel Ferreira")
-        String nome,
+    @Serial
+    private static final long serialVersionUID = 208108059380662373L;
 
-        @Schema(description = "E-mail do usuário", example = "test@email.com")
-        String email,
+    @Schema(description = "ID do usuário", example = "1")
+    private Long id;
 
-        @Schema(description = "CPF do usuário", example = "46188190061")
-        String cpf,
+    @Schema(description = "Nome do usuário", example = "Gabriel Ferreira")
+    private String nome;
 
-        @Schema(description = "CPF formatado do usuário", example = "461.881.900-61")
-        String cpfFormatado,
+    @Schema(description = "E-mail do usuário", example = "test@email.com")
+    private String email;
 
-        @Schema(description = "Renda do usuário", example = "2500.00")
-        BigDecimal renda,
+    @Schema(description = "CPF do usuário", example = "46188190061")
+    private String cpf;
 
-        @Schema(description = "Renda formatada do usuário", example = "R$ 2.500,00")
-        String rendaFormatada,
+    @Schema(description = "CPF formatado do usuário", example = "461.881.900-61")
+    private String cpfFormatado;
 
-        @Schema(description = "Data de nascimento do usuário (ANO/MÊS/DIA)", example = "1997-12-26")
-        LocalDate dataNascimento,
+    @Schema(description = "Renda do usuário", example = "2500.00")
+    private BigDecimal renda;
 
-        @Schema(description = "Quantidade de filhos do usuário", example = "2")
-        Integer quantidadeFilhos,
+    @Schema(description = "Renda formatada do usuário", example = "R$ 2.500,00")
+    private String rendaFormatada;
 
-        @Schema(description = "Telefone do usuário")
-        TelefoneDTO telefone,
+    @Schema(description = "Data de nascimento do usuário (ANO/MÊS/DIA)", example = "1997-12-26")
+    private LocalDate dataNascimento;
 
-        @Schema(description = "Gênero do usuário")
-        GeneroDTO genero,
+    @Schema(description = "Quantidade de filhos do usuário", example = "2")
+    private Integer quantidadeFilhos;
 
-        @Schema(description = "Criação do usuário", example = "2024-08-18T15:21:37.7822381-03:00")
-        ZonedDateTime createdAt,
+    @Schema(description = "Telefone do usuário")
+    private TelefoneDTO telefone;
 
-        @Schema(description = "Edição do usuário", example = "2024-08-18T15:21:37.7822381-03:00")
-        ZonedDateTime updatedAt
-) implements Serializable {
+    @Schema(description = "Gênero do usuário")
+    private GeneroDTO genero;
+
+    @Schema(description = "Criação do usuário", example = "2024-08-18T15:21:37.7822381-03:00")
+    private ZonedDateTime createdAt;
+
+    @Schema(description = "Edição do usuário", example = "2024-08-18T15:21:37.7822381-03:00")
+    private ZonedDateTime updatedAt;
 }

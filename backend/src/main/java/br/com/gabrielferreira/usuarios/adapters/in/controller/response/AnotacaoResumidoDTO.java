@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
@@ -15,6 +16,9 @@ import java.time.ZonedDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Relation(collectionRelation = "anotacoes")
 public class AnotacaoResumidoDTO extends RepresentationModel<AnotacaoResumidoDTO> implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 3973109075572674909L;
 
     @Schema(description = "ID da anotação", example = "1")
     private Long id;

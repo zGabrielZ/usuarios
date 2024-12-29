@@ -1,5 +1,6 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
+import br.com.gabrielferreira.usuarios.adapters.in.controller.hateoas.TelefoneHateoas;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.TelefoneMapper;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.TelefoneCreateDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.TelefoneDTO;
@@ -16,12 +17,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Tag(name = "Telefone Controller", description = "Endpoints para realizar requisições de telefones")
 @RestController
@@ -34,6 +31,8 @@ public class TelefoneController {
     private final UpdateTelefoneInput updateTelefoneInput;
 
     private final TelefoneMapper telefoneMapper;
+
+    private final TelefoneHateoas telefoneHateoas;
 
     @Operation(summary = "Buscar telefone por id")
     @ApiResponses(value = {
@@ -63,8 +62,7 @@ public class TelefoneController {
     public ResponseEntity<TelefoneDTO> findById(@PathVariable Long idUsuario){
         TelefoneDomain telefoneDomain = findTelefoneInput.findByUsuarioId(idUsuario);
         TelefoneDTO telefoneDto = telefoneMapper.toTelefoneDto(telefoneDomain);
-        telefoneDto.getTipoTelefone().add(getTipoTelefone(telefoneDto.getTipoTelefone().getId()));
-        telefoneDto.add(updateTelefone(telefoneDto.getId(), idUsuario));
+        telefoneHateoas.addLinkGetTelefone(telefoneDto, idUsuario);
         return ResponseEntity.ok(telefoneDto);
     }
 
@@ -107,23 +105,7 @@ public class TelefoneController {
         TelefoneDomain telefoneDomain = telefoneMapper.createTelefoneDomain(telefoneCreateDTO, id);
         telefoneDomain = updateTelefoneInput.update(telefoneDomain, idUsuario);
         TelefoneDTO telefoneDto = telefoneMapper.toTelefoneDto(telefoneDomain);
-        telefoneDto.getTipoTelefone().add(getTipoTelefone(telefoneDto.getTipoTelefone().getId()));
-        telefoneDto.add(getTelefone(idUsuario));
+        telefoneHateoas.addLinkPutTelefone(telefoneDto, idUsuario);
         return ResponseEntity.ok().body(telefoneDto);
-    }
-
-    private Link getTipoTelefone(Long id) {
-        return linkTo(methodOn(TipoTelefoneController.class).findById(id))
-                .withSelfRel().withType("GET");
-    }
-
-    private Link updateTelefone(Long id, Long idUsuario) {
-        return linkTo(methodOn(TelefoneController.class).update(id,  idUsuario, null))
-                .withSelfRel().withType("PUT");
-    }
-
-    private Link getTelefone(Long idUsuario) {
-        return linkTo(methodOn(TelefoneController.class).findById(idUsuario))
-                .withSelfRel().withType("GET");
     }
 }

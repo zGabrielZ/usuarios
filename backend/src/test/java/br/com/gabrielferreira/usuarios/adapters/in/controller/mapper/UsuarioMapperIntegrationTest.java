@@ -56,14 +56,14 @@ class UsuarioMapperIntegrationTest {
         usuarioDomain.setGenero(new DominioDomain(1L, "descricao", "codigo", new TipoDominioDomain(1L, "descricao", "codigo")));
 
         UsuarioDTO usuarioDTO = usuarioMapper.toUsuarioDto(usuarioDomain);
-        assertEquals(usuarioDomain.getId(), usuarioDTO.id());
-        assertEquals(usuarioDomain.getNome(), usuarioDTO.nome());
-        assertEquals(usuarioDomain.getGenero().getId(), usuarioDTO.genero().getId());
-        assertEquals(usuarioDomain.getGenero().getDescricao(), usuarioDTO.genero().getDescricao());
-        assertEquals(usuarioDomain.getGenero().getCodigo(), usuarioDTO.genero().getCodigo());
-        assertEquals(usuarioDomain.getGenero().getTipo().getId(), usuarioDTO.genero().getTipo().id());
-        assertEquals(usuarioDomain.getGenero().getTipo().getDescricao(), usuarioDTO.genero().getTipo().descricao());
-        assertEquals(usuarioDomain.getGenero().getTipo().getCodigo(), usuarioDTO.genero().getTipo().codigo());
+        assertEquals(usuarioDomain.getId(), usuarioDTO.getId());
+        assertEquals(usuarioDomain.getNome(), usuarioDTO.getNome());
+        assertEquals(usuarioDomain.getGenero().getId(), usuarioDTO.getGenero().getId());
+        assertEquals(usuarioDomain.getGenero().getDescricao(), usuarioDTO.getGenero().getDescricao());
+        assertEquals(usuarioDomain.getGenero().getCodigo(), usuarioDTO.getGenero().getCodigo());
+        assertEquals(usuarioDomain.getGenero().getTipo().getId(), usuarioDTO.getGenero().getTipo().id());
+        assertEquals(usuarioDomain.getGenero().getTipo().getDescricao(), usuarioDTO.getGenero().getTipo().descricao());
+        assertEquals(usuarioDomain.getGenero().getTipo().getCodigo(), usuarioDTO.getGenero().getTipo().codigo());
     }
 
     @Test
@@ -82,10 +82,10 @@ class UsuarioMapperIntegrationTest {
 
         List<UsuarioResumidoDTO> usuarioResumidoDTOS = usuarioMapper.toUsuarioResumidoDtos(usuarioDomains);
         assertFalse(usuarioResumidoDTOS.isEmpty());
-        assertEquals(usuarioDomain.getId(), usuarioResumidoDTOS.get(0).id());
-        assertEquals(usuarioDomain.getNome(), usuarioResumidoDTOS.get(0).nome());
-        assertEquals(usuarioDomain.getCpf(), usuarioResumidoDTOS.get(0).cpf());
-        assertEquals(usuarioDomain.getEmail(), usuarioResumidoDTOS.get(0).email());
+        assertEquals(usuarioDomain.getId(), usuarioResumidoDTOS.get(0).getId());
+        assertEquals(usuarioDomain.getNome(), usuarioResumidoDTOS.get(0).getNome());
+        assertEquals(usuarioDomain.getCpf(), usuarioResumidoDTOS.get(0).getCpf());
+        assertEquals(usuarioDomain.getEmail(), usuarioResumidoDTOS.get(0).getEmail());
     }
 
     @Test

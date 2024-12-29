@@ -1,5 +1,6 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
+import br.com.gabrielferreira.usuarios.adapters.in.controller.hateoas.UsuarioHateoas;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.PageInfoMapper;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.UsuarioMapper;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioCreateDTO;
@@ -12,8 +13,10 @@ import br.com.gabrielferreira.usuarios.application.ports.in.CreateUsuarioInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.DeleteUsuarioInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindUsuarioInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.UpdateUsuarioInput;
+import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploUsuarioUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -21,11 +24,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -52,15 +54,41 @@ public class UsuarioController {
 
     private final PageInfoMapper pageInfoMapper;
 
+    private final UsuarioHateoas usuarioHateoas;
+
     @Operation(summary = "Cadastrar usuário")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Usuário cadastrado",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioDTO.class)) }),
-            @ApiResponse(responseCode = "400", description = "Regra de negócio",
-                    content = @Content),
-            @ApiResponse(responseCode = "404", description = "Recurso não encontrado",
-                    content = @Content)
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Usuário cadastrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioDTO.class),
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARIO_CRIADO
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Regra de negócio",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARI0_CRIAR_ERRO
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Recurso não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARI0_CRIAR_NAO_ENCONTRADO
+                            )
+                    )
+            )
     })
     @PostMapping
     public ResponseEntity<UsuarioDTO> create(@Valid @RequestBody UsuarioCreateDTO usuarioCreateDTO){
@@ -68,75 +96,161 @@ public class UsuarioController {
         usuarioDomain = createUsuarioInput.create(usuarioDomain);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
                 .buildAndExpand(usuarioDomain.getId()).toUri();
-        return ResponseEntity.created(uri).body(usuarioMapper.toUsuarioDto(usuarioDomain));
+
+        UsuarioDTO usuarioDto = usuarioMapper.toUsuarioDto(usuarioDomain);
+        usuarioHateoas.addLinkToPost(usuarioDto);
+        return ResponseEntity.created(uri).body(usuarioDto);
     }
 
     @Operation(summary = "Buscar usuário por id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuário encontrado",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioDTO.class)) }),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado",
-                    content = @Content)
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usuário encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioDTO.class),
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARIO_ENCONTRADO
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuário não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARI0_NAO_ENCONTRADO
+                            )
+                    )
+            )
     })
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> findById(@PathVariable Long id){
         UsuarioDomain usuarioDomain = findUsuarioInput.findById(id);
-        return ResponseEntity.ok(usuarioMapper.toUsuarioDto(usuarioDomain));
+
+        UsuarioDTO usuarioDto = usuarioMapper.toUsuarioDto(usuarioDomain);
+        usuarioHateoas.addLinkToGet(usuarioDto);
+        return ResponseEntity.ok(usuarioDto);
     }
 
     @Operation(summary = "Buscar usuário por cpf")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuário encontrado",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioResumidoDTO.class)) }),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado",
-                    content = @Content)
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usuário encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioResumidoDTO.class),
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARIO_ENCONTRADO_CPF
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuário não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARI0_NAO_ENCONTRADO
+                            )
+                    )
+            )
     })
     @GetMapping("/cpf/{cpf}")
     public ResponseEntity<UsuarioResumidoDTO> findByCpf(@PathVariable String cpf){
         UsuarioDomain usuarioDomain = findUsuarioInput.findByCpf(cpf);
-        return ResponseEntity.ok(usuarioMapper.toUsuarioResumidoDto(usuarioDomain));
+        UsuarioResumidoDTO usuarioResumidoDto = usuarioMapper.toUsuarioResumidoDto(usuarioDomain);
+        usuarioHateoas.addLinkToGetCpf(usuarioResumidoDto);
+        return ResponseEntity.ok(usuarioResumidoDto);
     }
 
     @Operation(summary = "Buscar usuário por e-mail")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuário encontrado",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioResumidoDTO.class)) }),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado",
-                    content = @Content)
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usuário encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioResumidoDTO.class),
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARIO_ENCONTRADO_EMAIL
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuário não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARI0_NAO_ENCONTRADO
+                            )
+                    )
+            )
     })
     @GetMapping("/email/{email}")
     public ResponseEntity<UsuarioResumidoDTO> findByEmail(@PathVariable String email){
         UsuarioDomain usuarioDomain = findUsuarioInput.findByEmail(email);
-        return ResponseEntity.ok(usuarioMapper.toUsuarioResumidoDto(usuarioDomain));
+        UsuarioResumidoDTO usuarioResumidoDto = usuarioMapper.toUsuarioResumidoDto(usuarioDomain);
+        usuarioHateoas.addLinkToGetEmail(usuarioResumidoDto);
+        return ResponseEntity.ok(usuarioResumidoDto);
     }
 
     @Operation(summary = "Atualizar usuário")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuário atualizado",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioDTO.class)) }),
-            @ApiResponse(responseCode = "400", description = "Regra de negócio",
-                    content = @Content),
-            @ApiResponse(responseCode = "404", description = "Recurso não encontrado",
-                    content = @Content)
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usuário atualizado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioDTO.class),
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARIO_ATUALIZADO
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuário não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARI0_ATUALIZAR_NAO_ENCONTRADO
+                            )
+                    )
+            )
     })
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @Valid @RequestBody UsuarioUpdateDTO usuarioUpdateDTO){
         UsuarioDomain usuarioDomain = usuarioMapper.updateUsuarioDomain(usuarioUpdateDTO, id);
         usuarioDomain = updateUsuarioInput.update(usuarioDomain);
-        return ResponseEntity.ok().body(usuarioMapper.toUsuarioDto(usuarioDomain));
+        UsuarioDTO usuarioDto = usuarioMapper.toUsuarioDto(usuarioDomain);
+        usuarioHateoas.addLinkToPut(usuarioDto);
+        return ResponseEntity.ok().body(usuarioDto);
     }
 
     @Operation(summary = "Deletar usuário")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Usuário deletado",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Void.class)) }),
-            @ApiResponse(responseCode = "404", description = "Recurso não encontrado",
-                    content = @Content)
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Usuário deletado",
+                    content = @Content(
+                            mediaType = "application/json"
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuário não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARI0_DELETAR_NAO_ENCONTRADO
+                            )
+                    )
+            )
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
@@ -146,27 +260,50 @@ public class UsuarioController {
 
     @Operation(summary = "Buscar usuários paginados")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuários encontrados",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioResumidoDTO.class)) })
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usuários encontrados",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioResumidoDTO.class),
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARIOS_ENCONTRADOS
+                            )
+                    )
+            )
     })
     @GetMapping
-    public ResponseEntity<Page<UsuarioResumidoDTO>> findAll(@ParameterObject @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
-                                        @RequestParam(required = false) String nome,
-                                        @RequestParam(required = false) String email,
-                                        @RequestParam(required = false) BigDecimal renda){
+    public ResponseEntity<PagedModel<UsuarioResumidoDTO>> findAll(@ParameterObject @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
+                                                                  @RequestParam(required = false) String nome,
+                                                                  @RequestParam(required = false) String email,
+                                                                  @RequestParam(required = false) BigDecimal renda){
         PageInfo pageInfo = pageInfoMapper.toPageInfo(pageable);
-        List<UsuarioResumidoDTO> usuarioResumidoDTOS = usuarioMapper.toUsuarioResumidoDtos(findUsuarioInput.findAll(pageInfo, nome, email, renda));
-        return ResponseEntity.ok().body(new PageImpl<>(usuarioResumidoDTOS, pageable, usuarioResumidoDTOS.size()));
+        List<UsuarioResumidoDTO> usuarioResumidoDtos = usuarioMapper.toUsuarioResumidoDtos(findUsuarioInput.findAll(pageInfo, nome, email, renda));
+        usuarioHateoas.addLinkToGetUsuarios(usuarioResumidoDtos);
+
+        PagedModel.PageMetadata pageMetadata = new PagedModel.PageMetadata(pageInfo.getPageSize(), pageInfo.getPageNumber(), usuarioResumidoDtos.size());
+        return ResponseEntity.ok().body(org.springframework.hateoas.PagedModel.of(usuarioResumidoDtos, pageMetadata, usuarioHateoas.getUsuarios(pageable, nome, email, renda)));
     }
 
     @Operation(summary = "Atualizar usuário para admin")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Usuário atualizado",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Void.class)) }),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado",
-                    content = @Content)
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Usuário atualizado",
+                    content = @Content(
+                            mediaType = "application/json"
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuário não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARI0_ATUALIZAR_ADMIN_NAO_ENCONTRADO
+                            )
+                    )
+            )
     })
     @PutMapping("/{id}/admin")
     public ResponseEntity<Void> updateRoleAdmin(@PathVariable Long id){
@@ -176,11 +313,23 @@ public class UsuarioController {
 
     @Operation(summary = "Atualizar usuário para cliente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Usuário atualizado",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Void.class)) }),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado",
-                    content = @Content)
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Usuário atualizado",
+                    content = @Content(
+                            mediaType = "application/json"
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuário não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.USUARI0_ATUALIZAR_CLIENT_NAO_ENCONTRADO
+                            )
+                    )
+            )
     })
     @PutMapping("/{id}/client")
     public ResponseEntity<Void> updateRoleClient(@PathVariable Long id){

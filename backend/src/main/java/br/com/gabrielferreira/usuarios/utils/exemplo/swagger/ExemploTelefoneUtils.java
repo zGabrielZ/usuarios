@@ -7,11 +7,11 @@ public class ExemploTelefoneUtils {
     public static final String TELEFONE_ENCONTRADO =
             """
                     {
-                      "id": 2,
+                      "id": 1,
                       "numero": "999999999",
                       "ddd": "11",
                       "telefoneFormatado": "(11) 99999-9999",
-                      "descricao": "celular novo",
+                      "descricao": "Celular",
                       "tipoTelefone": {
                         "id": 5,
                         "descricao": "Celular",
@@ -42,71 +42,71 @@ public class ExemploTelefoneUtils {
     public static final String TELEFONE_NAO_ENCONTRADO =
             """
                     {
-                        "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
-                        "status": 404,
-                        "titulo": "Não encontrado",
-                        "mensagem": "Telefone informado não encontrado",
-                        "caminhoUrl": "/api/v1/usuarios/20/telefones",
-                        "campos": null
+                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "status": 404,
+                      "titulo": "Não encontrado",
+                      "mensagem": "Telefone informado não encontrado",
+                      "caminhoUrl": "/api/v1/usuarios/20/telefones",
+                      "campos": null
                     }
             """;
 
     public static final String TELEFONE_ATUALIZADO =
             """
                     {
-                        "id": 2,
-                        "numero": "999999999",
-                        "ddd": "11",
-                        "telefoneFormatado": "(11) 99999-9999",
-                        "descricao": "celular novo",
-                        "tipoTelefone": {
-                            "id": 5,
-                            "descricao": "Celular",
-                            "codigo": "CELULAR",
-                            "tipo": {
-                                "id": 2,
-                                "descricao": "Tipo de telefone",
-                                "codigo": "TIPO_TELEFONE"
-                            },
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v1/tipos-telefones/5",
-                                    "type": "GET"
-                                }
-                            }
+                      "id": 1,
+                      "numero": "999999999",
+                      "ddd": "11",
+                      "telefoneFormatado": "(11) 99999-9999",
+                      "descricao": "Celular",
+                      "tipoTelefone": {
+                        "id": 5,
+                        "descricao": "Celular",
+                        "codigo": "CELULAR",
+                        "tipo": {
+                          "id": 2,
+                          "descricao": "Tipo de telefone",
+                          "codigo": "TIPO_TELEFONE"
                         },
-                        "createdAt": "2024-08-15T22:24:39.949223-03:00",
-                        "updatedAt": "2024-12-19T20:19:40.889613-03:00",
                         "_links": {
-                            "self": {
-                                "href": "/api/v1/usuarios/2/telefones",
-                                "type": "GET"
-                            }
+                          "self": {
+                            "href": "/api/v1/tipos-telefones/5",
+                            "type": "GET"
+                          }
                         }
+                      },
+                      "createdAt": "2024-08-15T22:24:39.949223-03:00",
+                      "updatedAt": "2024-12-19T20:19:40.889613-03:00",
+                      "_links": {
+                        "self": {
+                          "href": "/api/v1/usuarios/2/telefones",
+                          "type": "GET"
+                        }
+                      }
                     }
             """;
 
     public static final String TELEFONE_ATUALIZAR_NAO_ENCONTRADO =
             """
                     {
-                        "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
-                        "status": 404,
-                        "titulo": "Não encontrado",
-                        "mensagem": "Telefone informado não encontrado",
-                        "caminhoUrl": "/api/v1/usuarios/20/telefones/20",
-                        "campos": null
+                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "status": 404,
+                      "titulo": "Não encontrado",
+                      "mensagem": "Telefone informado não encontrado",
+                      "caminhoUrl": "/api/v1/usuarios/20/telefones/20",
+                      "campos": null
                     }
             """;
 
     public static final String TELEFONE_ATUALIZAR_ERRO =
             """
                     {
-                        "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
-                        "status": 400,
-                        "titulo": "Regra de negócio",
-                        "mensagem": "O número do telefone '(11) 9999-9999' tem ser do tipo residencial",
-                        "caminhoUrl": "/api/v1/usuarios/20/telefones/20",
-                        "campos": null
+                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "status": 400,
+                      "titulo": "Regra de negócio",
+                      "mensagem": "O número do telefone '(11) 9999-9999' tem ser do tipo residencial",
+                      "caminhoUrl": "/api/v1/usuarios/20/telefones/20",
+                      "campos": null
                     }
             """;
 }

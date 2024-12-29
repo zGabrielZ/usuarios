@@ -1,5 +1,6 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
+import br.com.gabrielferreira.usuarios.adapters.in.controller.hateoas.GeneroHateoas;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.GeneroMapper;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.GeneroDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
@@ -14,7 +15,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Tag(name = "Gênero Controller", description = "Endpoints para realizar requisições de gêneros")
 @RestController
@@ -35,6 +32,8 @@ public class GeneroController {
     private final FindGeneroInput findGeneroInput;
 
     private final GeneroMapper generoMapper;
+
+    private final GeneroHateoas generoHateoas;
 
     @Operation(summary = "Buscar gênero por id")
     @ApiResponses(value = {
@@ -84,17 +83,7 @@ public class GeneroController {
     public ResponseEntity<CollectionModel<GeneroDTO>> findAll(){
         List<DominioDomain> dominioDomains = findGeneroInput.findAllByTipoCodigo();
         List<GeneroDTO> generosDtos = generoMapper.toGenerosDtos(dominioDomains);
-        generosDtos.forEach(generoDto -> generoDto.add(getGenero(generoDto.getId())));
-        return ResponseEntity.ok(CollectionModel.of(generosDtos, getGeneros()));
-    }
-
-    private Link getGenero(Long id) {
-        return linkTo(methodOn(GeneroController.class).findById(id))
-                .withSelfRel().withType("GET");
-    }
-
-    private Link getGeneros() {
-        return linkTo(methodOn(GeneroController.class).findAll())
-                .withSelfRel().withType("GET");
+        generoHateoas.addLinkToGeneros(generosDtos);
+        return ResponseEntity.ok(CollectionModel.of(generosDtos, generoHateoas.getGeneros()));
     }
 }

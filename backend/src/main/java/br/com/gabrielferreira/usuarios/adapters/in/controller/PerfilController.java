@@ -1,5 +1,6 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
+import br.com.gabrielferreira.usuarios.adapters.in.controller.hateoas.PerfilHateoas;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.PerfilMapper;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.PerfilDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
@@ -14,7 +15,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Tag(name = "Perfil Controller", description = "Endpoints para realizar requisições de perfis")
 @RestController
@@ -35,6 +32,8 @@ public class PerfilController {
     private final FindPerfilInput findPerfilInput;
 
     private final PerfilMapper perfilMapper;
+
+    private final PerfilHateoas perfilHateoas;
 
     @Operation(summary = "Buscar perfil por id")
     @ApiResponses(value = {
@@ -84,17 +83,7 @@ public class PerfilController {
     public ResponseEntity<CollectionModel<PerfilDTO>> findAll(){
         List<PerfilDomain> perfilDomains = findPerfilInput.findAll();
         List<PerfilDTO> perfisDtos = perfilMapper.toPerfisDtos(perfilDomains);
-        perfisDtos.forEach(perfilDto -> perfilDto.add(getPerfil(perfilDto.getId())));
-        return ResponseEntity.ok().body(CollectionModel.of(perfisDtos, getPerfis()));
-    }
-
-    private Link getPerfil(Long id) {
-        return linkTo(methodOn(PerfilController.class).findById(id))
-                .withSelfRel().withType("GET");
-    }
-
-    private Link getPerfis() {
-        return linkTo(methodOn(PerfilController.class).findAll())
-                .withSelfRel().withType("GET");
+        perfilHateoas.addLinkToPerfis(perfisDtos);
+        return ResponseEntity.ok().body(CollectionModel.of(perfisDtos, perfilHateoas.getPerfis()));
     }
 }

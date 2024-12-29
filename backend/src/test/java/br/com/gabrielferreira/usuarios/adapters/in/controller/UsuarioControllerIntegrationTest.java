@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static br.com.gabrielferreira.usuarios.tests.UsuarioFactory.atualizarUsuarioUpdateDto;
 import static br.com.gabrielferreira.usuarios.tests.UsuarioFactory.criarUsuarioCreateDto;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -106,6 +105,7 @@ class UsuarioControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.telefone.telefoneFormatado").exists());
         resultActions.andExpect(jsonPath("$.genero.id").value(usuarioCreateDTO.genero().id()));
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test
@@ -171,6 +171,7 @@ class UsuarioControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.telefone.telefoneFormatado").exists());
         resultActions.andExpect(jsonPath("$.genero.id").exists());
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test
@@ -211,6 +212,7 @@ class UsuarioControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.dataNascimento").exists());
         resultActions.andExpect(jsonPath("$.quantidadeFilhos").exists());
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test
@@ -251,6 +253,7 @@ class UsuarioControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.dataNascimento").exists());
         resultActions.andExpect(jsonPath("$.quantidadeFilhos").exists());
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test
@@ -299,6 +302,7 @@ class UsuarioControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.quantidadeFilhos").value(usuarioUpdateDTO.quantidadeFilhos()));
         resultActions.andExpect(jsonPath("$.genero.id").value(usuarioUpdateDTO.genero().id()));
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test
@@ -327,10 +331,9 @@ class UsuarioControllerIntegrationTest {
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isOk());
-        resultActions.andExpect(jsonPath("$.content").exists());
-
-        String conteudo = resultActions.andReturn().getResponse().getContentAsString();
-        assertNotNull(conteudo);
+        resultActions.andExpect(jsonPath("$._embedded.usuarios").exists());
+        resultActions.andExpect(jsonPath("$._links.self.href").exists());
+        resultActions.andExpect(jsonPath("$.page").exists());
     }
 
     @Test
