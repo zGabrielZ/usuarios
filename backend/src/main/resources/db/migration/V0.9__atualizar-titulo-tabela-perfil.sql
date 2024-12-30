@@ -1,0 +1,1 @@
+UPDATE TB_PERFIL SET TITULO = 'Administrador' WHERE TITULO = 'Adminstrador';

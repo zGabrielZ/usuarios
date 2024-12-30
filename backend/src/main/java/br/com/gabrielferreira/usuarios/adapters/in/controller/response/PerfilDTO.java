@@ -22,7 +22,7 @@ public class PerfilDTO extends RepresentationModel<PerfilDTO> implements Seriali
     @Schema(description = "ID do perfil", example = "1")
     private Long id;
 
-    @Schema(description = "Título do perfil", example = "Adminstrador")
+    @Schema(description = "Título do perfil", example = "Administrador")
     private String titulo;
 
     @Schema(description = "Autoriedade do perfil", example = "ROLE_ADMIN")

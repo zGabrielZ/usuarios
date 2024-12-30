@@ -32,7 +32,7 @@ public class ExemploPerfilUtils {
                         "perfis": [
                           {
                             "id": 1,
-                            "titulo": "Adminstrador",
+                            "titulo": "Administrador",
                             "autoriedade": "ROLE_ADMIN",
                             "_links": {
                               "self": {
