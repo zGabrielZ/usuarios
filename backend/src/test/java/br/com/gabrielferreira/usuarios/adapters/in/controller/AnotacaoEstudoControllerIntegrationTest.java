@@ -98,6 +98,7 @@ class AnotacaoEstudoControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.dataEstudoInicio").exists());
         resultActions.andExpect(jsonPath("$.dataEstudoFim").exists());
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test
@@ -194,6 +195,7 @@ class AnotacaoEstudoControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.dataEstudoInicio").exists());
         resultActions.andExpect(jsonPath("$.dataEstudoFim").exists());
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test
@@ -251,6 +253,7 @@ class AnotacaoEstudoControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.dataEstudoInicio").exists());
         resultActions.andExpect(jsonPath("$.dataEstudoFim").exists());
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test

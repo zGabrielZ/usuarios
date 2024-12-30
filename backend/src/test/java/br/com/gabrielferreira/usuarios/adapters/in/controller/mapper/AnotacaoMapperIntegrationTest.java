@@ -145,17 +145,17 @@ class AnotacaoMapperIntegrationTest {
         AnotacaoDomain anotacaoDomain = build(usuarioDomain, dominioDomain, situacaoDomain);
 
         AnotacaoEstudoDTO anotacaoEstudoDTO = anotacaoMapper.toAnotacaoEstudoDto(anotacaoDomain);
-        assertEquals(anotacaoDomain.getId(), anotacaoEstudoDTO.id());
-        assertEquals(anotacaoDomain.getTitulo(), anotacaoEstudoDTO.titulo());
-        assertEquals(anotacaoDomain.getDescricao(), anotacaoEstudoDTO.descricao());
-        assertEquals(anotacaoDomain.getTipoAnotacao().getId(), anotacaoEstudoDTO.tipoAnotacao().id());
-        assertEquals(anotacaoDomain.getTipoAnotacao().getDescricao(), anotacaoEstudoDTO.tipoAnotacao().descricao());
-        assertEquals(anotacaoDomain.getSituacaoTipoAnotacao().getId(), anotacaoEstudoDTO.situacaoTipoAnotacao().id());
-        assertEquals(anotacaoDomain.getSituacaoTipoAnotacao().getDescricao(), anotacaoEstudoDTO.situacaoTipoAnotacao().descricao());
-        assertEquals(anotacaoDomain.getDataEstudoInicio(), anotacaoEstudoDTO.dataEstudoInicio());
-        assertEquals(anotacaoDomain.getDataEstudoFim(), anotacaoEstudoDTO.dataEstudoFim());
-        assertEquals(anotacaoDomain.getCreatedAt(), anotacaoEstudoDTO.createdAt());
-        assertEquals(anotacaoDomain.getUpdatedAt(), anotacaoEstudoDTO.updatedAt());
+        assertEquals(anotacaoDomain.getId(), anotacaoEstudoDTO.getId());
+        assertEquals(anotacaoDomain.getTitulo(), anotacaoEstudoDTO.getTitulo());
+        assertEquals(anotacaoDomain.getDescricao(), anotacaoEstudoDTO.getDescricao());
+        assertEquals(anotacaoDomain.getTipoAnotacao().getId(), anotacaoEstudoDTO.getTipoAnotacao().id());
+        assertEquals(anotacaoDomain.getTipoAnotacao().getDescricao(), anotacaoEstudoDTO.getTipoAnotacao().descricao());
+        assertEquals(anotacaoDomain.getSituacaoTipoAnotacao().getId(), anotacaoEstudoDTO.getSituacaoTipoAnotacao().id());
+        assertEquals(anotacaoDomain.getSituacaoTipoAnotacao().getDescricao(), anotacaoEstudoDTO.getSituacaoTipoAnotacao().descricao());
+        assertEquals(anotacaoDomain.getDataEstudoInicio(), anotacaoEstudoDTO.getDataEstudoInicio());
+        assertEquals(anotacaoDomain.getDataEstudoFim(), anotacaoEstudoDTO.getDataEstudoFim());
+        assertEquals(anotacaoDomain.getCreatedAt(), anotacaoEstudoDTO.getCreatedAt());
+        assertEquals(anotacaoDomain.getUpdatedAt(), anotacaoEstudoDTO.getUpdatedAt());
     }
 
     @Test

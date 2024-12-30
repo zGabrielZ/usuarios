@@ -1,36 +1,49 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-public record AnotacaoEstudoDTO(
-        @Schema(description = "ID da anotação", example = "1")
-        Long id,
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Relation(collectionRelation = "anotacoesEstudos")
+public class AnotacaoEstudoDTO extends RepresentationModel<AnotacaoEstudoDTO> implements Serializable {
 
-        @Schema(description = "Título da anotação", example = "Anotação #123")
-        String titulo,
+    @Serial
+    private static final long serialVersionUID = 1411454341091391447L;
 
-        @Schema(description = "Descrição da anotação", example = "Tal anotação.....")
-        String descricao,
+    @Schema(description = "ID da anotação", example = "1")
+    private Long id;
 
-        @Schema(description = "Tipo anotação")
-        TipoAnotacaoEstudoDTO tipoAnotacao,
+    @Schema(description = "Título da anotação", example = "Anotação #123")
+    private String titulo;
 
-        @Schema(description = "Situação da anotação")
-        SituacaoAnotacaoEstudoDTO situacaoTipoAnotacao,
+    @Schema(description = "Descrição da anotação", example = "Tal anotação.....")
+    private String descricao;
 
-        @Schema(description = "Data estudo inicío", example = "2024-08-18T15:21:37.7822381-03:00")
-        ZonedDateTime dataEstudoInicio,
+    @Schema(description = "Tipo anotação")
+    private TipoAnotacaoEstudoDTO tipoAnotacao;
 
-        @Schema(description = "Data estudo fim", example = "2024-08-18T16:21:37.7822381-03:00")
-        ZonedDateTime dataEstudoFim,
+    @Schema(description = "Situação da anotação")
+    private SituacaoAnotacaoEstudoDTO situacaoTipoAnotacao;
 
-        @Schema(description = "Criação da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
-        ZonedDateTime createdAt,
+    @Schema(description = "Data estudo inicío", example = "2024-08-18T15:21:37.7822381-03:00")
+    private ZonedDateTime dataEstudoInicio;
 
-        @Schema(description = "Edição da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
-        ZonedDateTime updatedAt
-) implements Serializable {
+    @Schema(description = "Data estudo fim", example = "2024-08-18T16:21:37.7822381-03:00")
+    private ZonedDateTime dataEstudoFim;
+
+    @Schema(description = "Criação da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
+    private ZonedDateTime createdAt;
+
+    @Schema(description = "Edição da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
+    private ZonedDateTime updatedAt;
 }
