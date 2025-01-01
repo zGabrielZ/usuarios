@@ -97,6 +97,7 @@ class AnotacaoLembreteControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.situacaoTipoAnotacao.codigo").exists());
         resultActions.andExpect(jsonPath("$.situacaoTipoAnotacao.codigo").value("LEMBRETE_ABERTO"));
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test
@@ -152,6 +153,7 @@ class AnotacaoLembreteControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.situacaoTipoAnotacao.codigo").exists());
         resultActions.andExpect(jsonPath("$.situacaoTipoAnotacao.codigo").value("LEMBRETE_ABERTO"));
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test
@@ -208,6 +210,7 @@ class AnotacaoLembreteControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.situacaoTipoAnotacao.codigo").exists());
         resultActions.andExpect(jsonPath("$.situacaoTipoAnotacao.codigo").value("LEMBRETE_ABERTO"));
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test

@@ -97,16 +97,16 @@ class AnotacaoMapperTest {
             AnotacaoDomain anotacaoDomain = build(usuarioDomain, dominioDomain, situacaoDomain);
 
             AnotacaoLembreteDTO anotacaoLembreteDto = anotacaoMapper.toAnotacaoLembreteDto(anotacaoDomain);
-            assertEquals(anotacaoDomain.getId(), anotacaoLembreteDto.id());
-            assertEquals(anotacaoDomain.getTitulo(), anotacaoLembreteDto.titulo());
-            assertEquals(anotacaoDomain.getDescricao(), anotacaoLembreteDto.descricao());
-            assertEquals(anotacaoDomain.getTipoAnotacao().getId(), anotacaoLembreteDto.tipoAnotacao().id());
-            assertEquals(anotacaoDomain.getTipoAnotacao().getDescricao(), anotacaoLembreteDto.tipoAnotacao().descricao());
-            assertEquals(anotacaoDomain.getSituacaoTipoAnotacao().getId(), anotacaoLembreteDto.situacaoTipoAnotacao().id());
-            assertEquals(anotacaoDomain.getSituacaoTipoAnotacao().getDescricao(), anotacaoLembreteDto.situacaoTipoAnotacao().descricao());
-            assertEquals(anotacaoDomain.getDataLembrete(), anotacaoLembreteDto.dataLembrete());
-            assertEquals(anotacaoDomain.getCreatedAt(), anotacaoLembreteDto.createdAt());
-            assertEquals(anotacaoDomain.getUpdatedAt(), anotacaoLembreteDto.updatedAt());
+            assertEquals(anotacaoDomain.getId(), anotacaoLembreteDto.getId());
+            assertEquals(anotacaoDomain.getTitulo(), anotacaoLembreteDto.getTitulo());
+            assertEquals(anotacaoDomain.getDescricao(), anotacaoLembreteDto.getDescricao());
+            assertEquals(anotacaoDomain.getTipoAnotacao().getId(), anotacaoLembreteDto.getTipoAnotacao().id());
+            assertEquals(anotacaoDomain.getTipoAnotacao().getDescricao(), anotacaoLembreteDto.getTipoAnotacao().descricao());
+            assertEquals(anotacaoDomain.getSituacaoTipoAnotacao().getId(), anotacaoLembreteDto.getSituacaoTipoAnotacao().id());
+            assertEquals(anotacaoDomain.getSituacaoTipoAnotacao().getDescricao(), anotacaoLembreteDto.getSituacaoTipoAnotacao().descricao());
+            assertEquals(anotacaoDomain.getDataLembrete(), anotacaoLembreteDto.getDataLembrete());
+            assertEquals(anotacaoDomain.getCreatedAt(), anotacaoLembreteDto.getCreatedAt());
+            assertEquals(anotacaoDomain.getUpdatedAt(), anotacaoLembreteDto.getUpdatedAt());
         }
 
         @Test
