@@ -94,6 +94,7 @@ class AnotacaoRascunhoControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.situacaoTipoAnotacao.codigo").exists());
         resultActions.andExpect(jsonPath("$.situacaoTipoAnotacao.codigo").value("RASCUNHO_ABERTO"));
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test
@@ -170,6 +171,7 @@ class AnotacaoRascunhoControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.situacaoTipoAnotacao.codigo").exists());
         resultActions.andExpect(jsonPath("$.situacaoTipoAnotacao.codigo").value("RASCUNHO_ABERTO"));
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test
@@ -225,6 +227,7 @@ class AnotacaoRascunhoControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$.situacaoTipoAnotacao.codigo").exists());
         resultActions.andExpect(jsonPath("$.situacaoTipoAnotacao.codigo").value("RASCUNHO_ABERTO"));
         resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
     }
 
     @Test

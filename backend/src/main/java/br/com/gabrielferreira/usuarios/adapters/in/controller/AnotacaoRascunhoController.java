@@ -1,5 +1,6 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
+import br.com.gabrielferreira.usuarios.adapters.in.controller.hateoas.AnotacaoRascunhoHateoas;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.AnotacaoMapper;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.AnotacaoRascunhoCreateDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.AnotacaoRascunhoDTO;
@@ -7,8 +8,10 @@ import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.CreateAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.UpdateAnotacaoInput;
+import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploAnotacaoRascunhoUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -35,11 +38,21 @@ public class AnotacaoRascunhoController {
 
     private final AnotacaoMapper anotacaoMapper;
 
+    private final AnotacaoRascunhoHateoas anotacaoRascunhoHateoas;
+
     @Operation(summary = "Cadastrar anotação rascunho")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Anotação cadastrada",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class)) })
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Anotação cadastrada",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class),
+                            examples = @ExampleObject(
+                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_RASCUNHO_CRIADO
+                            )
+                    )
+            )
     })
     @PostMapping
     public ResponseEntity<AnotacaoRascunhoDTO> createRascunho(@PathVariable Long idUsuario, @Valid @RequestBody AnotacaoRascunhoCreateDTO anotacaoRascunhoCreateDTO){
@@ -47,32 +60,72 @@ public class AnotacaoRascunhoController {
         anotacaoDomain = createAnotacaoInput.createRascunho(anotacaoDomain, idUsuario);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
                 .buildAndExpand(anotacaoDomain.getId()).toUri();
-        return ResponseEntity.created(uri).body(anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain));
+        AnotacaoRascunhoDTO anotacaoRascunhoDto = anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain);
+        anotacaoRascunhoHateoas.addLinkPostAnotacaoRascunho(anotacaoRascunhoDto, idUsuario);
+        return ResponseEntity.created(uri).body(anotacaoRascunhoDto);
     }
 
     @Operation(summary = "Buscar anotação por rascunho por id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Anotação encontrado",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class)) }),
-            @ApiResponse(responseCode = "404", description = "Anotação não encontrado",
-                    content = @Content)
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Anotação encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class),
+                            examples = @ExampleObject(
+                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_RASCUNHO_ENCONTRADO
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Anotação não encontrada",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_NAO_ENCONTRADA
+                            )
+                    )
+            )
     })
     @GetMapping("/{id}")
     public ResponseEntity<AnotacaoRascunhoDTO> findRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id){
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoRascunho(id, idUsuario);
-        return ResponseEntity.ok(anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain));
+        AnotacaoRascunhoDTO anotacaoRascunhoDto = anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain);
+        anotacaoRascunhoHateoas.addLinkGetAnotacaoRascunho(anotacaoRascunhoDto, idUsuario);
+        return ResponseEntity.ok(anotacaoRascunhoDto);
     }
 
     @Operation(summary = "Finalizar anotação rascunho por id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Anotação atualizado",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Void.class)) }),
-            @ApiResponse(responseCode = "404", description = "Anotação não encontrado",
-                    content = @Content),
-            @ApiResponse(responseCode = "400", description = "Regra de negócio",
-                    content = @Content)
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Anotação atualizado",
+                    content = @Content(
+                            mediaType = "application/json"
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Anotação não encontrada",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_FINALIZAR_NAO_ENCONTRADA
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Regra de negócio",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_FINALIZAR_ERRO
+                            )
+                    )
+            )
     })
     @PutMapping("/{id}/finalizar")
     public ResponseEntity<Void> finalizarAnotacaoRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id){
@@ -82,13 +135,33 @@ public class AnotacaoRascunhoController {
 
     @Operation(summary = "Reabrir anotação rascunho por id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Anotação atualizado",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Void.class)) }),
-            @ApiResponse(responseCode = "404", description = "Anotação não encontrado",
-                    content = @Content),
-            @ApiResponse(responseCode = "400", description = "Regra de negócio",
-                    content = @Content)
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Anotação atualizado",
+                    content = @Content(
+                            mediaType = "application/json"
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Anotação não encontrada",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_REABRIR_NAO_ENCONTRADA
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Regra de negócio",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_REABRIR_ERRO
+                            )
+                    )
+            )
     })
     @PutMapping("/{id}/reabrir")
     public ResponseEntity<Void> reabrirAnotacaoRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id){
@@ -98,18 +171,45 @@ public class AnotacaoRascunhoController {
 
     @Operation(summary = "Editar anotação rascunho por id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Anotação atualizado",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class)) }),
-            @ApiResponse(responseCode = "404", description = "Anotação não encontrado",
-                    content = @Content),
-            @ApiResponse(responseCode = "400", description = "Regra de negócio",
-                    content = @Content)
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Anotação atualizado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class),
+                            examples = @ExampleObject(
+                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_EDITAR
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Anotação não encontrada",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_EDITAR_NAO_ENCONTRADA
+                            )
+                    )
+            )
+            ,
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Regra de negócio",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_EDITAR_ERRO
+                            )
+                    )
+            )
     })
     @PutMapping("/{id}")
     public ResponseEntity<AnotacaoRascunhoDTO> editarAnotacaoRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id, @Valid @RequestBody AnotacaoRascunhoCreateDTO anotacaoRascunhoCreateDTO){
         AnotacaoDomain anotacaoDomain = anotacaoMapper.createAnotacaoDomain(anotacaoRascunhoCreateDTO);
         anotacaoDomain = updateAnotacaoInput.updateAnotacaoRascunho(id, idUsuario, anotacaoDomain);
-        return ResponseEntity.ok().body(anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain));
+        AnotacaoRascunhoDTO anotacaoRascunhoDto = anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain);
+        anotacaoRascunhoHateoas.addLinkPutAnotacaoRascunho(anotacaoRascunhoDto, idUsuario);
+        return ResponseEntity.ok().body(anotacaoRascunhoDto);
     }
 }
