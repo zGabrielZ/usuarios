@@ -13,6 +13,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class PerfilHateoas {
 
+    public void addLinkToPerfilUsuario(PerfilDTO perfilDto) {
+        perfilDto.add(getPerfil(perfilDto.getId()));
+    }
+
     public void addLinkToPerfis(List<PerfilDTO> perfisDtos) {
         perfisDtos.forEach(perfilDto -> perfilDto.add(getPerfil(perfilDto.getId())));
     }

@@ -1,18 +1,19 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
+import br.com.gabrielferreira.usuarios.adapters.in.controller.hateoas.PerfilHateoas;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.hateoas.UsuarioHateoas;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.PageInfoMapper;
+import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.PerfilMapper;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.UsuarioMapper;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioCreateDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioUpdateDTO;
+import br.com.gabrielferreira.usuarios.adapters.in.controller.response.PerfilDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.UsuarioDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.UsuarioResumidoDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.PageInfo;
+import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
-import br.com.gabrielferreira.usuarios.application.ports.in.CreateUsuarioInput;
-import br.com.gabrielferreira.usuarios.application.ports.in.DeleteUsuarioInput;
-import br.com.gabrielferreira.usuarios.application.ports.in.FindUsuarioInput;
-import br.com.gabrielferreira.usuarios.application.ports.in.UpdateUsuarioInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.*;
 import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploUsuarioUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,6 +28,7 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +57,12 @@ public class UsuarioController {
     private final PageInfoMapper pageInfoMapper;
 
     private final UsuarioHateoas usuarioHateoas;
+
+    private final FindPerfilInput findPerfilInput;
+
+    private final PerfilMapper perfilMapper;
+
+    private final PerfilHateoas perfilHateoas;
 
     @Operation(summary = "Cadastrar usuário")
     @ApiResponses(value = {
@@ -335,5 +343,61 @@ public class UsuarioController {
     public ResponseEntity<Void> updateRoleClient(@PathVariable Long id){
         updateUsuarioInput.updateRoleClient(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Buscar perfil do usuário por id")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Perfil encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = PerfilDTO.class),
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.PERFIL_ENCONTRADO
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Perfil não encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.PERFIL_NAO_ENCONTRADO
+                            )
+                    )
+            )
+    })
+    @GetMapping("/{id}/perfis/{idPerfil}")
+    public ResponseEntity<PerfilDTO> findPerfilByIdUsuarioAndIdPerfil(@PathVariable Long id, @PathVariable Long idPerfil){
+        PerfilDomain perfilDomain = findPerfilInput.findByIdAndIdUsuario(idPerfil, id);
+
+        PerfilDTO perfilDto = perfilMapper.toPerfilDto(perfilDomain);
+        perfilHateoas.addLinkToPerfilUsuario(perfilDto);
+        return ResponseEntity.ok(perfilDto);
+    }
+
+    @Operation(summary = "Buscar perfis do usuário por id")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Perfis encontrados",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = PerfilDTO.class),
+                            examples = @ExampleObject(
+                                    value = ExemploUsuarioUtils.PERFIS_ENCONTRADOS
+                            )
+                    )
+            )
+    })
+    @GetMapping("/{id}/perfis")
+    public ResponseEntity<CollectionModel<PerfilDTO>> findPerfisByIdUsuario(@PathVariable Long id){
+        List<PerfilDomain> perfilDomains = findPerfilInput.findAllByIdUsuario(id);
+
+        List<PerfilDTO> perfilDtos = perfilMapper.toPerfisDtos(perfilDomains);
+        perfilHateoas.addLinkToPerfis(perfilDtos);
+        return ResponseEntity.ok(CollectionModel.of(perfilDtos, perfilHateoas.getPerfis()));
     }
 }

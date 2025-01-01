@@ -9,6 +9,8 @@ import java.util.List;
 
 public class FindPerfilUseCase implements FindPerfilInput {
 
+    private static final String MSG_PERFIL_NAO_ENCONTRADO = "Perfil informado não encontrado";
+
     private final FindPerfilOutput findPerfilOutput;
 
     public FindPerfilUseCase(FindPerfilOutput findPerfilOutput) {
@@ -18,7 +20,7 @@ public class FindPerfilUseCase implements FindPerfilInput {
     @Override
     public PerfilDomain findById(Long id) {
         return findPerfilOutput.findById(id)
-                .orElseThrow(() -> new NaoEncontradoException("Perfil informado não encontrado"));
+                .orElseThrow(() -> new NaoEncontradoException(MSG_PERFIL_NAO_ENCONTRADO));
     }
 
     @Override
@@ -29,6 +31,17 @@ public class FindPerfilUseCase implements FindPerfilInput {
     @Override
     public PerfilDomain findByRole(String role) {
         return findPerfilOutput.findByRole(role)
-                .orElseThrow(() -> new NaoEncontradoException("Perfil informado não encontrado"));
+                .orElseThrow(() -> new NaoEncontradoException(MSG_PERFIL_NAO_ENCONTRADO));
+    }
+
+    @Override
+    public PerfilDomain findByIdAndIdUsuario(Long id, Long idUsuario) {
+        return findPerfilOutput.findByIdAndIdUsuario(id, idUsuario)
+                .orElseThrow(() -> new NaoEncontradoException(MSG_PERFIL_NAO_ENCONTRADO));
+    }
+
+    @Override
+    public List<PerfilDomain> findAllByIdUsuario(Long idUsuario) {
+        return findPerfilOutput.findAllByIdUsuario(idUsuario);
     }
 }

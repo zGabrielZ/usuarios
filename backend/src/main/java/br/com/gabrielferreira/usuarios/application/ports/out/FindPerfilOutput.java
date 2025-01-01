@@ -12,4 +12,8 @@ public interface FindPerfilOutput {
     List<PerfilDomain> findAll();
 
     Optional<PerfilDomain> findByRole(String role);
+
+    Optional<PerfilDomain> findByIdAndIdUsuario(Long id, Long idUsuario);
+
+    List<PerfilDomain> findAllByIdUsuario(Long idUsuario);
 }

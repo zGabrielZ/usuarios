@@ -11,4 +11,8 @@ public interface FindPerfilInput {
     List<PerfilDomain> findAll();
 
     PerfilDomain findByRole(String role);
+
+    PerfilDomain findByIdAndIdUsuario(Long id, Long idUsuario);
+
+    List<PerfilDomain> findAllByIdUsuario(Long idUsuario);
 }

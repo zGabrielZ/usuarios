@@ -40,4 +40,16 @@ public class FindPerfilAdapter implements FindPerfilOutput {
         Optional<PerfilEntity> perfilEntityOptional = perfilRepository.findByAutoriedade(role);
         return perfilEntityOptional.map(perfilEntityMapper::toPerfilDomain);
     }
+
+    @Override
+    public Optional<PerfilDomain> findByIdAndIdUsuario(Long id, Long idUsuario) {
+        Optional<PerfilEntity> perfilEntityOptional = perfilRepository.findByIdAndIdUsuario(id, idUsuario);
+        return perfilEntityOptional.map(perfilEntityMapper::toPerfilDomain);
+    }
+
+    @Override
+    public List<PerfilDomain> findAllByIdUsuario(Long idUsuario) {
+        List<PerfilEntity> perfis = perfilRepository.findAllByIdUsuario(idUsuario);
+        return perfilEntityMapper.toPerfisDomains(perfis);
+    }
 }

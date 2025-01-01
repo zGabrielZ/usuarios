@@ -47,6 +47,10 @@ class UsuarioControllerIntegrationTest {
 
     private Long idUsuarioInexistente;
 
+    private Long idPerfilInexistente;
+
+    private Long idPerfilExistente;
+
     private String emailExistente;
 
     private String emailInexistente;
@@ -69,6 +73,8 @@ class UsuarioControllerIntegrationTest {
         cpfExistente = "63801219003";
         cpfInexistente = "naotemcpf";
         usuarioUpdateDTO = atualizarUsuarioUpdateDto();
+        idPerfilInexistente = -1L;
+        idPerfilExistente = 1L;
     }
 
     @Test
@@ -402,6 +408,61 @@ class UsuarioControllerIntegrationTest {
         resultActions.andExpect(status().isBadRequest());
         resultActions.andExpect(jsonPath("$.titulo").value("Regra de negócio"));
         resultActions.andExpect(jsonPath("$.mensagem").value("Este usuário contém perfil cliente"));
+    }
+
+    @Test
+    @DisplayName("Deve buscar perfil e usuário por id")
+    @Order(16)
+    void deveBuscarPerfilPorUsuarioId() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/perfis/").concat(idPerfilExistente.toString());
+
+        ResultActions resultActions = mockMvc
+                .perform(get(url)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.id").exists());
+        resultActions.andExpect(jsonPath("$.titulo").exists());
+        resultActions.andExpect(jsonPath("$.autoriedade").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
+    }
+
+    @Test
+    @DisplayName("Não deve buscar perfil e usuário por id")
+    @Order(17)
+    void naoDeveBuscarPerfilPorUsuarioId() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/perfis/").concat(idPerfilInexistente.toString());
+
+        ResultActions resultActions = mockMvc
+                .perform(get(url)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isNotFound());
+        resultActions.andExpect(jsonPath("$.titulo").value("Não encontrado"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Perfil informado não encontrado"));
+    }
+
+    @Test
+    @DisplayName("Deve buscar perfis por usuário")
+    @Order(18)
+    void deveBuscarPerfis() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/perfis");
+
+        ResultActions resultActions = mockMvc
+                .perform(get(url)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$._embedded.perfis").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
+        resultActions.andExpect(jsonPath("$._embedded.perfis[0].titulo").value("Administrador"));
+        resultActions.andExpect(jsonPath("$._embedded.perfis[0].autoriedade").value("ROLE_ADMIN"));
     }
 
     void setUpPerfilClient(){
