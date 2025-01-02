@@ -33,8 +33,8 @@ public class ExemploAnotacaoUtils {
                                 "codigo": "SITUACAO_TIPO_ANOTACAO"
                               }
                             },
-                            "createdAt": "2024-08-29T21:42:15.692502-03:00",
-                            "updatedAt": "2024-09-02T22:34:54.029916-03:00",
+                            "createdAt": "2024-08-29T21:42:15.692502Z",
+                            "updatedAt": "2024-09-02T22:34:54.029916Z",
                             "_links": {
                               "self": [
                                 {

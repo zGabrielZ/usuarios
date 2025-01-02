@@ -30,8 +30,8 @@ public class ExemploAnotacaoLembreteUtils {
                           "codigo": "SITUACAO_TIPO_ANOTACAO"
                         }
                       },
-                      "dataLembrete": "2025-01-02T15:30:00-03:00",
-                      "createdAt": "2025-01-01T19:26:05.0958744-03:00",
+                      "dataLembrete": "2025-01-02T15:30:00Z",
+                      "createdAt": "2025-01-01T19:26:05.0958744Z",
                       "updatedAt": null,
                       "_links": {
                         "self": [
@@ -82,8 +82,8 @@ public class ExemploAnotacaoLembreteUtils {
                           "codigo": "SITUACAO_TIPO_ANOTACAO"
                         }
                       },
-                      "dataLembrete": "2025-01-02T15:30:00-03:00",
-                      "createdAt": "2025-01-01T19:26:05.095874-03:00",
+                      "dataLembrete": "2025-01-02T15:30:00Z",
+                      "createdAt": "2025-01-01T19:26:05.095874Z",
                       "updatedAt": null,
                       "_links": {
                         "self": [
@@ -107,7 +107,7 @@ public class ExemploAnotacaoLembreteUtils {
     public static final String ANOTACAO_NAO_ENCONTRADA =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
@@ -119,7 +119,7 @@ public class ExemploAnotacaoLembreteUtils {
     public static final String ANOTACAO_FINALIZAR_NAO_ENCONTRADA =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
@@ -131,7 +131,7 @@ public class ExemploAnotacaoLembreteUtils {
     public static final String ANOTACAO_FINALIZAR_ERRO =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Não é possível finalizar a anotação pois já está finalizado",
@@ -143,7 +143,7 @@ public class ExemploAnotacaoLembreteUtils {
     public static final String ANOTACAO_REABRIR_NAO_ENCONTRADA =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
@@ -155,7 +155,7 @@ public class ExemploAnotacaoLembreteUtils {
     public static final String ANOTACAO_REABRIR_ERRO =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Não é possível reabrir a anotação pois já está em aberto",
@@ -190,9 +190,9 @@ public class ExemploAnotacaoLembreteUtils {
                           "codigo": "SITUACAO_TIPO_ANOTACAO"
                         }
                       },
-                      "dataLembrete": "2025-01-10T15:30:00-03:00",
-                      "createdAt": "2025-01-01T19:26:05.095874-03:00",
-                      "updatedAt": "2025-01-01T19:32:45.873797-03:00",
+                      "dataLembrete": "2025-01-10T15:30:00Z",
+                      "createdAt": "2025-01-01T19:26:05.095874Z",
+                      "updatedAt": "2025-01-01T19:32:45.873797Z",
                       "_links": {
                         "self": [
                           {
@@ -215,7 +215,7 @@ public class ExemploAnotacaoLembreteUtils {
     public static final String ANOTACAO_EDITAR_NAO_ENCONTRADA =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
@@ -227,7 +227,7 @@ public class ExemploAnotacaoLembreteUtils {
     public static final String ANOTACAO_EDITAR_ERRO =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Não é possível editar a anotação pois já está finalizado",

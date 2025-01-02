@@ -21,7 +21,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import static br.com.gabrielferreira.usuarios.utils.DataUtils.*;
+import static br.com.gabrielferreira.usuarios.utils.DataUtils.UTC;
 
 @ControllerAdvice
 @RequiredArgsConstructor
@@ -36,7 +36,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<ErroPadrao> regraDeNegocioException(RegraDeNegocioException e, HttpServletRequest request){
         log.warn("msgException message : {}, requestUrl : {}", e.getMessage(), request.getRequestURI());
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        ErroPadrao erroPadrao = erroPadraoMapper.toErroPadrao(toFusoPadraoSistema(ZonedDateTime.now()), httpStatus.value(), "Regra de negócio", e.getMessage(), request.getRequestURI(), null);
+        ErroPadrao erroPadrao = erroPadraoMapper.toErroPadrao(ZonedDateTime.now(UTC), httpStatus.value(), "Regra de negócio", e.getMessage(), request.getRequestURI(), null);
         return ResponseEntity.status(httpStatus).body(erroPadrao);
     }
 
@@ -44,7 +44,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<ErroPadrao> naoEncontradoException(NaoEncontradoException e, HttpServletRequest request){
         log.warn("naoEncontradoException message : {}, requestUrl : {}", e.getMessage(), request.getRequestURI());
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
-        ErroPadrao erroPadraoModel = erroPadraoMapper.toErroPadrao(toFusoPadraoSistema(ZonedDateTime.now()), httpStatus.value(), "Não encontrado", e.getMessage(), request.getRequestURI(), null);
+        ErroPadrao erroPadraoModel = erroPadraoMapper.toErroPadrao(ZonedDateTime.now(UTC), httpStatus.value(), "Não encontrado", e.getMessage(), request.getRequestURI(), null);
         return ResponseEntity.status(httpStatus).body(erroPadraoModel);
     }
 
@@ -56,7 +56,7 @@ public class ApiExceptionHandler {
         List<ErroPadraoFormulario> campos = e.getBindingResult().getFieldErrors().stream()
                 .map(campo -> erroPadraoMapper.toErroPadraoFormulario(campo.getField(), messageSource.getMessage(campo, LocaleContextHolder.getLocale())))
                 .toList();
-        ErroPadrao erroPadrao = erroPadraoMapper.toErroPadrao(toFusoPadraoSistema(ZonedDateTime.now()), httpStatus.value(), "Erro validação de campos", "Ocorreu um erro de validação nos campos", request.getRequestURI(), campos);
+        ErroPadrao erroPadrao = erroPadraoMapper.toErroPadrao(ZonedDateTime.now(UTC), httpStatus.value(), "Erro validação de campos", "Ocorreu um erro de validação nos campos", request.getRequestURI(), campos);
 
         return ResponseEntity.status(httpStatus).body(erroPadrao);
     }
@@ -65,7 +65,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<ErroPadrao> erroException(Exception e, HttpServletRequest request){
         log.error("erroException message : {}, requestUrl : {}", e.getMessage(), request.getRequestURI());
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        ErroPadrao erroPadrao = erroPadraoMapper.toErroPadrao(toFusoPadraoSistema(ZonedDateTime.now()), httpStatus.value(), "Erro inesperado", "Ocorreu um erro inesperado no sistema, tente mais tarde", request.getRequestURI(), null);
+        ErroPadrao erroPadrao = erroPadraoMapper.toErroPadrao(ZonedDateTime.now(UTC), httpStatus.value(), "Erro inesperado", "Ocorreu um erro inesperado no sistema, tente mais tarde", request.getRequestURI(), null);
         return ResponseEntity.status(httpStatus).body(erroPadrao);
     }
 

@@ -55,9 +55,9 @@ public class UsuarioDTO extends RepresentationModel<UsuarioDTO> implements Seria
     @Schema(description = "Gênero do usuário")
     private GeneroDTO genero;
 
-    @Schema(description = "Criação do usuário", example = "2024-08-18T15:21:37.7822381-03:00")
+    @Schema(description = "Criação do usuário", example = "2024-08-18T15:21:37.7822381Z")
     private ZonedDateTime createdAt;
 
-    @Schema(description = "Edição do usuário", example = "2024-08-18T15:21:37.7822381-03:00")
+    @Schema(description = "Edição do usuário", example = "2024-08-18T15:21:37.7822381Z")
     private ZonedDateTime updatedAt;
 }

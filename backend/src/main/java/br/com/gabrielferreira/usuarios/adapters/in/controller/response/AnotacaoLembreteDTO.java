@@ -35,12 +35,12 @@ public class AnotacaoLembreteDTO extends RepresentationModel<AnotacaoLembreteDTO
     @Schema(description = "Situação da anotação")
     private SituacaoAnotacaoLembreteDTO situacaoTipoAnotacao;
 
-    @Schema(description = "Data lembrete da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
+    @Schema(description = "Data lembrete da anotação", example = "2024-08-18T15:21:37.7822381Z")
     private ZonedDateTime dataLembrete;
 
-    @Schema(description = "Criação da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
+    @Schema(description = "Criação da anotação", example = "2024-08-18T15:21:37.7822381Z")
     private ZonedDateTime createdAt;
 
-    @Schema(description = "Edição da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
+    @Schema(description = "Edição da anotação", example = "2024-08-18T15:21:37.7822381Z")
     private ZonedDateTime updatedAt;
 }

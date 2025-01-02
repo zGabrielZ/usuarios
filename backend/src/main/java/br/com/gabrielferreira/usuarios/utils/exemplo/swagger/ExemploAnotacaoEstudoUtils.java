@@ -30,9 +30,9 @@ public class ExemploAnotacaoEstudoUtils {
                           "codigo": "SITUACAO_TIPO_ANOTACAO"
                         }
                       },
-                      "dataEstudoInicio": "2024-12-31T20:00:00-03:00",
-                      "dataEstudoFim": "2024-12-31T22:00:00-03:00",
-                      "createdAt": "2024-12-29T20:50:44.0632193-03:00",
+                      "dataEstudoInicio": "2024-12-31T20:00:00Z",
+                      "dataEstudoFim": "2024-12-31T22:00:00Z",
+                      "createdAt": "2024-12-29T20:50:44.0632193Z",
                       "updatedAt": null,
                       "_links": {
                         "self": [
@@ -83,9 +83,9 @@ public class ExemploAnotacaoEstudoUtils {
                           "codigo": "SITUACAO_TIPO_ANOTACAO"
                         }
                       },
-                      "dataEstudoInicio": "2024-12-31T20:00:00-03:00",
-                      "dataEstudoFim": "2024-12-31T22:00:00-03:00",
-                      "createdAt": "2024-12-29T20:50:44.063219-03:00",
+                      "dataEstudoInicio": "2024-12-31T20:00:00Z",
+                      "dataEstudoFim": "2024-12-31T22:00:00Z",
+                      "createdAt": "2024-12-29T20:50:44.063219Z",
                       "updatedAt": null,
                       "_links": {
                         "self": [
@@ -109,7 +109,7 @@ public class ExemploAnotacaoEstudoUtils {
     public static final String ANOTACAO_NAO_ENCONTRADA =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
@@ -121,7 +121,7 @@ public class ExemploAnotacaoEstudoUtils {
     public static final String ANOTACAO_FINALIZAR_NAO_ENCONTRADA =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
@@ -133,7 +133,7 @@ public class ExemploAnotacaoEstudoUtils {
     public static final String ANOTACAO_FINALIZAR_ERRO =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Não é possível finalizar a anotação pois já está finalizado",
@@ -145,7 +145,7 @@ public class ExemploAnotacaoEstudoUtils {
     public static final String ANOTACAO_REABRIR_NAO_ENCONTRADA =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
@@ -157,7 +157,7 @@ public class ExemploAnotacaoEstudoUtils {
     public static final String ANOTACAO_REABRIR_ERRO =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Não é possível reabrir a anotação pois já está em aberto",
@@ -192,10 +192,10 @@ public class ExemploAnotacaoEstudoUtils {
                           "codigo": "SITUACAO_TIPO_ANOTACAO"
                         }
                       },
-                      "dataEstudoInicio": "2024-12-31T22:00:00-03:00",
-                      "dataEstudoFim": "2025-01-01T00:00:00-03:00",
-                      "createdAt": "2024-12-29T20:50:44.063219-03:00",
-                      "updatedAt": "2024-12-29T21:02:36.088269-03:00",
+                      "dataEstudoInicio": "2024-12-31T22:00:00Z",
+                      "dataEstudoFim": "2025-01-01T00:00:00Z",
+                      "createdAt": "2024-12-29T20:50:44.063219Z",
+                      "updatedAt": "2024-12-29T21:02:36.088269Z",
                       "_links": {
                         "self": [
                           {
@@ -218,7 +218,7 @@ public class ExemploAnotacaoEstudoUtils {
     public static final String ANOTACAO_EDITAR_NAO_ENCONTRADA =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
@@ -230,7 +230,7 @@ public class ExemploAnotacaoEstudoUtils {
     public static final String ANOTACAO_EDITAR_ERRO =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "A data início do estudo não pode ser antes ou igual ao data fim do estudo",

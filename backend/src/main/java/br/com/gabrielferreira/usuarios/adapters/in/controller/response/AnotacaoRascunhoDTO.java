@@ -35,9 +35,9 @@ public class AnotacaoRascunhoDTO extends RepresentationModel<AnotacaoRascunhoDTO
     @Schema(description = "Situação da anotação")
     private SituacaoAnotacaoRascunhoDTO situacaoTipoAnotacao;
 
-    @Schema(description = "Criação da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
+    @Schema(description = "Criação da anotação", example = "2024-08-18T15:21:37.7822381Z")
     private ZonedDateTime createdAt;
 
-    @Schema(description = "Edição da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
+    @Schema(description = "Edição da anotação", example = "2024-08-18T15:21:37.7822381Z")
     private ZonedDateTime updatedAt;
 }

@@ -21,12 +21,12 @@ public record AnotacaoEstudoCreateDTO(
 
         @FutureOrPresent
         @NotNull
-        @Schema(description = "Data estudo inicío", example = "2024-08-18T15:21:37.7822381-03:00")
+        @Schema(description = "Data estudo inicío", example = "2024-08-18T15:21:37.7822381Z")
         ZonedDateTime dataEstudoInicio,
 
         @FutureOrPresent
         @NotNull
-        @Schema(description = "Data estudo fim", example = "2024-08-18T16:21:37.7822381-03:00")
+        @Schema(description = "Data estudo fim", example = "2024-08-18T16:21:37.7822381Z")
         ZonedDateTime dataEstudoFim
 ) implements Serializable {
 }

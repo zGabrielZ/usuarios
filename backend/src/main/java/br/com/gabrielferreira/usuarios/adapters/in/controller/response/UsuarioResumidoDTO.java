@@ -49,9 +49,9 @@ public class UsuarioResumidoDTO extends RepresentationModel<UsuarioResumidoDTO> 
     @Schema(description = "Quantidade de filhos do usuário", example = "2")
     private Integer quantidadeFilhos;
 
-    @Schema(description = "Criação do usuário", example = "2024-08-18T15:21:37.7822381-03:00")
+    @Schema(description = "Criação do usuário", example = "2024-08-18T15:21:37.7822381Z")
     private ZonedDateTime createdAt;
 
-    @Schema(description = "Edição do usuário", example = "2024-08-18T15:21:37.7822381-03:00")
+    @Schema(description = "Edição do usuário", example = "2024-08-18T15:21:37.7822381Z")
     private ZonedDateTime updatedAt;
 }

@@ -8,8 +8,6 @@ import br.com.gabrielferreira.usuarios.application.core.domain.TipoDominioDomain
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -21,27 +19,21 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(MockitoExtension.class)
 class UsuarioMapperTest {
 
-    @InjectMocks
-    private UsuarioMapperImpl usuarioMapper;
-
-    @Mock
-    private AbstractObjetMapperImpl abstractObjetMapper;
+    private UsuarioMapperImpl usuarioMapper = new UsuarioMapperImpl();
 
     @Nested
     class UsuarioComDataValida {
 
+        private ZonedDateTime date;
+
         @BeforeEach
         void setUp() {
-            ZonedDateTime date = ZonedDateTime.of(2025, 1, 1, 0, 0, 0, 0, ZoneId.systemDefault());
-            when(abstractObjetMapper.formatDate(any()))
-                    .thenReturn(date);
+            date = ZonedDateTime.of(2025, 1, 1, 0, 0, 0, 0, ZoneId.systemDefault());
         }
 
         @Test
@@ -52,6 +44,7 @@ class UsuarioMapperTest {
             usuarioDomain.setId(1L);
             usuarioDomain.setNome("nome");
             usuarioDomain.setGenero(new DominioDomain(1L, "descricao", "codigo", new TipoDominioDomain(1L, "descricao", "codigo")));
+            usuarioDomain.setCreatedAt(date);
 
             UsuarioDTO usuarioDTO = usuarioMapper.toUsuarioDto(usuarioDomain);
             assertEquals(usuarioDomain.getId(), usuarioDTO.getId());
@@ -62,6 +55,7 @@ class UsuarioMapperTest {
             assertEquals(usuarioDomain.getGenero().getTipo().getId(), usuarioDTO.getGenero().getTipo().id());
             assertEquals(usuarioDomain.getGenero().getTipo().getDescricao(), usuarioDTO.getGenero().getTipo().descricao());
             assertEquals(usuarioDomain.getGenero().getTipo().getCodigo(), usuarioDTO.getGenero().getTipo().codigo());
+            assertEquals(usuarioDomain.getCreatedAt(), usuarioDTO.getCreatedAt());
         }
 
         @Test
@@ -75,6 +69,7 @@ class UsuarioMapperTest {
             usuarioDomain.setNome("nome");
             usuarioDomain.setCpf("cpf");
             usuarioDomain.setEmail("email");
+            usuarioDomain.setCreatedAt(date);
 
             usuarioDomains.add(usuarioDomain);
 
@@ -84,6 +79,7 @@ class UsuarioMapperTest {
             assertEquals(usuarioDomain.getNome(), usuarioResumidoDTOS.get(0).getNome());
             assertEquals(usuarioDomain.getCpf(), usuarioResumidoDTOS.get(0).getCpf());
             assertEquals(usuarioDomain.getEmail(), usuarioResumidoDTOS.get(0).getEmail());
+            assertEquals(usuarioDomain.getCreatedAt(), usuarioResumidoDTOS.get(0).getCreatedAt());
         }
     }
 

@@ -36,9 +36,9 @@ public class TelefoneDTO extends RepresentationModel<TelefoneDTO> implements Ser
     @Schema(description = "Tipo de telefone do telefone do usuário")
     private TipoTelefoneDTO tipoTelefone;
 
-    @Schema(description = "Criação do telefone", example = "2024-08-18T15:21:37.7822381-03:00")
+    @Schema(description = "Criação do telefone", example = "2024-08-18T15:21:37.7822381Z")
     private ZonedDateTime createdAt;
 
-    @Schema(description = "Edição do telefone", example = "2024-08-18T15:21:37.7822381-03:00")
+    @Schema(description = "Edição do telefone", example = "2024-08-18T15:21:37.7822381Z")
     private ZonedDateTime updatedAt;
 }

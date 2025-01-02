@@ -28,8 +28,8 @@ public class ExemploTelefoneUtils {
                           }
                         }
                       },
-                      "createdAt": "2024-08-15T22:24:39.949223-03:00",
-                      "updatedAt": "2024-12-19T20:19:40.889613-03:00",
+                      "createdAt": "2024-08-15T22:24:39.949223Z",
+                      "updatedAt": "2024-12-19T20:19:40.889613Z",
                       "_links": {
                         "self": {
                           "href": "/api/v1/usuarios/2/telefones/2",
@@ -42,7 +42,7 @@ public class ExemploTelefoneUtils {
     public static final String TELEFONE_NAO_ENCONTRADO =
             """
                     {
-                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "dataAtual": "2024-12-18T21:05:16.6614872Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Telefone informado não encontrado",
@@ -75,8 +75,8 @@ public class ExemploTelefoneUtils {
                           }
                         }
                       },
-                      "createdAt": "2024-08-15T22:24:39.949223-03:00",
-                      "updatedAt": "2024-12-19T20:19:40.889613-03:00",
+                      "createdAt": "2024-08-15T22:24:39.949223Z",
+                      "updatedAt": "2024-12-19T20:19:40.889613Z",
                       "_links": {
                         "self": {
                           "href": "/api/v1/usuarios/2/telefones",
@@ -89,7 +89,7 @@ public class ExemploTelefoneUtils {
     public static final String TELEFONE_ATUALIZAR_NAO_ENCONTRADO =
             """
                     {
-                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "dataAtual": "2024-12-18T21:05:16.6614872Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Telefone informado não encontrado",
@@ -101,7 +101,7 @@ public class ExemploTelefoneUtils {
     public static final String TELEFONE_ATUALIZAR_ERRO =
             """
                     {
-                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "dataAtual": "2024-12-18T21:05:16.6614872Z",
                       "status": 400,
                       "titulo": "Regra de negócio",
                       "mensagem": "O número do telefone '(11) 9999-9999' tem ser do tipo residencial",

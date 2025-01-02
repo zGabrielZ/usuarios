@@ -8,34 +8,24 @@ import br.com.gabrielferreira.usuarios.application.core.domain.TelefoneDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.TipoDominioDomain;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(MockitoExtension.class)
 class TelefoneMapperTest {
 
-    @InjectMocks
-    private TelefoneMapperImpl telefoneMapper;
-
-    @Mock
-    private AbstractObjetMapperImpl abstractObjetMapper;
+    private TelefoneMapperImpl telefoneMapper = new TelefoneMapperImpl();
 
     @Test
     @DisplayName("Deve criar telefone dto")
     @Order(1)
     void deveCriarTelefoneDto(){
         ZonedDateTime date = ZonedDateTime.of(2025, 1, 1, 0, 0, 0, 0, ZoneId.systemDefault());
-        when(abstractObjetMapper.formatDate(any()))
-                .thenReturn(date);
 
         TelefoneDomain telefoneDomain = new TelefoneDomain(1L, "999999999", "11", "teste",
                 new DominioDomain(5L, "Celular", "CELULAR", new TipoDominioDomain(2L, "Tipo de telefone", "TIPO_TELEFONE")),

@@ -16,7 +16,7 @@ public class ExemploPerfilUtils {
     public static final String PERFIL_NAO_ENCONTRADO =
             """
                     {
-                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "dataAtual": "2024-12-18T21:05:16.6614872Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Perfil informado não encontrado",

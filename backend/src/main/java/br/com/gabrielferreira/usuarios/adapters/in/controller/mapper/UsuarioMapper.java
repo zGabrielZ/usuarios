@@ -10,19 +10,13 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {AbstractObjetMapper.class})
+@Mapper(componentModel = "spring")
 public interface UsuarioMapper {
 
     UsuarioDomain createUsuarioDomain(UsuarioCreateDTO usuarioCreateDTO);
 
-    @Mapping(target = "createdAt", qualifiedByName = "formatData")
-    @Mapping(target = "updatedAt", qualifiedByName = "formatData")
-    @Mapping(target = "telefone.createdAt", qualifiedByName = "formatData")
-    @Mapping(target = "telefone.updatedAt", qualifiedByName = "formatData")
     UsuarioDTO toUsuarioDto(UsuarioDomain usuarioDomain);
 
-    @Mapping(target = "createdAt", qualifiedByName = "formatData")
-    @Mapping(target = "updatedAt", qualifiedByName = "formatData")
     UsuarioResumidoDTO toUsuarioResumidoDto(UsuarioDomain usuarioDomain);
 
     @Mapping(target = "id", source = "id")

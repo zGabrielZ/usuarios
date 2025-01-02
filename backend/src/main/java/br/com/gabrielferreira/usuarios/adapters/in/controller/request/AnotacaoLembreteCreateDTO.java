@@ -21,7 +21,7 @@ public record AnotacaoLembreteCreateDTO(
 
         @Future
         @NotNull
-        @Schema(description = "Data lembrete da anotação", example = "2024-08-18T15:21:37.7822381-03:00")
+        @Schema(description = "Data lembrete da anotação", example = "2024-08-18T15:21:37.7822381Z")
         ZonedDateTime dataLembrete
 ) implements Serializable {
 }

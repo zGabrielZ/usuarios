@@ -30,7 +30,7 @@ public class ExemploAnotacaoRascunhoUtils {
                           "codigo": "SITUACAO_TIPO_ANOTACAO"
                         }
                       },
-                      "createdAt": "2025-01-01T19:48:11.0135844-03:00",
+                      "createdAt": "2025-01-01T19:48:11.0135844Z",
                       "updatedAt": null,
                       "_links": {
                         "self": [
@@ -81,7 +81,7 @@ public class ExemploAnotacaoRascunhoUtils {
                           "codigo": "SITUACAO_TIPO_ANOTACAO"
                         }
                       },
-                      "createdAt": "2025-01-01T19:48:11.013584-03:00",
+                      "createdAt": "2025-01-01T19:48:11.013584Z",
                       "updatedAt": null,
                       "_links": {
                         "self": [
@@ -105,7 +105,7 @@ public class ExemploAnotacaoRascunhoUtils {
     public static final String ANOTACAO_NAO_ENCONTRADA =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
@@ -117,7 +117,7 @@ public class ExemploAnotacaoRascunhoUtils {
     public static final String ANOTACAO_FINALIZAR_NAO_ENCONTRADA =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
@@ -129,7 +129,7 @@ public class ExemploAnotacaoRascunhoUtils {
     public static final String ANOTACAO_FINALIZAR_ERRO =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Não é possível finalizar a anotação pois já está finalizado",
@@ -141,7 +141,7 @@ public class ExemploAnotacaoRascunhoUtils {
     public static final String ANOTACAO_REABRIR_NAO_ENCONTRADA =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
@@ -153,7 +153,7 @@ public class ExemploAnotacaoRascunhoUtils {
     public static final String ANOTACAO_REABRIR_ERRO =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Não é possível reabrir a anotação pois já está em aberto",
@@ -188,8 +188,8 @@ public class ExemploAnotacaoRascunhoUtils {
                           "codigo": "SITUACAO_TIPO_ANOTACAO"
                         }
                       },
-                      "createdAt": "2025-01-01T19:48:11.013584-03:00",
-                      "updatedAt": "2025-01-01T19:55:28.409241-03:00",
+                      "createdAt": "2025-01-01T19:48:11.013584Z",
+                      "updatedAt": "2025-01-01T19:55:28.409241Z",
                       "_links": {
                         "self": [
                           {
@@ -212,7 +212,7 @@ public class ExemploAnotacaoRascunhoUtils {
     public static final String ANOTACAO_EDITAR_NAO_ENCONTRADA =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
@@ -224,7 +224,7 @@ public class ExemploAnotacaoRascunhoUtils {
     public static final String ANOTACAO_EDITAR_ERRO =
             """
                     {
-                      "dataAtual": "2024-12-29T20:57:17.8298735-03:00",
+                      "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Não é possível editar a anotação pois já está finalizado",

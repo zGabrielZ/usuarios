@@ -38,7 +38,7 @@ public class ExemploUsuarioUtils {
                             }
                           }
                         },
-                        "createdAt": "2024-12-23T22:11:29.8238264-03:00",
+                        "createdAt": "2024-12-23T22:11:29.8238264Z",
                         "updatedAt": null,
                         "_links": {
                           "self": {
@@ -63,7 +63,7 @@ public class ExemploUsuarioUtils {
                           }
                         }
                       },
-                      "createdAt": "2024-12-23T22:11:29.8207359-03:00",
+                      "createdAt": "2024-12-23T22:11:29.8207359Z",
                       "updatedAt": null,
                       "_links": {
                         "self": [
@@ -103,7 +103,7 @@ public class ExemploUsuarioUtils {
     public static final String USUARI0_CRIAR_ERRO =
             """
                     {
-                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "dataAtual": "2024-12-18T21:05:16.6614872Z",
                       "status": 400,
                       "titulo": "Regra de negócio",
                       "mensagem": "Não vai ser possível cadastrar este usuário pois o e-mail 'teste@email.com' já foi cadastrado",
@@ -115,7 +115,7 @@ public class ExemploUsuarioUtils {
     public static final String USUARI0_CRIAR_NAO_ENCONTRADO =
             """
                     {
-                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "dataAtual": "2024-12-18T21:05:16.6614872Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Tipo de telefone informado não encontrado",
@@ -158,7 +158,7 @@ public class ExemploUsuarioUtils {
                             }
                           }
                         },
-                        "createdAt": "2024-12-23T22:11:29.823826-03:00",
+                        "createdAt": "2024-12-23T22:11:29.823826Z",
                         "updatedAt": null,
                         "_links": {
                           "self": {
@@ -183,7 +183,7 @@ public class ExemploUsuarioUtils {
                           }
                         }
                       },
-                      "createdAt": "2024-12-23T22:11:29.820736-03:00",
+                      "createdAt": "2024-12-23T22:11:29.820736Z",
                       "updatedAt": null,
                       "_links": {
                         "self": [
@@ -219,7 +219,7 @@ public class ExemploUsuarioUtils {
     public static final String USUARI0_NAO_ENCONTRADO =
             """
                     {
-                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "dataAtual": "2024-12-18T21:05:16.6614872Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Usuário informado não encontrado",
@@ -240,7 +240,7 @@ public class ExemploUsuarioUtils {
                       "rendaFormatada": "R$ 5.400,00",
                       "dataNascimento": "1992-10-23",
                       "quantidadeFilhos": 0,
-                      "createdAt": "2024-12-23T22:11:29.820736-03:00",
+                      "createdAt": "2024-12-23T22:11:29.820736Z",
                       "updatedAt": null,
                       "_links": {
                         "self": [
@@ -285,7 +285,7 @@ public class ExemploUsuarioUtils {
                       "rendaFormatada": "R$ 5.400,00",
                       "dataNascimento": "1992-10-23",
                       "quantidadeFilhos": 0,
-                      "createdAt": "2024-12-23T22:11:29.820736-03:00",
+                      "createdAt": "2024-12-23T22:11:29.820736Z",
                       "updatedAt": null,
                       "_links": {
                         "self": [
@@ -352,7 +352,7 @@ public class ExemploUsuarioUtils {
                             }
                           }
                         },
-                        "createdAt": "2024-12-23T22:11:29.823826-03:00",
+                        "createdAt": "2024-12-23T22:11:29.823826Z",
                         "updatedAt": null,
                         "_links": {
                           "self": {
@@ -377,7 +377,7 @@ public class ExemploUsuarioUtils {
                           }
                         }
                       },
-                      "createdAt": "2024-12-23T22:11:29.820736-03:00",
+                      "createdAt": "2024-12-23T22:11:29.820736Z",
                       "updatedAt": null,
                       "_links": {
                         "self": [
@@ -413,7 +413,7 @@ public class ExemploUsuarioUtils {
     public static final String USUARI0_ATUALIZAR_NAO_ENCONTRADO =
             """
                     {
-                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "dataAtual": "2024-12-18T21:05:16.6614872Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Usuário informado não encontrado",
@@ -425,7 +425,7 @@ public class ExemploUsuarioUtils {
     public static final String USUARI0_DELETAR_NAO_ENCONTRADO =
             """
                     {
-                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "dataAtual": "2024-12-18T21:05:16.6614872Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Usuário informado não encontrado",
@@ -437,7 +437,7 @@ public class ExemploUsuarioUtils {
     public static final String USUARI0_ATUALIZAR_ADMIN_NAO_ENCONTRADO =
             """
                     {
-                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "dataAtual": "2024-12-18T21:05:16.6614872Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Usuário informado não encontrado",
@@ -449,7 +449,7 @@ public class ExemploUsuarioUtils {
     public static final String USUARI0_ATUALIZAR_CLIENT_NAO_ENCONTRADO =
             """
                     {
-                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "dataAtual": "2024-12-18T21:05:16.6614872Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Usuário informado não encontrado",
@@ -473,8 +473,8 @@ public class ExemploUsuarioUtils {
                             "rendaFormatada": "R$ 50.000,00",
                             "dataNascimento": "1975-11-05",
                             "quantidadeFilhos": 5,
-                            "createdAt": "2024-08-14T21:26:54.633831-03:00",
-                            "updatedAt": "2024-10-15T22:08:25.557393-03:00",
+                            "createdAt": "2024-08-14T21:26:54.633831Z",
+                            "updatedAt": "2024-10-15T22:08:25.557393Z",
                             "_links": {
                               "self": [
                                 {
@@ -544,7 +544,7 @@ public class ExemploUsuarioUtils {
     public static final String PERFIL_NAO_ENCONTRADO =
             """
                     {
-                      "dataAtual": "2024-12-18T21:05:16.6614872-03:00",
+                      "dataAtual": "2024-12-18T21:05:16.6614872Z",
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Perfil informado não encontrado",

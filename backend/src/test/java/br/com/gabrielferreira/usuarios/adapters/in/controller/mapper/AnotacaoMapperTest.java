@@ -12,8 +12,6 @@ import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.ZoneId;
@@ -23,18 +21,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(MockitoExtension.class)
 class AnotacaoMapperTest {
 
-    @InjectMocks
-    private AnotacaoMapperImpl anotacaoMapper;
-
-    @Mock
-    private AbstractObjetMapperImpl abstractObjetMapper;
+    private final AnotacaoMapperImpl anotacaoMapper = new AnotacaoMapperImpl();
 
     @Nested
     class AnotacaoComDataValido {
@@ -44,8 +36,6 @@ class AnotacaoMapperTest {
         @BeforeEach
         void setUp() {
             date = ZonedDateTime.of(2025, 1, 1, 0,0,0, 0, ZoneId.systemDefault());
-            when(abstractObjetMapper.formatDate(any()))
-                    .thenReturn(date);
         }
 
         @Test
