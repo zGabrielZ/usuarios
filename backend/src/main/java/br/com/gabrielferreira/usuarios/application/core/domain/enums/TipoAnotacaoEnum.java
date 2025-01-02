@@ -1,7 +1,6 @@
 package br.com.gabrielferreira.usuarios.application.core.domain.enums;
 
 public enum TipoAnotacaoEnum {
-
     RASCUNHO,
     ESTUDO,
     LEMBRETE,

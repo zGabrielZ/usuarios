@@ -8,6 +8,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.TelefoneDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.TipoDominioDomain;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.ZoneId;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 class TelefoneMapperTest {
 
-    private TelefoneMapperImpl telefoneMapper = new TelefoneMapperImpl();
+    private final TelefoneMapper telefoneMapper = Mappers.getMapper(TelefoneMapper.class);
 
     @Test
     @DisplayName("Deve criar telefone dto")

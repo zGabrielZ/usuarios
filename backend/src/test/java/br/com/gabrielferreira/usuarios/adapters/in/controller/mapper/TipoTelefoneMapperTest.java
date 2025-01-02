@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TipoTelefoneMapperTest {
 
-    TipoTelefoneMapper tipoTelefoneMapper = Mappers.getMapper(TipoTelefoneMapper.class);
+    private final TipoTelefoneMapper tipoTelefoneMapper = Mappers.getMapper(TipoTelefoneMapper.class);
 
     @Test
     @DisplayName("Deve criar tipo telefone dto")

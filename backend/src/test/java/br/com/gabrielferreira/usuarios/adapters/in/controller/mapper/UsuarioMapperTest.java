@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @ExtendWith(MockitoExtension.class)
 class UsuarioMapperTest {
 
-    private UsuarioMapperImpl usuarioMapper = new UsuarioMapperImpl();
+    private final UsuarioMapperImpl usuarioMapper = new UsuarioMapperImpl();
 
     @Nested
     class UsuarioComDataValida {

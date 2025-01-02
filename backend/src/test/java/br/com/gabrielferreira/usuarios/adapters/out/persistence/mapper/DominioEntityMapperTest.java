@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DominioEntityMapperTest {
 
-    DominioEntityMapper dominioEntityMapper = Mappers.getMapper(DominioEntityMapper.class);
+    private final DominioEntityMapper dominioEntityMapper = Mappers.getMapper(DominioEntityMapper.class);
 
     @Test
     @DisplayName("Deve criar dominio domain")

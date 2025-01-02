@@ -12,6 +12,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.ZoneId;
@@ -26,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @ExtendWith(MockitoExtension.class)
 class AnotacaoMapperTest {
 
-    private final AnotacaoMapperImpl anotacaoMapper = new AnotacaoMapperImpl();
+    private final AnotacaoMapper anotacaoMapper = Mappers.getMapper(AnotacaoMapper.class);
 
     @Nested
     class AnotacaoComDataValido {

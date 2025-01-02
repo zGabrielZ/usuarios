@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AnotacaoEntityMapperTest {
 
-    AnotacaoEntityMapper anotacaoEntityMapper = Mappers.getMapper(AnotacaoEntityMapper.class);
+    private final AnotacaoEntityMapper anotacaoEntityMapper = Mappers.getMapper(AnotacaoEntityMapper.class);
 
     @Test
     @DisplayName("Deve criar anotação entity")

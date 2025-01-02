@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PerfilMapperTest {
 
-    PerfilMapper perfilMapper = Mappers.getMapper(PerfilMapper.class);
+    private final PerfilMapper perfilMapper = Mappers.getMapper(PerfilMapper.class);
 
     @Test
     @DisplayName("Deve criar perfil dto")

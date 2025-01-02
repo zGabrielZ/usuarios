@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PerfilEntityMapperTest {
 
-    PerfilEntityMapper perfilEntityMapper = Mappers.getMapper(PerfilEntityMapper.class);
+    private final PerfilEntityMapper perfilEntityMapper = Mappers.getMapper(PerfilEntityMapper.class);
 
     @Test
     @DisplayName("Deve criar perfil domain")

@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TelefoneEntityMapperTest {
 
-    TelefoneEntityMapper telefoneEntityMapper = Mappers.getMapper(TelefoneEntityMapper.class);
+    private final TelefoneEntityMapper telefoneEntityMapper = Mappers.getMapper(TelefoneEntityMapper.class);
 
     @Test
     @DisplayName("Deve criar telefone domain")

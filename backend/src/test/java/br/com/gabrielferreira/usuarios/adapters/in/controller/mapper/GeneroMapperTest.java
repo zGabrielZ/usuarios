@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class GeneroMapperTest {
 
-    GeneroMapper generoMapper = Mappers.getMapper(GeneroMapper.class);
+    private final GeneroMapper generoMapper = Mappers.getMapper(GeneroMapper.class);
 
     @Test
     @DisplayName("Deve criar gênero dto")
