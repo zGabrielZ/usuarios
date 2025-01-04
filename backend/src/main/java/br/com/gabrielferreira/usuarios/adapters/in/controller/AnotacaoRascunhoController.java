@@ -47,10 +47,7 @@ public class AnotacaoRascunhoController {
                     description = "Anotação cadastrada",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_RASCUNHO_CRIADO
-                            )
+                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class)
                     )
             )
     })
@@ -72,10 +69,7 @@ public class AnotacaoRascunhoController {
                     description = "Anotação encontrado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_RASCUNHO_ENCONTRADO
-                            )
+                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class)
                     )
             ),
             @ApiResponse(
@@ -176,10 +170,7 @@ public class AnotacaoRascunhoController {
                     description = "Anotação atualizado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_EDITAR
-                            )
+                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class)
                     )
             ),
             @ApiResponse(

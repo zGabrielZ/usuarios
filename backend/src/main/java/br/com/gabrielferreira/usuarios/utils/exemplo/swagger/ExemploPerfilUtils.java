@@ -4,15 +4,6 @@ public class ExemploPerfilUtils {
 
     private ExemploPerfilUtils() {}
 
-    public static final String PERFIL_ENCONTRADO =
-            """
-                    {
-                      "id": 2,
-                      "titulo": "Cliente",
-                      "autoriedade": "ROLE_CLIENT"
-                    }
-            """;
-
     public static final String PERFIL_NAO_ENCONTRADO =
             """
                     {
@@ -22,33 +13,6 @@ public class ExemploPerfilUtils {
                       "mensagem": "Perfil informado não encontrado",
                       "caminhoUrl": "/api/v1/perfis/3",
                       "campos": null
-                    }
-            """;
-
-    public static final String PERFIS_ENCONTRADOS =
-            """
-                    {
-                      "_embedded": {
-                        "perfis": [
-                          {
-                            "id": 1,
-                            "titulo": "Administrador",
-                            "autoriedade": "ROLE_ADMIN",
-                            "_links": {
-                              "self": {
-                                "href": "/api/v1/perfis/1",
-                                "type": "GET"
-                              }
-                            }
-                          }
-                        ]
-                      },
-                      "_links": {
-                        "self": {
-                          "href": "/api/v1/perfis",
-                          "type": "GET"
-                        }
-                      }
                     }
             """;
 }

@@ -7,6 +7,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindTipoTelefoneInput;
 import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploTipoTelefoneUtils;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -42,10 +43,7 @@ public class TipoTelefoneController {
                     description = "Tipo telefone encontrado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = TipoTelefoneDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploTipoTelefoneUtils.TIPO_TELEFONE_ENCONTRADO
-                            )
+                            schema = @Schema(implementation = TipoTelefoneDTO.class)
                     )
             ),
             @ApiResponse(
@@ -72,10 +70,7 @@ public class TipoTelefoneController {
                     description = "Tipos telefones encontrados",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = TipoTelefoneDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploTipoTelefoneUtils.TIPOS_TELEFONES_ENCONTRADOS
-                            )
+                            array = @ArraySchema(schema = @Schema(implementation = TipoTelefoneDTO.class))
                     )
             )
     })

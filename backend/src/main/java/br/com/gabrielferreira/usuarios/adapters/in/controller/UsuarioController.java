@@ -16,6 +16,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
 import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploUsuarioUtils;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -71,10 +72,7 @@ public class UsuarioController {
                     description = "Usuário cadastrado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARIO_CRIADO
-                            )
+                            schema = @Schema(implementation = UsuarioDTO.class)
                     )
             ),
             @ApiResponse(
@@ -117,10 +115,7 @@ public class UsuarioController {
                     description = "Usuário encontrado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARIO_ENCONTRADO
-                            )
+                            schema = @Schema(implementation = UsuarioDTO.class)
                     )
             ),
             @ApiResponse(
@@ -150,10 +145,7 @@ public class UsuarioController {
                     description = "Usuário encontrado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioResumidoDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARIO_ENCONTRADO_CPF
-                            )
+                            schema = @Schema(implementation = UsuarioResumidoDTO.class)
                     )
             ),
             @ApiResponse(
@@ -182,10 +174,7 @@ public class UsuarioController {
                     description = "Usuário encontrado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioResumidoDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARIO_ENCONTRADO_EMAIL
-                            )
+                            schema = @Schema(implementation = UsuarioResumidoDTO.class)
                     )
             ),
             @ApiResponse(
@@ -214,10 +203,7 @@ public class UsuarioController {
                     description = "Usuário atualizado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARIO_ATUALIZADO
-                            )
+                            schema = @Schema(implementation = UsuarioDTO.class)
                     )
             ),
             @ApiResponse(
@@ -274,9 +260,7 @@ public class UsuarioController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = UsuarioResumidoDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARIOS_ENCONTRADOS
-                            )
+                            array = @ArraySchema(schema = @Schema(implementation = UsuarioResumidoDTO.class))
                     )
             )
     })
@@ -352,10 +336,7 @@ public class UsuarioController {
                     description = "Perfil encontrado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = PerfilDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.PERFIL_ENCONTRADO
-                            )
+                            schema = @Schema(implementation = PerfilDTO.class)
                     )
             ),
             @ApiResponse(
@@ -385,10 +366,7 @@ public class UsuarioController {
                     description = "Perfis encontrados",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = PerfilDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.PERFIS_ENCONTRADOS
-                            )
+                            array = @ArraySchema(schema = @Schema(implementation = PerfilDTO.class))
                     )
             )
     })

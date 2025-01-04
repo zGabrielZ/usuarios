@@ -41,10 +41,7 @@ public class TelefoneController {
                     description = "Telefone encontrado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = TelefoneDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploTelefoneUtils.TELEFONE_ENCONTRADO
-                            )
+                            schema = @Schema(implementation = TelefoneDTO.class)
                     )
             ),
             @ApiResponse(
@@ -73,10 +70,7 @@ public class TelefoneController {
                     description = "Telefone atualizado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = TelefoneDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploTelefoneUtils.TELEFONE_ATUALIZADO
-                            )
+                            schema = @Schema(implementation = TelefoneDTO.class)
                     )
             ),
             @ApiResponse(

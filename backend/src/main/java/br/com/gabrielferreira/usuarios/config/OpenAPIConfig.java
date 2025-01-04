@@ -4,14 +4,25 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.springdoc.core.utils.SpringDocUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.hateoas.Links;
 
 @Configuration
 public class OpenAPIConfig {
 
     @Bean
     public OpenAPI openAPI(){
+        Schema<?> selfSchema = new ObjectSchema()
+                .addProperty("self", new ObjectSchema()
+                        .addProperty("href", new ObjectSchema().example("string"))
+                        .addProperty("tyoe", new ObjectSchema().example("string")));
+
+        SpringDocUtils.getConfig().replaceWithSchema(Links.class, selfSchema);
+
         Info info = new Info()
                 .title("API Usuário")
                 .version("1.0")

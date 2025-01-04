@@ -6,10 +6,9 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.PageInfoMap
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.AnotacaoResumidoDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.PageInfo;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoInput;
-import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploAnotacaoUtils;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -46,10 +45,7 @@ public class AnotacaoController {
                     description = "Anotações encontrados",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoResumidoDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoUtils.ANOTACOES_ENCONTRADOS
-                            )
+                            array = @ArraySchema(schema = @Schema(implementation = AnotacaoResumidoDTO.class))
                     )
             )
     })

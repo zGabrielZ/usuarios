@@ -1,7 +1,8 @@
-package br.com.gabrielferreira.usuarios.adapters.in.controller.response;
+package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
 import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.LoginMapper;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.LoginDTO;
+import br.com.gabrielferreira.usuarios.adapters.in.controller.response.TokenDTO;
 import br.com.gabrielferreira.usuarios.application.ports.in.GenerateTokenInput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

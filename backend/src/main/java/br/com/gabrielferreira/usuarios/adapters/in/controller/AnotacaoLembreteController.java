@@ -48,10 +48,7 @@ public class AnotacaoLembreteController {
                     description = "Anotação cadastrada",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoLembreteDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoLembreteUtils.ANOTACAO_LEMBRETE_CRIADO
-                            )
+                            schema = @Schema(implementation = AnotacaoLembreteDTO.class)
                     )
             )
     })
@@ -73,10 +70,7 @@ public class AnotacaoLembreteController {
                     description = "Anotação encontrado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoLembreteDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoLembreteUtils.ANOTACAO_LEMBRETE_ENCONTRADO
-                            )
+                            schema = @Schema(implementation = AnotacaoLembreteDTO.class)
                     )
             ),
             @ApiResponse(
@@ -177,10 +171,7 @@ public class AnotacaoLembreteController {
                     description = "Anotação atualizado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoEstudoDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoLembreteUtils.ANOTACAO_EDITAR
-                            )
+                            schema = @Schema(implementation = AnotacaoEstudoDTO.class)
                     )
             ),
             @ApiResponse(

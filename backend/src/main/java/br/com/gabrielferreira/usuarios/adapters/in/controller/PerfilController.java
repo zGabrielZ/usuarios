@@ -7,6 +7,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindPerfilInput;
 import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploPerfilUtils;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -42,10 +43,7 @@ public class PerfilController {
                     description = "Perfil encontrado",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = PerfilDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploPerfilUtils.PERFIL_ENCONTRADO
-                            )
+                            schema = @Schema(implementation = PerfilDTO.class)
                     )
             ),
             @ApiResponse(
@@ -72,10 +70,7 @@ public class PerfilController {
                     description = "Perfis encontrados",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = PerfilDTO.class),
-                            examples = @ExampleObject(
-                                    value = ExemploPerfilUtils.PERFIS_ENCONTRADOS
-                            )
+                            array = @ArraySchema(schema = @Schema(implementation = PerfilDTO.class))
                     )
             )
     })
