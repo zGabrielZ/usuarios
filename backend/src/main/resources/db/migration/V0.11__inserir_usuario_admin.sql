@@ -1,0 +1,3 @@
+INSERT INTO TB_TELEFONE(NUMERO, DDD, DESCRICAO, ID_TIPO_TELEFONE, CREATED_AT) VALUES ('999999999', '11', 'Celulae do gabriel', 5, NOW());
+INSERT INTO TB_USUARIO(NOME, EMAIL, CPF, RENDA, DATA_NASCIMENTO, QUANTIDADE_FILHOS, ID_TELEFONE, ID_GENERO, CREATED_AT, SENHA) VALUES ('Gabriel Ferreira', 'gabriel@email.com', '86287467061', 2500.00, '2000-10-02', 0, (select tt.id from tb_telefone tt order by id desc limit 1), 1, NOW(), '$2a$10$b6SFLmeac1KqLdJIdKjrmOAv8ZtfL4jGxCcrPOS3uiRCAGrZ21Quq');
+INSERT INTO TB_USUARIO_PERFIL(ID_USUARIO, ID_PERFIL) VALUES ((SELECT tu.id from tb_usuario tu order by id desc limit 1), 1);

@@ -20,6 +20,11 @@ public record UsuarioCreateDTO(
         @Email
         String email,
 
+        @Schema(description = "Senha do usuário", example = "123")
+        @NotBlank
+        @Size(min = 1, max = 255)
+        String senha,
+
         @Schema(description = "CPF do usuário", example = "46188190061")
         @Pattern(regexp = "\\d+")
         @CPF

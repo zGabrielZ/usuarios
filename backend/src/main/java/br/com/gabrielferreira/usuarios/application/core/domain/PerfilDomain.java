@@ -1,10 +1,13 @@
 package br.com.gabrielferreira.usuarios.application.core.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class PerfilDomain implements Serializable {
+public class PerfilDomain implements Serializable, GrantedAuthority {
 
     @Serial
     private static final long serialVersionUID = 2471723976229504704L;
@@ -67,5 +70,11 @@ public class PerfilDomain implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    @JsonIgnore
+    @Override
+    public String getAuthority() {
+        return this.autoriedade;
     }
 }

@@ -40,10 +40,11 @@ public interface UsuarioEntityMapper {
         return usuarioEntities.stream().map(this::toOnlyUsuarioDomain).toList();
     }
 
-    default UsuarioDomain createUsuarioDomain(UsuarioDomain usuarioDomain, DominioDomain generoDomain, DominioDomain tipoTelefoneDomain, PerfilDomain perfilDomain){
+    default UsuarioDomain createUsuarioDomain(UsuarioDomain usuarioDomain, DominioDomain generoDomain, DominioDomain tipoTelefoneDomain, PerfilDomain perfilDomain, String senhaCriptografada){
         usuarioDomain.setGenero(generoDomain);
         usuarioDomain.getTelefone().setTipoTelefone(tipoTelefoneDomain);
         usuarioDomain.getPerfis().add(perfilDomain);
+        usuarioDomain.setSenha(senhaCriptografada);
         return usuarioDomain;
     }
 }

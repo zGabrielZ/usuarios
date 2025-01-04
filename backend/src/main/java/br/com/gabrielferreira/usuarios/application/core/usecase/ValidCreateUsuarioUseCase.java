@@ -9,6 +9,8 @@ import io.micrometer.common.util.StringUtils;
 
 import java.util.List;
 
+import static br.com.gabrielferreira.usuarios.utils.CaracteresUtils.*;
+
 public class ValidCreateUsuarioUseCase implements ValidCreateUsuarioInput {
 
     private final FindUsuarioOutput findUsuarioOutput;
@@ -51,6 +53,25 @@ public class ValidCreateUsuarioUseCase implements ValidCreateUsuarioInput {
         List<Long> idsPerfis = usuarioDomain.getPerfis().stream().map(PerfilDomain::getId).toList();
         if(idsPerfis.contains(perfilDomain.getId())){
             throw new RegraDeNegocioException(mensagem);
+        }
+    }
+
+    @Override
+    public void validarSenha(String senha) {
+        if(!isPossuiCaracteresEspecias(senha)){
+            throw new RegraDeNegocioException("A senha informada tem que ter pelo menos uma caractere especial");
+        }
+
+        if(!isPossuiCaractereMaiusculas(senha)){
+            throw new RegraDeNegocioException("A senha informada tem que ter pelo menos uma caractere maiúsculas");
+        }
+
+        if(!isPossuiCaractereMinusculas(senha)){
+            throw new RegraDeNegocioException("A senha informada tem que ter pelo menos uma caractere minúsculas");
+        }
+
+        if(!isPossuiCaractereDigito(senha)){
+            throw new RegraDeNegocioException("A senha informada tem que ter pelo menos um caractere dígito");
         }
     }
 }

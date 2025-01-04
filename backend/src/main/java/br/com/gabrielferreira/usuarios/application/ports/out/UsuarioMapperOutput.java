@@ -6,7 +6,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 
 public interface UsuarioMapperOutput {
 
-    UsuarioDomain createUsuarioDomain(UsuarioDomain usuarioDomain, DominioDomain generoDomain, DominioDomain tipoTelefoneDomain, PerfilDomain perfilDomain);
+    UsuarioDomain createUsuarioDomain(UsuarioDomain usuarioDomain, DominioDomain generoDomain, DominioDomain tipoTelefoneDomain, PerfilDomain perfilDomain, String senhaCriptografada);
 
     UsuarioDomain update(UsuarioDomain usuarioDomain, UsuarioDomain usuarioDomainEncontrado, DominioDomain generoDomain);
 }

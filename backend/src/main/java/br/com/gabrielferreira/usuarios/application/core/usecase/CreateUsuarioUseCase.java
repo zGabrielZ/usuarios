@@ -6,6 +6,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.enums.RoleEnum;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
 import br.com.gabrielferreira.usuarios.application.ports.out.CreateUsuarioOutput;
+import br.com.gabrielferreira.usuarios.application.ports.out.PasswordEncoderOutput;
 import br.com.gabrielferreira.usuarios.application.ports.out.UsuarioMapperOutput;
 
 public class CreateUsuarioUseCase implements CreateUsuarioInput {
@@ -24,13 +25,16 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
 
     private final UsuarioMapperOutput usuarioMapperOutput;
 
+    private final PasswordEncoderOutput passwordEncoderOutput;
+
     public CreateUsuarioUseCase(CreateUsuarioOutput createUsuarioOutput,
                                 ValidCreateUsuarioInput validCreateUsuarioInput,
                                 ValidCreateTelefoneInput validCreateTelefoneInput,
                                 FindGeneroInput findGeneroInput,
                                 FindTipoTelefoneInput findTipoTelefoneInput,
                                 UsuarioMapperOutput usuarioMapperOutput,
-                                FindPerfilInput findPerfilInput){
+                                FindPerfilInput findPerfilInput,
+                                PasswordEncoderOutput passwordEncoderOutput){
         this.createUsuarioOutput = createUsuarioOutput;
         this.validCreateUsuarioInput = validCreateUsuarioInput;
         this.validCreateTelefoneInput = validCreateTelefoneInput;
@@ -38,6 +42,7 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
         this.findTipoTelefoneInput = findTipoTelefoneInput;
         this.usuarioMapperOutput = usuarioMapperOutput;
         this.findPerfilInput = findPerfilInput;
+        this.passwordEncoderOutput = passwordEncoderOutput;
     }
 
     @Override
@@ -49,11 +54,13 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
         validCreateUsuarioInput.validarCampos(usuarioDomain);
         validCreateUsuarioInput.validarCpfExistente(usuarioDomain.getCpf());
         validCreateUsuarioInput.validarEmailExistente(usuarioDomain.getEmail());
+        validCreateUsuarioInput.validarSenha(usuarioDomain.getSenha());
 
         validCreateTelefoneInput.validarCampos(usuarioDomain.getTelefone());
         validCreateTelefoneInput.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), tipoTelefone);
 
-        UsuarioDomain usuarioDomainCreate = usuarioMapperOutput.createUsuarioDomain(usuarioDomain, genero, tipoTelefone, perfilDomain);
+        String senhaCriptografada = passwordEncoderOutput.enconde(usuarioDomain.getSenha());
+        UsuarioDomain usuarioDomainCreate = usuarioMapperOutput.createUsuarioDomain(usuarioDomain, genero, tipoTelefone, perfilDomain, senhaCriptografada);
         return createUsuarioOutput.create(usuarioDomainCreate);
     }
 }

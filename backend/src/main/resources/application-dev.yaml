@@ -26,3 +26,7 @@ logging:
     org:
       flywaydb: DEBUG
     br.com.gabrielferreira.usuarios: TRACE
+
+jwt:
+  secret: ${JWT_SECRET:Zx{9b)YC>B#Q~';8zHy=6&jX/a$f*GbtwWZ6nm^UM5z<E6WA{c`?"BY_d~<bMF/q&xCQs3^{h`4fnX>wRa;D"c)#F5tgv7'HEA(W~;qRx/8J!=}
+  expiration: ${JWT_EXPIRATION:3600000}

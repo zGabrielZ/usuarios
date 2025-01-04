@@ -12,4 +12,6 @@ public interface ValidCreateUsuarioInput {
     void validarCpfExistente(String cpf);
 
     void validarPerfilUsuario(UsuarioDomain usuarioDomain, PerfilDomain perfilDomain, String mensagem);
+
+    void validarSenha(String senha);
 }

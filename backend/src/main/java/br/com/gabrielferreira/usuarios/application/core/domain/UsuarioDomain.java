@@ -1,17 +1,21 @@
 package br.com.gabrielferreira.usuarios.application.core.domain;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 import static br.com.gabrielferreira.usuarios.utils.MascaraUtils.*;
 
-public class UsuarioDomain implements Serializable {
+public class UsuarioDomain implements Serializable, UserDetails {
 
     @Serial
     private static final long serialVersionUID = 8047442000735668935L;
@@ -41,6 +45,8 @@ public class UsuarioDomain implements Serializable {
     private ZonedDateTime updatedAt;
 
     private List<PerfilDomain> perfis = new ArrayList<>();
+
+    private String senha;
 
     public UsuarioDomain() {}
 
@@ -156,6 +162,14 @@ public class UsuarioDomain implements Serializable {
         this.perfis = perfis;
     }
 
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
     @Override
     public String toString() {
         return "UsuarioDomain{" +
@@ -182,5 +196,40 @@ public class UsuarioDomain implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.perfis;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

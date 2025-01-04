@@ -17,7 +17,7 @@ import static br.com.gabrielferreira.usuarios.utils.DataUtils.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = {"telefone", "anotacoes", "genero", "perfis"})
+@ToString(exclude = {"telefone", "anotacoes", "genero", "perfis", "senha"})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "TB_USUARIO")
@@ -71,6 +71,9 @@ public class UsuarioEntity implements Serializable {
             joinColumns = @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID", table = "TB_USUARIO"),
             inverseJoinColumns = @JoinColumn(name = "ID_PERFIL", referencedColumnName = "ID", table = "TB_PERFIL"))
     private List<PerfilEntity> perfis = new ArrayList<>();
+
+    @Column(name = "SENHA", nullable = false)
+    private String senha;
 
     @PrePersist
     public void prePersist(){

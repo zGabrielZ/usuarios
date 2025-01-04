@@ -3,6 +3,7 @@ package br.com.gabrielferreira.usuarios.application.core.usecase;
 import br.com.gabrielferreira.usuarios.application.core.domain.PageInfo;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.exception.NaoEncontradoException;
+import br.com.gabrielferreira.usuarios.application.exception.UnauthorizedException;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindUsuarioInput;
 import br.com.gabrielferreira.usuarios.application.ports.out.FindUsuarioOutput;
 
@@ -41,5 +42,11 @@ public class FindUsuarioUseCase implements FindUsuarioInput {
     @Override
     public List<UsuarioDomain> findAll(PageInfo pageInfo, String nome, String email, BigDecimal renda) {
         return findUsuarioOutput.findAll(pageInfo, nome, email, renda);
+    }
+
+    @Override
+    public UsuarioDomain findUserDetailsByEmail(String email) {
+        return findUsuarioOutput.findByEmail(email)
+                .orElseThrow(() -> new UnauthorizedException(MSG_USUARIO));
     }
 }

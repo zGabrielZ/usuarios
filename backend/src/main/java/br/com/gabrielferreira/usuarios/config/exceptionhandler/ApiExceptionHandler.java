@@ -3,6 +3,7 @@ package br.com.gabrielferreira.usuarios.config.exceptionhandler;
 import br.com.gabrielferreira.usuarios.application.exception.MsgException;
 import br.com.gabrielferreira.usuarios.application.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuarios.application.exception.RegraDeNegocioException;
+import br.com.gabrielferreira.usuarios.application.exception.UnauthorizedException;
 import br.com.gabrielferreira.usuarios.application.exception.model.ErroPadrao;
 import br.com.gabrielferreira.usuarios.application.exception.model.ErroPadraoFormulario;
 import br.com.gabrielferreira.usuarios.config.exceptionhandler.mapper.ErroPadraoMapper;
@@ -66,6 +67,14 @@ public class ApiExceptionHandler {
         log.error("erroException message : {}, requestUrl : {}", e.getMessage(), request.getRequestURI());
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         ErroPadrao erroPadrao = erroPadraoMapper.toErroPadrao(ZonedDateTime.now(UTC), httpStatus.value(), "Erro inesperado", "Ocorreu um erro inesperado no sistema, tente mais tarde", request.getRequestURI(), null);
+        return ResponseEntity.status(httpStatus).body(erroPadrao);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErroPadrao> unauthorizedException(UnauthorizedException e, HttpServletRequest request){
+        log.warn("unauthorizedException message : {}, requestUrl : {}", e.getMessage(), request.getRequestURI());
+        HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
+        ErroPadrao erroPadrao = erroPadraoMapper.toErroPadrao(ZonedDateTime.now(UTC), httpStatus.value(), "Não autorizado", e.getMessage(), request.getRequestURI(), null);
         return ResponseEntity.status(httpStatus).body(erroPadrao);
     }
 
