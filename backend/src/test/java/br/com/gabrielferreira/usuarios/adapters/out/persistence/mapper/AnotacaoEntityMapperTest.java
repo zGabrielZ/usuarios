@@ -14,7 +14,8 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AnotacaoEntityMapperTest {
@@ -99,97 +100,6 @@ class AnotacaoEntityMapperTest {
 
         List<AnotacaoDomain> anotacaoDomains = anotacaoEntityMapper.toAnotacoesDomains(anotacaoEntityPage);
         assertFalse(anotacaoDomains.isEmpty());
-    }
-
-    @Test
-    @DisplayName("Deve criar anotação domain rascunho")
-    @Order(4)
-    void deveCriarAnotacaoDomainRascunho(){
-        AnotacaoDomain anotacaoDomain = new AnotacaoDomain();
-        DominioDomain tipo = new DominioDomain();
-        DominioDomain situacao = new DominioDomain();
-        UsuarioDomain usuario = new UsuarioDomain();
-
-        AnotacaoDomain anotacaoDomainCreate = anotacaoEntityMapper.createAnotacaoDomainRascunho(anotacaoDomain, tipo, situacao, usuario);
-        assertNotNull(anotacaoDomainCreate);
-        assertNotNull(anotacaoDomainCreate.getTipoAnotacao());
-        assertNotNull(anotacaoDomainCreate.getSituacaoTipoAnotacao());
-        assertNotNull(anotacaoDomainCreate.getUsuario());
-    }
-
-    @Test
-    @DisplayName("Deve criar anotação domain estudo")
-    @Order(5)
-    void deveCriarAnotacaoDomainEstudo(){
-        AnotacaoDomain anotacaoDomain = new AnotacaoDomain();
-        anotacaoDomain.setDataEstudoInicio(ZonedDateTime.now());
-        anotacaoDomain.setDataEstudoFim(ZonedDateTime.now());
-
-        DominioDomain tipo = new DominioDomain();
-        DominioDomain situacao = new DominioDomain();
-        UsuarioDomain usuario = new UsuarioDomain();
-
-        AnotacaoDomain anotacaoDomainCreate = anotacaoEntityMapper.createAnotacaoDomainEstudo(anotacaoDomain, tipo, situacao, usuario);
-        assertNotNull(anotacaoDomainCreate);
-        assertNotNull(anotacaoDomainCreate.getTipoAnotacao());
-        assertNotNull(anotacaoDomainCreate.getSituacaoTipoAnotacao());
-        assertNotNull(anotacaoDomainCreate.getUsuario());
-        assertEquals(anotacaoDomain.getDataEstudoInicio(), anotacaoDomainCreate.getDataEstudoInicio());
-        assertEquals(anotacaoDomain.getDataEstudoFim(), anotacaoDomainCreate.getDataEstudoFim());
-    }
-
-    @Test
-    @DisplayName("Deve criar anotação domain lembrete")
-    @Order(6)
-    void deveCriarAnotacaoDomainLembrete(){
-        AnotacaoDomain anotacaoDomain = new AnotacaoDomain();
-        anotacaoDomain.setDataLembrete(ZonedDateTime.now());
-
-        DominioDomain tipo = new DominioDomain();
-        DominioDomain situacao = new DominioDomain();
-        UsuarioDomain usuario = new UsuarioDomain();
-
-        AnotacaoDomain anotacaoDomainCreate = anotacaoEntityMapper.createAnotacaoDomainLembrete(anotacaoDomain, tipo, situacao, usuario);
-        assertNotNull(anotacaoDomainCreate);
-        assertNotNull(anotacaoDomainCreate.getTipoAnotacao());
-        assertNotNull(anotacaoDomainCreate.getSituacaoTipoAnotacao());
-        assertNotNull(anotacaoDomainCreate.getUsuario());
-        assertEquals(anotacaoDomain.getDataLembrete(), anotacaoDomainCreate.getDataLembrete());
-    }
-
-    @Test
-    @DisplayName("Deve finalizar ou reabrir anotacao domain")
-    @Order(7)
-    void deveFinalizarOuReabrirAnotacaoDomain(){
-        AnotacaoDomain anotacaoDomain = new AnotacaoDomain();
-        DominioDomain situacao = new DominioDomain();
-
-        AnotacaoDomain anotacaoDomainCreate = anotacaoEntityMapper.updateFinalizarReabrirAnotacaoDomain(anotacaoDomain, situacao);
-        assertNotNull(anotacaoDomainCreate);
-        assertNotNull(anotacaoDomainCreate.getSituacaoTipoAnotacao());
-        assertEquals(anotacaoDomain.getSituacaoTipoAnotacao(), anotacaoDomainCreate.getSituacaoTipoAnotacao());
-    }
-
-    @Test
-    @DisplayName("Deve atualizar anotação domain")
-    @Order(8)
-    void deveAtualizarAnotacaoDomain(){
-        AnotacaoDomain anotacaoDomainFound = new AnotacaoDomain();
-
-        AnotacaoDomain anotacaoDomain = new AnotacaoDomain();
-        anotacaoDomain.setTitulo("titulo");
-        anotacaoDomain.setDescricao("descricao");
-        anotacaoDomain.setDataEstudoInicio(ZonedDateTime.now());
-        anotacaoDomain.setDataEstudoFim(ZonedDateTime.now());
-        anotacaoDomain.setDataLembrete(ZonedDateTime.now());
-
-        AnotacaoDomain anotacaoDomainCreate = anotacaoEntityMapper.updateAnotacao(anotacaoDomainFound, anotacaoDomain);
-        assertNotNull(anotacaoDomainCreate);
-        assertEquals(anotacaoDomain.getTitulo(), anotacaoDomainCreate.getTitulo());
-        assertEquals(anotacaoDomain.getDescricao(), anotacaoDomainCreate.getDescricao());
-        assertEquals(anotacaoDomain.getDataEstudoInicio(), anotacaoDomainCreate.getDataEstudoInicio());
-        assertEquals(anotacaoDomain.getDataEstudoFim(), anotacaoDomainCreate.getDataEstudoFim());
-        assertEquals(anotacaoDomain.getDataLembrete(), anotacaoDomainCreate.getDataLembrete());
     }
 
     private AnotacaoDomain build(UsuarioDomain usuarioDomain, DominioDomain dominioDomain, DominioDomain situacaoDomain){

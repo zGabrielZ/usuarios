@@ -7,7 +7,6 @@ import br.com.gabrielferreira.usuarios.application.core.domain.enums.RoleEnum;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
 import br.com.gabrielferreira.usuarios.application.ports.out.CreateUsuarioOutput;
 import br.com.gabrielferreira.usuarios.application.ports.out.PasswordEncoderOutput;
-import br.com.gabrielferreira.usuarios.application.ports.out.UsuarioMapperOutput;
 
 public class CreateUsuarioUseCase implements CreateUsuarioInput {
 
@@ -23,8 +22,6 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
 
     private final FindPerfilInput findPerfilInput;
 
-    private final UsuarioMapperOutput usuarioMapperOutput;
-
     private final PasswordEncoderOutput passwordEncoderOutput;
 
     public CreateUsuarioUseCase(CreateUsuarioOutput createUsuarioOutput,
@@ -32,7 +29,6 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
                                 ValidCreateTelefoneInput validCreateTelefoneInput,
                                 FindGeneroInput findGeneroInput,
                                 FindTipoTelefoneInput findTipoTelefoneInput,
-                                UsuarioMapperOutput usuarioMapperOutput,
                                 FindPerfilInput findPerfilInput,
                                 PasswordEncoderOutput passwordEncoderOutput){
         this.createUsuarioOutput = createUsuarioOutput;
@@ -40,7 +36,6 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
         this.validCreateTelefoneInput = validCreateTelefoneInput;
         this.findGeneroInput = findGeneroInput;
         this.findTipoTelefoneInput = findTipoTelefoneInput;
-        this.usuarioMapperOutput = usuarioMapperOutput;
         this.findPerfilInput = findPerfilInput;
         this.passwordEncoderOutput = passwordEncoderOutput;
     }
@@ -60,7 +55,16 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
         validCreateTelefoneInput.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), tipoTelefone);
 
         String senhaCriptografada = passwordEncoderOutput.enconde(usuarioDomain.getSenha());
-        UsuarioDomain usuarioDomainCreate = usuarioMapperOutput.createUsuarioDomain(usuarioDomain, genero, tipoTelefone, perfilDomain, senhaCriptografada);
-        return createUsuarioOutput.create(usuarioDomainCreate);
+
+        createUsuario(usuarioDomain, genero, tipoTelefone, perfilDomain, senhaCriptografada);
+
+        return createUsuarioOutput.create(usuarioDomain);
+    }
+
+    private void createUsuario(UsuarioDomain usuarioDomain, DominioDomain genero, DominioDomain tipoTelefone, PerfilDomain perfilDomain, String senhaCriptografada) {
+        usuarioDomain.setGenero(genero);
+        usuarioDomain.getTelefone().setTipoTelefone(tipoTelefone);
+        usuarioDomain.getPerfis().add(perfilDomain);
+        usuarioDomain.setSenha(senhaCriptografada);
     }
 }

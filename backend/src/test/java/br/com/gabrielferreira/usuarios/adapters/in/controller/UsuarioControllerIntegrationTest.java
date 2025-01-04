@@ -65,7 +65,7 @@ class UsuarioControllerIntegrationTest {
 
     @BeforeEach
     void setUp(){
-        usuarioCreateDTO = criarUsuarioCreateDto("teste123321@email.com", "48967064047");
+        usuarioCreateDTO = criarUsuarioCreateDto("teste123321@email.com", "48967064047", "Ac1@");
         idUsuarioExistente = 1L;
         idUsuarioInexistente = -1L;
         emailExistente = "teste@email.com";
@@ -118,7 +118,7 @@ class UsuarioControllerIntegrationTest {
     @DisplayName("Não deve criar usuário quando informar cpf existente")
     @Order(2)
     void naoDeveCriarUsuarioQuandoInformarCpfExistente() throws Exception {
-        usuarioCreateDTO = criarUsuarioCreateDto("teste33333@email.com", "63801219003");
+        usuarioCreateDTO = criarUsuarioCreateDto("teste33333@email.com", "63801219003", "Ac1@");
         String jsonBody = objectMapper.writeValueAsString(usuarioCreateDTO);
 
         ResultActions resultActions = mockMvc
@@ -136,7 +136,7 @@ class UsuarioControllerIntegrationTest {
     @DisplayName("Não deve criar usuário quando informar email existente")
     @Order(3)
     void naoDeveCriarUsuarioQuandoInformarEmailExistente() throws Exception {
-        usuarioCreateDTO = criarUsuarioCreateDto("teste@email.com", "39128598091");
+        usuarioCreateDTO = criarUsuarioCreateDto("teste@email.com", "39128598091", "Ac1@");
         String jsonBody = objectMapper.writeValueAsString(usuarioCreateDTO);
 
         ResultActions resultActions = mockMvc

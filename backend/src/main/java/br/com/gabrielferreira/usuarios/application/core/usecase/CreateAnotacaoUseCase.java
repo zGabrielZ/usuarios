@@ -5,7 +5,6 @@ import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.enums.TipoAnotacaoEnum;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
-import br.com.gabrielferreira.usuarios.application.ports.out.AnotacaoMapperOutput;
 import br.com.gabrielferreira.usuarios.application.ports.out.CreateAnotacaoOutput;
 
 public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
@@ -20,20 +19,16 @@ public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
 
     private final FindUsuarioInput findUsuarioInput;
 
-    private final AnotacaoMapperOutput anotacaoMapperOutput;
-
     public CreateAnotacaoUseCase(CreateAnotacaoOutput createAnotacaoOutput,
                                  ValidCreateAnotacaoInput validCreateAnotacaoInput,
                                  FindTipoAnotacaoInput findTipoAnotacaoInput,
                                  FindSituacaoAnotacaoInput findSituacaoAnotacaoInput,
-                                 FindUsuarioInput findUsuarioInput,
-                                 AnotacaoMapperOutput anotacaoMapperOutput) {
+                                 FindUsuarioInput findUsuarioInput) {
         this.createAnotacaoOutput = createAnotacaoOutput;
         this.validCreateAnotacaoInput = validCreateAnotacaoInput;
         this.findTipoAnotacaoInput = findTipoAnotacaoInput;
         this.findSituacaoAnotacaoInput = findSituacaoAnotacaoInput;
         this.findUsuarioInput = findUsuarioInput;
-        this.anotacaoMapperOutput = anotacaoMapperOutput;
     }
 
     @Override
@@ -44,8 +39,9 @@ public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
         DominioDomain situacaoAnotacaoDomain = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.RASCUNHO_ABERTO.name());
         UsuarioDomain usuarioDomain = findUsuarioInput.findById(idUsuario);
 
-        AnotacaoDomain anotacaoDomainCreate = anotacaoMapperOutput.createRascunho(anotacaoDomain, tipoAnotacaoDomain, situacaoAnotacaoDomain, usuarioDomain);
-        return createAnotacaoOutput.create(anotacaoDomainCreate);
+        createAnotacao(anotacaoDomain, tipoAnotacaoDomain, situacaoAnotacaoDomain, usuarioDomain);
+
+        return createAnotacaoOutput.create(anotacaoDomain);
     }
 
     @Override
@@ -57,8 +53,9 @@ public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
         DominioDomain situacaoAnotacaoDomain = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.ESTUDO_ANDAMENTO.name());
         UsuarioDomain usuarioDomain = findUsuarioInput.findById(idUsuario);
 
-        AnotacaoDomain anotacaoDomainCreate = anotacaoMapperOutput.createEstudo(anotacaoDomain, tipoAnotacaoDomain, situacaoAnotacaoDomain, usuarioDomain);
-        return createAnotacaoOutput.create(anotacaoDomainCreate);
+        createAnotacao(anotacaoDomain, tipoAnotacaoDomain, situacaoAnotacaoDomain, usuarioDomain);
+
+        return createAnotacaoOutput.create(anotacaoDomain);
     }
 
     @Override
@@ -69,7 +66,14 @@ public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
         DominioDomain situacaoAnotacaoDomain = findSituacaoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.LEMBRETE_ABERTO.name());
         UsuarioDomain usuarioDomain = findUsuarioInput.findById(idUsuario);
 
-        AnotacaoDomain anotacaoDomainCreate = anotacaoMapperOutput.createLembrete(anotacaoDomain, tipoAnotacaoDomain, situacaoAnotacaoDomain, usuarioDomain);
-        return createAnotacaoOutput.create(anotacaoDomainCreate);
+        createAnotacao(anotacaoDomain, tipoAnotacaoDomain, situacaoAnotacaoDomain, usuarioDomain);
+
+        return createAnotacaoOutput.create(anotacaoDomain);
+    }
+
+    private void createAnotacao(AnotacaoDomain anotacaoDomain, DominioDomain tipoAnotacaoDomain, DominioDomain situacaoAnotacaoDomain, UsuarioDomain usuarioDomain) {
+        anotacaoDomain.setTipoAnotacao(tipoAnotacaoDomain);
+        anotacaoDomain.setSituacaoTipoAnotacao(situacaoAnotacaoDomain);
+        anotacaoDomain.setUsuario(usuarioDomain);
     }
 }

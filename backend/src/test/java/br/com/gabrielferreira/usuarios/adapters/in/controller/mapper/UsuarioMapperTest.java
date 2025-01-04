@@ -89,7 +89,7 @@ class UsuarioMapperTest {
         @DisplayName("Deve criar usuário domain")
         @Order(3)
         void deveCriarUsuarioDomain(){
-            UsuarioCreateDTO usuarioCreateDTO = new UsuarioCreateDTO("nome", "email@email.com", "cpf", BigDecimal.ONE, LocalDate.now(),
+            UsuarioCreateDTO usuarioCreateDTO = new UsuarioCreateDTO("nome", "email@email.com", "Ac1@","cpf", BigDecimal.ONE, LocalDate.now(),
                     1, new TelefoneCreateDTO("numero", "ddd", "descricao", new TipoTelefoneCreateDTO(4L)), new GeneroCreateDTO(1L));
 
             UsuarioDomain usuarioDomain = usuarioMapper.createUsuarioDomain(usuarioCreateDTO);
@@ -104,6 +104,7 @@ class UsuarioMapperTest {
             assertEquals(usuarioCreateDTO.telefone().descricao(), usuarioDomain.getTelefone().getDescricao());
             assertEquals(usuarioCreateDTO.telefone().tipoTelefone().id(), usuarioDomain.getTelefone().getTipoTelefone().getId());
             assertEquals(usuarioCreateDTO.genero().id(), usuarioDomain.getGenero().getId());
+            assertEquals(usuarioCreateDTO.senha(), usuarioDomain.getSenha());
         }
 
         @Test

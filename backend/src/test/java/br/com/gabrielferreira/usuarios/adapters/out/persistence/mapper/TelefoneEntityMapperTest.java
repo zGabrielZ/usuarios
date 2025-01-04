@@ -81,29 +81,4 @@ class TelefoneEntityMapperTest {
         assertEquals(telefoneDomain.getTipoTelefone().getTipo().getDescricao(), telefoneEntity.getTipoTelefone().getTipo().getDescricao());
         assertEquals(telefoneDomain.getTipoTelefone().getTipo().getCodigo(), telefoneEntity.getTipoTelefone().getTipo().getCodigo());
     }
-
-    @Test
-    @DisplayName("Deve criar telefone domain update")
-    @Order(3)
-    void deveCriarTelefoneDomainUpdate(){
-        TelefoneDomain telefoneDomain = new TelefoneDomain(1L, "99999999", "21", "teste2",
-                null, null, null);
-
-        TelefoneDomain telefoneDomainEncontrado = new TelefoneDomain(1L, "999999999", "11", "teste",
-                new DominioDomain(5L, "Celular", "CELULAR", new TipoDominioDomain(2L, "Tipo de telefone", "TIPO_TELEFONE")),
-                ZonedDateTime.now(), ZonedDateTime.now());
-
-        DominioDomain tipoTelefone = new DominioDomain(4L, "Residencial", "RESIDENCIAL", new TipoDominioDomain(2L, "Tipo de telefone", "TIPO_TELEFONE"));
-
-        TelefoneDomain telefoneDomainResult = telefoneEntityMapper.updateTelefone(telefoneDomain, telefoneDomainEncontrado, tipoTelefone);
-        assertEquals(telefoneDomain.getNumero(), telefoneDomainResult.getNumero());
-        assertEquals(telefoneDomain.getDdd(), telefoneDomainResult.getDdd());
-        assertEquals(telefoneDomain.getDescricao(), telefoneDomainResult.getDescricao());
-        assertEquals(telefoneDomainEncontrado.getTipoTelefone().getId(), telefoneDomainResult.getTipoTelefone().getId());
-        assertEquals(telefoneDomainEncontrado.getTipoTelefone().getDescricao(), telefoneDomainResult.getTipoTelefone().getDescricao());
-        assertEquals(telefoneDomainEncontrado.getTipoTelefone().getCodigo(), telefoneDomainResult.getTipoTelefone().getCodigo());
-        assertEquals(telefoneDomainEncontrado.getTipoTelefone().getTipo().getId(), telefoneDomainResult.getTipoTelefone().getTipo().getId());
-        assertEquals(telefoneDomainEncontrado.getTipoTelefone().getTipo().getDescricao(), telefoneDomainResult.getTipoTelefone().getTipo().getDescricao());
-        assertEquals(telefoneDomainEncontrado.getTipoTelefone().getTipo().getCodigo(), telefoneDomainResult.getTipoTelefone().getTipo().getCodigo());
-    }
 }
