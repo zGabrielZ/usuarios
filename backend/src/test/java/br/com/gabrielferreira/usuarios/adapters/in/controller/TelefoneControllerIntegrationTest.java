@@ -52,8 +52,6 @@ class TelefoneControllerIntegrationTest {
 
     private String tokenNaoAdmin;
 
-    private Long idUsuarioNaoAdminExistente;
-
     @BeforeEach
     void setUp(){
         idUsuarioExistente = 1L;
@@ -63,7 +61,6 @@ class TelefoneControllerIntegrationTest {
         telefoneCreateDTO = createTelefone("99999999", "21", "Telefone da pessoa tal...", 4L);
         tokenAdmin = generateTokenUtils.gerarToken(mockMvc, "teste@email.com", "Ac1@");
         tokenNaoAdmin = generateTokenUtils.gerarToken(mockMvc, "teste2@email.com", "Ac1@");
-        idUsuarioNaoAdminExistente = 2L;
     }
 
     @Test
