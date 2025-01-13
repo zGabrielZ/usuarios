@@ -1,6 +1,7 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.TelefoneCreateDTO;
+import br.com.gabrielferreira.usuarios.utils.GenerateTokenUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,17 @@ class TelefoneControllerIntegrationTest {
 
     private static final String URL = "/v1/usuarios";
     private static final MediaType MEDIA_TYPE_JSON = MediaType.APPLICATION_JSON;
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BEARER = "Bearer ";
 
     @Autowired
     protected MockMvc mockMvc;
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected GenerateTokenUtils generateTokenUtils;
 
     private Long idUsuarioExistente;
 
@@ -42,6 +48,12 @@ class TelefoneControllerIntegrationTest {
 
     private TelefoneCreateDTO telefoneCreateDTO;
 
+    private String tokenAdmin;
+
+    private String tokenNaoAdmin;
+
+    private Long idUsuarioNaoAdminExistente;
+
     @BeforeEach
     void setUp(){
         idUsuarioExistente = 1L;
@@ -49,6 +61,9 @@ class TelefoneControllerIntegrationTest {
         idTelefoneExistente = 1L;
         idTelefoneInexistente = -1L;
         telefoneCreateDTO = createTelefone("99999999", "21", "Telefone da pessoa tal...", 4L);
+        tokenAdmin = generateTokenUtils.gerarToken(mockMvc, "teste@email.com", "Ac1@");
+        tokenNaoAdmin = generateTokenUtils.gerarToken(mockMvc, "teste2@email.com", "Ac1@");
+        idUsuarioNaoAdminExistente = 2L;
     }
 
     @Test
@@ -60,6 +75,7 @@ class TelefoneControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isOk());
@@ -96,6 +112,7 @@ class TelefoneControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isNotFound());
@@ -114,6 +131,7 @@ class TelefoneControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
@@ -156,6 +174,7 @@ class TelefoneControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
@@ -177,6 +196,7 @@ class TelefoneControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
@@ -198,6 +218,7 @@ class TelefoneControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
@@ -219,11 +240,51 @@ class TelefoneControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isBadRequest());
         resultActions.andExpect(jsonPath("$.mensagem").value("O número de telefone '(21) 99999-9999' tem ser do tipo celular"));
+    }
+
+    @Test
+    @DisplayName("Não deve buscar telefone por id usuário quando usuário nao for admin")
+    @Order(10)
+    void naoDeveBuscarTelefonePorIdQuandoUsuarioNaoForAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/telefones");
+
+        ResultActions resultActions = mockMvc
+                .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta consulta"));
+    }
+
+    @Test
+    @DisplayName("Não deve alterar telefone quando usuário não for admin")
+    @Order(11)
+    void naoDeveAlterarTelefoneQuandoNaoForAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/telefones")
+                .concat("/").concat(idTelefoneExistente.toString());
+
+        String jsonBody = objectMapper.writeValueAsString(telefoneCreateDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta atualização"));
     }
 }

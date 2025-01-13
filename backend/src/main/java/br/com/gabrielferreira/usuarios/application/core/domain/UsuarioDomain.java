@@ -1,5 +1,6 @@
 package br.com.gabrielferreira.usuarios.application.core.domain;
 
+import br.com.gabrielferreira.usuarios.application.core.domain.enums.RoleEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -168,6 +169,14 @@ public class UsuarioDomain implements Serializable, UserDetails {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public boolean isContemPerfil(RoleEnum roleEnum) {
+        return this.perfis.stream().anyMatch(pe -> pe.getAutoriedade().equals(roleEnum.name()));
+    }
+
+    public boolean isNaoContemPerfil(RoleEnum roleEnum) {
+        return !isContemPerfil(roleEnum);
     }
 
     @Override

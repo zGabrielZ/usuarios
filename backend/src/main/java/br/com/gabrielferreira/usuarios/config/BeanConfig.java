@@ -9,6 +9,11 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfig {
 
     @Bean
+    public UserCurrentUseCase userCurrentUseCase(UserCurrentAdapter userCurrentAdapter) {
+        return new UserCurrentUseCase(userCurrentAdapter);
+    }
+
+    @Bean
     public FindGeneroUseCase findGeneroUseCase(FindDominioAdapter findDominioAdapter){
         return new FindGeneroUseCase(findDominioAdapter);
     }
@@ -19,8 +24,9 @@ public class BeanConfig {
     }
 
     @Bean
-    public FindUsuarioUseCase findUsuarioUseCase(FindUsuarioAdapter findUsuarioAdapter){
-        return new FindUsuarioUseCase(findUsuarioAdapter);
+    public FindUsuarioUseCase findUsuarioUseCase(FindUsuarioAdapter findUsuarioAdapter,
+                                                 UserCurrentAdapter userCurrentAdapter){
+        return new FindUsuarioUseCase(findUsuarioAdapter, userCurrentUseCase(userCurrentAdapter));
     }
 
     @Bean
@@ -39,36 +45,43 @@ public class BeanConfig {
                                                      FindDominioAdapter findGeneroAdapter,
                                                      FindDominioAdapter findTipoTelefoneAdapter,
                                                      FindPerfilAdapter findPerfilAdapter,
-                                                     PasswordEncoderAdapter passwordEncoderAdapter){
+                                                     PasswordEncoderAdapter passwordEncoderAdapter,
+                                                     UserCurrentAdapter userCurrentAdapter){
         return new CreateUsuarioUseCase(createUsuarioAdapter, validCreateUsuarioUseCase(findUsuarioAdapter), validCreateTelefoneUseCase(),
-                findGeneroUseCase(findGeneroAdapter), findTipoTelefoneUseCase(findTipoTelefoneAdapter), findPerfilUseCase(findPerfilAdapter),
+                findGeneroUseCase(findGeneroAdapter), findTipoTelefoneUseCase(findTipoTelefoneAdapter), findPerfilUseCase(findPerfilAdapter, userCurrentAdapter),
                 passwordEncoderAdapter);
     }
 
     @Bean
-    public FindTelefoneUseCase findTelefoneUseCase(FindTelefoneAdapter findTelefoneAdapter){
-        return new FindTelefoneUseCase(findTelefoneAdapter);
+    public FindTelefoneUseCase findTelefoneUseCase(FindTelefoneAdapter findTelefoneAdapter,
+                                                   UserCurrentAdapter userCurrentAdapter){
+        return new FindTelefoneUseCase(findTelefoneAdapter, userCurrentUseCase(userCurrentAdapter));
     }
 
     @Bean
     public UpdateTelefoneUseCase updateTelefoneUseCase(UpdateTelefoneAdapter updateTelefoneAdapter,
                                                        FindDominioAdapter findTipoTelefoneAdapter,
-                                                       FindTelefoneAdapter findTelefoneAdapter){
-        return new UpdateTelefoneUseCase(updateTelefoneAdapter, validCreateTelefoneUseCase(), findTipoTelefoneUseCase(findTipoTelefoneAdapter), findTelefoneUseCase(findTelefoneAdapter));
+                                                       FindTelefoneAdapter findTelefoneAdapter,
+                                                       UserCurrentAdapter userCurrentAdapter){
+        return new UpdateTelefoneUseCase(updateTelefoneAdapter, validCreateTelefoneUseCase(), findTipoTelefoneUseCase(findTipoTelefoneAdapter), findTelefoneUseCase(findTelefoneAdapter, userCurrentAdapter),
+                userCurrentUseCase(userCurrentAdapter));
     }
 
     @Bean
     public UpdateUsuarioUseCase updateUsuarioUseCase(UpdateUsuarioAdapter updateUsuarioAdapter,
                                                      FindUsuarioAdapter findUsuarioAdapter,
                                                      FindDominioAdapter findDominioAdapter,
-                                                     FindPerfilAdapter findPerfilAdapter){
-        return new UpdateUsuarioUseCase(updateUsuarioAdapter, findUsuarioUseCase(findUsuarioAdapter), validCreateUsuarioUseCase(findUsuarioAdapter), findGeneroUseCase(findDominioAdapter), findPerfilUseCase(findPerfilAdapter));
+                                                     FindPerfilAdapter findPerfilAdapter,
+                                                     UserCurrentAdapter userCurrentAdapter){
+        return new UpdateUsuarioUseCase(updateUsuarioAdapter, findUsuarioUseCase(findUsuarioAdapter, userCurrentAdapter), validCreateUsuarioUseCase(findUsuarioAdapter), findGeneroUseCase(findDominioAdapter), findPerfilUseCase(findPerfilAdapter, userCurrentAdapter),
+                userCurrentUseCase(userCurrentAdapter));
     }
 
     @Bean
     public DeleteUsuarioUseCase deleteUsuarioUseCase(DeleteUsuarioAdapter deleteUsuarioAdapter,
-                                                     FindUsuarioAdapter findUsuarioAdapter){
-        return new DeleteUsuarioUseCase(deleteUsuarioAdapter, findUsuarioUseCase(findUsuarioAdapter));
+                                                     FindUsuarioAdapter findUsuarioAdapter,
+                                                     UserCurrentAdapter userCurrentAdapter){
+        return new DeleteUsuarioUseCase(deleteUsuarioAdapter, findUsuarioUseCase(findUsuarioAdapter, userCurrentAdapter), userCurrentUseCase(userCurrentAdapter));
     }
 
     @Bean
@@ -90,28 +103,33 @@ public class BeanConfig {
     public CreateAnotacaoUseCase createAnotacaoUseCase(CreateAnotacaoAdapter createAnotacaoAdapter,
                                                        FindDominioAdapter findTipoAnotacao,
                                                        FindUsuarioAdapter findUsuarioAdapter,
-                                                       FindDominioAdapter findSituacaoAnotacao){
+                                                       FindDominioAdapter findSituacaoAnotacao,
+                                                       UserCurrentAdapter userCurrentAdapter){
         return new CreateAnotacaoUseCase(createAnotacaoAdapter, validCreateAnotacaoUseCase(), findTipoAnotacaoUseCase(findTipoAnotacao),
-                findSituacaoAnotacaoUseCase(findSituacaoAnotacao), findUsuarioUseCase(findUsuarioAdapter));
+                findSituacaoAnotacaoUseCase(findSituacaoAnotacao), findUsuarioUseCase(findUsuarioAdapter, userCurrentAdapter), userCurrentUseCase(userCurrentAdapter));
     }
 
     @Bean
     public FindAnotacaoUseCase findAnotacaoUseCase(FindAnotacaoAdapter findAnotacaoAdapter,
-                                                   FindUsuarioAdapter findUsuarioAdapter){
-        return new FindAnotacaoUseCase(findAnotacaoAdapter, findUsuarioUseCase(findUsuarioAdapter));
+                                                   FindUsuarioAdapter findUsuarioAdapter,
+                                                   UserCurrentAdapter userCurrentAdapter){
+        return new FindAnotacaoUseCase(findAnotacaoAdapter, findUsuarioUseCase(findUsuarioAdapter, userCurrentAdapter), userCurrentUseCase(userCurrentAdapter));
     }
 
     @Bean
     public UpdateAnotacaoUseCase updateAnotacaoUseCase(UpdateAnotacaoAdapter updateAnotacaoAdapter,
                                                        FindAnotacaoAdapter findAnotacaoAdapter,
                                                        FindDominioAdapter findDominioAdapter,
-                                                       FindUsuarioAdapter findUsuarioAdapter){
-        return new UpdateAnotacaoUseCase(updateAnotacaoAdapter, findAnotacaoUseCase(findAnotacaoAdapter, findUsuarioAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter), validCreateAnotacaoUseCase());
+                                                       FindUsuarioAdapter findUsuarioAdapter,
+                                                       UserCurrentAdapter userCurrentAdapter){
+        return new UpdateAnotacaoUseCase(updateAnotacaoAdapter, findAnotacaoUseCase(findAnotacaoAdapter, findUsuarioAdapter, userCurrentAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter), validCreateAnotacaoUseCase(),
+                userCurrentUseCase(userCurrentAdapter));
     }
 
     @Bean
-    public FindPerfilUseCase findPerfilUseCase(FindPerfilAdapter findPerfilAdapter){
-        return new FindPerfilUseCase(findPerfilAdapter);
+    public FindPerfilUseCase findPerfilUseCase(FindPerfilAdapter findPerfilAdapter,
+                                               UserCurrentAdapter userCurrentAdapter){
+        return new FindPerfilUseCase(findPerfilAdapter, userCurrentUseCase(userCurrentAdapter));
     }
 
     @Bean

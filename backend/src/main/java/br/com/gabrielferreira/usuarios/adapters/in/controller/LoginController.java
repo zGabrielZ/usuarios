@@ -3,7 +3,9 @@ package br.com.gabrielferreira.usuarios.adapters.in.controller;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.LoginMapper;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.LoginDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.TokenDTO;
+import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.GenerateTokenInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.UserCurrentInput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,12 +20,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Login Controller", description = "Endpoints para realizar login")
 @RestController
-@RequestMapping("/login")
 @RequiredArgsConstructor
 public class LoginController {
 
@@ -33,6 +33,8 @@ public class LoginController {
 
     private final LoginMapper loginMapper;
 
+    private final UserCurrentInput userCurrentInput;
+
     @Operation(summary = "Logar usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário logado",
@@ -41,12 +43,28 @@ public class LoginController {
             @ApiResponse(responseCode = "400", description = "Regra de negócio",
                     content = @Content)
     })
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity<TokenDTO> login(@Valid @RequestBody LoginDTO loginDTO){
         UsernamePasswordAuthenticationToken dadosLogin = loginMapper.toUsernamePasswordAuthenticationToken(loginDTO);
         Authentication authentication =  authenticationManager.authenticate(dadosLogin);
 
-        String token = generateTokenInput.generate(authentication);
+        String token = generateTokenInput.generate((UsuarioDomain) authentication.getPrincipal());
+        return ResponseEntity.ok(loginMapper.tokenDto(token));
+    }
+
+    @Operation(summary = "Refresh token do usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Token atualizado",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = TokenDTO.class)) }),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado",
+                    content = @Content)
+    })
+    @PostMapping("/refresh-token")
+    public ResponseEntity<TokenDTO> refreshToken(){
+        UsuarioDomain usuarioDomain = userCurrentInput.getUserCurrent();
+
+        String token = generateTokenInput.refreshToken(usuarioDomain);
         return ResponseEntity.ok(loginMapper.tokenDto(token));
     }
 }

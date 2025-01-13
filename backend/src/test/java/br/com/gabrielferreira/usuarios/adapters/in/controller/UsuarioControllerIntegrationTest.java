@@ -2,10 +2,7 @@ package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioCreateDTO;
 import br.com.gabrielferreira.usuarios.adapters.in.controller.request.UsuarioUpdateDTO;
-import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.PerfilEntity;
-import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.UsuarioEntity;
-import br.com.gabrielferreira.usuarios.adapters.out.persistence.repository.PerfilRepository;
-import br.com.gabrielferreira.usuarios.adapters.out.persistence.repository.UsuarioRepository;
+import br.com.gabrielferreira.usuarios.utils.GenerateTokenUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,8 @@ class UsuarioControllerIntegrationTest {
 
     private static final String URL = "/v1/usuarios";
     private static final MediaType MEDIA_TYPE_JSON = MediaType.APPLICATION_JSON;
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BEARER = "Bearer ";
 
     @Autowired
     protected MockMvc mockMvc;
@@ -38,10 +37,7 @@ class UsuarioControllerIntegrationTest {
     protected ObjectMapper objectMapper;
 
     @Autowired
-    protected PerfilRepository perfilRepository;
-
-    @Autowired
-    protected UsuarioRepository usuarioRepository;
+    protected GenerateTokenUtils generateTokenUtils;
 
     private Long idUsuarioExistente;
 
@@ -63,6 +59,12 @@ class UsuarioControllerIntegrationTest {
 
     private UsuarioUpdateDTO usuarioUpdateDTO;
 
+    private String tokenAdmin;
+
+    private String tokenNaoAdmin;
+
+    private Long idUsuarioNaoAdminExistente;
+
     @BeforeEach
     void setUp(){
         usuarioCreateDTO = criarUsuarioCreateDto("teste123321@email.com", "48967064047", "Ac1@");
@@ -75,6 +77,9 @@ class UsuarioControllerIntegrationTest {
         usuarioUpdateDTO = atualizarUsuarioUpdateDto();
         idPerfilInexistente = -1L;
         idPerfilExistente = 1L;
+        tokenAdmin = generateTokenUtils.gerarToken(mockMvc, "teste@email.com", "Ac1@");
+        tokenNaoAdmin = generateTokenUtils.gerarToken(mockMvc, "teste2@email.com", "Ac1@");
+        idUsuarioNaoAdminExistente = 2L;
     }
 
     @Test
@@ -85,6 +90,7 @@ class UsuarioControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(post(URL)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
@@ -123,6 +129,7 @@ class UsuarioControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(post(URL)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
@@ -141,6 +148,7 @@ class UsuarioControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(post(URL)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
@@ -151,13 +159,32 @@ class UsuarioControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("Deve buscar usuário por id")
+    @DisplayName("Não deve criar usuário quando informar um token não admin")
     @Order(4)
-    void deveBuscarUsuarioPorId() throws Exception {
+    void naoDeveCriarUsuarioQuandoInformarTokenNaoAdmin() throws Exception {
+        String jsonBody = objectMapper.writeValueAsString(usuarioCreateDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta ação"));
+    }
+
+    @Test
+    @DisplayName("Deve buscar usuário próprio por id quando o token for admin")
+    @Order(5)
+    void deveBuscarProprioUsuarioTokenAdmin() throws Exception {
         String url = URL.concat("/").concat(idUsuarioExistente.toString());
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -181,13 +208,93 @@ class UsuarioControllerIntegrationTest {
     }
 
     @Test
+    @DisplayName("Deve buscar usuário diferente por id quando o token for admin")
+    @Order(6)
+    void deveBuscarUsuarioTokenAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioNaoAdminExistente.toString());
+
+        ResultActions resultActions = mockMvc
+                .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.id").exists());
+        resultActions.andExpect(jsonPath("$.nome").exists());
+        resultActions.andExpect(jsonPath("$.email").exists());
+        resultActions.andExpect(jsonPath("$.cpf").exists());
+        resultActions.andExpect(jsonPath("$.cpfFormatado").exists());
+        resultActions.andExpect(jsonPath("$.renda").exists());
+        resultActions.andExpect(jsonPath("$.rendaFormatada").exists());
+        resultActions.andExpect(jsonPath("$.dataNascimento").exists());
+        resultActions.andExpect(jsonPath("$.quantidadeFilhos").exists());
+        resultActions.andExpect(jsonPath("$.telefone.numero").exists());
+        resultActions.andExpect(jsonPath("$.telefone.ddd").exists());
+        resultActions.andExpect(jsonPath("$.telefone.descricao").exists());
+        resultActions.andExpect(jsonPath("$.telefone.telefoneFormatado").exists());
+        resultActions.andExpect(jsonPath("$.genero.id").exists());
+        resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
+    }
+
+    @Test
+    @DisplayName("Deve buscar usuário próprio por id quando o token não for admin")
+    @Order(7)
+    void deveBuscarProprioUsuarioTokenNaoAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioNaoAdminExistente.toString());
+
+        ResultActions resultActions = mockMvc
+                .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.id").exists());
+        resultActions.andExpect(jsonPath("$.nome").exists());
+        resultActions.andExpect(jsonPath("$.email").exists());
+        resultActions.andExpect(jsonPath("$.cpf").exists());
+        resultActions.andExpect(jsonPath("$.cpfFormatado").exists());
+        resultActions.andExpect(jsonPath("$.renda").exists());
+        resultActions.andExpect(jsonPath("$.rendaFormatada").exists());
+        resultActions.andExpect(jsonPath("$.dataNascimento").exists());
+        resultActions.andExpect(jsonPath("$.quantidadeFilhos").exists());
+        resultActions.andExpect(jsonPath("$.telefone.numero").exists());
+        resultActions.andExpect(jsonPath("$.telefone.ddd").exists());
+        resultActions.andExpect(jsonPath("$.telefone.descricao").exists());
+        resultActions.andExpect(jsonPath("$.telefone.telefoneFormatado").exists());
+        resultActions.andExpect(jsonPath("$.genero.id").exists());
+        resultActions.andExpect(jsonPath("$.createdAt").exists());
+        resultActions.andExpect(jsonPath("$._links.self").exists());
+    }
+
+    @Test
+    @DisplayName("Não deve buscar usuário diferente por id quando token não for admin")
+    @Order(8)
+    void naoDeveBuscarUsuarioDiferentePorIdTokenNaoAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString());
+
+        ResultActions resultActions = mockMvc
+                .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta consulta"));
+    }
+
+    @Test
     @DisplayName("Não deve buscar usuário por id")
-    @Order(5)
+    @Order(9)
     void naoDeveBuscarUsuarioPorId() throws Exception {
         String url = URL.concat("/").concat(idUsuarioInexistente.toString());
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -198,12 +305,13 @@ class UsuarioControllerIntegrationTest {
 
     @Test
     @DisplayName("Deve buscar usuário por email")
-    @Order(6)
+    @Order(10)
     void deveBuscarUsuarioPorEmail() throws Exception {
         String url = URL.concat("/email/").concat(emailExistente);
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -223,12 +331,13 @@ class UsuarioControllerIntegrationTest {
 
     @Test
     @DisplayName("Não deve buscar usuário por email")
-    @Order(7)
+    @Order(11)
     void naoDeveBuscarUsuarioPorEmail() throws Exception {
         String url = URL.concat("/email/").concat(emailInexistente);
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -239,12 +348,13 @@ class UsuarioControllerIntegrationTest {
 
     @Test
     @DisplayName("Deve buscar usuário por cpf")
-    @Order(8)
+    @Order(12)
     void deveBuscarUsuarioPorCpf() throws Exception {
         String url = URL.concat("/cpf/").concat(cpfExistente);
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -264,12 +374,13 @@ class UsuarioControllerIntegrationTest {
 
     @Test
     @DisplayName("Não deve buscar usuário por cpf")
-    @Order(9)
+    @Order(13)
     void naoDeveBuscarUsuarioPorCpf() throws Exception {
         String url = URL.concat("/cpf/").concat(cpfInexistente);
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -280,7 +391,7 @@ class UsuarioControllerIntegrationTest {
 
     @Test
     @DisplayName("Deve atualizar usuário")
-    @Order(10)
+    @Order(14)
     void deveAtualizarUsuario() throws Exception {
         String url = URL.concat("/").concat(idUsuarioExistente.toString());
 
@@ -288,6 +399,7 @@ class UsuarioControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
@@ -312,13 +424,34 @@ class UsuarioControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("Deve deletar usuário")
-    @Order(10)
-    void deveDeletarUsuario() throws Exception {
+    @DisplayName("Não deve atualizar usuário quando não for admin")
+    @Order(15)
+    void naoDeveAtualizarUsuarioQuandoNaoForAdmin() throws Exception {
         String url = URL.concat("/").concat(idUsuarioExistente.toString());
+
+        String jsonBody = objectMapper.writeValueAsString(usuarioUpdateDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta atualização"));
+    }
+
+    @Test
+    @DisplayName("Deve deletar usuário")
+    @Order(16)
+    void deveDeletarUsuario() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioNaoAdminExistente.toString());
 
         ResultActions resultActions = mockMvc
                 .perform(delete(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -326,14 +459,47 @@ class UsuarioControllerIntegrationTest {
     }
 
     @Test
+    @DisplayName("Não deve deletar usuário quando não for admin")
+    @Order(17)
+    void naoDeveDeletarUsuarioQuandoUsuarioNaoForAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString());
+
+        ResultActions resultActions = mockMvc
+                .perform(delete(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+    }
+
+    @Test
+    @DisplayName("Não deve deletar usuário com conta própria")
+    @Order(18)
+    void naoDeveDeletarUsuarioComContaPropria() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString());
+
+        ResultActions resultActions = mockMvc
+                .perform(delete(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.titulo").value("Regra de negócio"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não pode excluir a sua própria conta no sistema"));
+    }
+
+    @Test
     @DisplayName("Deve buscar usuários paginados quando existir")
-    @Order(11)
+    @Order(19)
     void deveBuscarUsuariosPaginadas() throws Exception {
         String url = URL.concat("?page=0&size=5&sort=id,desc")
                 .concat("&nome=Nome teste&email=teste@email.com&renda=10000");
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isOk());
@@ -343,16 +509,30 @@ class UsuarioControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("Deve atualizar perfil usuário para admin")
-    @Order(12)
-    void deveAtualizarPerfilAdmin() throws Exception {
-        setUpPerfilClient();
+    @DisplayName("Não deve buscar usuários paginados quando não for admin")
+    @Order(20)
+    void naoDeveBuscarUsuariosPaginadasQuandoNaoForAdmin() throws Exception {
+        String url = URL.concat("?page=0&size=5&sort=id,desc")
+                .concat("&nome=Nome teste&email=teste@email.com&renda=10000");
 
-        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+        ResultActions resultActions = mockMvc
+                .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+    }
+
+    @Test
+    @DisplayName("Deve atualizar perfil usuário para admin")
+    @Order(21)
+    void deveAtualizarPerfilAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioNaoAdminExistente.toString())
                 .concat("/admin");
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -361,13 +541,14 @@ class UsuarioControllerIntegrationTest {
 
     @Test
     @DisplayName("Não deve atualizar perfil usuário para admin quando já tiver com admin")
-    @Order(13)
+    @Order(22)
     void naoDeveAtualizarPerfilAdmin() throws Exception {
         String url = URL.concat("/").concat(idUsuarioExistente.toString())
                 .concat("/admin");
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -378,13 +559,14 @@ class UsuarioControllerIntegrationTest {
 
     @Test
     @DisplayName("Deve atualizar perfil usuário para client")
-    @Order(14)
+    @Order(23)
     void deveAtualizarPerfilClient() throws Exception {
         String url = URL.concat("/").concat(idUsuarioExistente.toString())
                 .concat("/client");
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -393,15 +575,14 @@ class UsuarioControllerIntegrationTest {
 
     @Test
     @DisplayName("Não deve atualizar perfil usuário para client quando já tiver com client")
-    @Order(15)
+    @Order(24)
     void naoDeveAtualizarPerfilClient() throws Exception {
-        setUpPerfilClient();
-
-        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+        String url = URL.concat("/").concat(idUsuarioNaoAdminExistente.toString())
                 .concat("/client");
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -412,13 +593,14 @@ class UsuarioControllerIntegrationTest {
 
     @Test
     @DisplayName("Deve buscar perfil e usuário por id")
-    @Order(16)
+    @Order(25)
     void deveBuscarPerfilPorUsuarioId() throws Exception {
         String url = URL.concat("/").concat(idUsuarioExistente.toString())
                 .concat("/perfis/").concat(idPerfilExistente.toString());
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -431,13 +613,14 @@ class UsuarioControllerIntegrationTest {
 
     @Test
     @DisplayName("Não deve buscar perfil e usuário por id")
-    @Order(17)
+    @Order(26)
     void naoDeveBuscarPerfilPorUsuarioId() throws Exception {
         String url = URL.concat("/").concat(idUsuarioExistente.toString())
                 .concat("/perfis/").concat(idPerfilInexistente.toString());
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -448,13 +631,14 @@ class UsuarioControllerIntegrationTest {
 
     @Test
     @DisplayName("Deve buscar perfis por usuário")
-    @Order(18)
+    @Order(27)
     void deveBuscarPerfis() throws Exception {
         String url = URL.concat("/").concat(idUsuarioExistente.toString())
                 .concat("/perfis");
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -465,13 +649,115 @@ class UsuarioControllerIntegrationTest {
         resultActions.andExpect(jsonPath("$._embedded.perfis[0].autoriedade").value("ROLE_ADMIN"));
     }
 
-    void setUpPerfilClient(){
-        UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuarioExistente)
-                .orElseThrow();
-        PerfilEntity perfilEntity = perfilRepository.findById(2L)
-                .orElseThrow();
-        usuarioEntity.getPerfis().clear();
-        usuarioEntity.getPerfis().add(perfilEntity);
-        usuarioRepository.save(usuarioEntity);
+    @Test
+    @DisplayName("Deve buscar perfil e usuário por id")
+    @Order(28)
+    void naoDeveBuscarPerfilPorUsuarioIdQuandoNaoForAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/perfis/").concat(idPerfilExistente.toString());
+
+        ResultActions resultActions = mockMvc
+                .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta consulta"));
+    }
+
+    @Test
+    @DisplayName("Não deve buscar perfis por usuário quando não for admin")
+    @Order(29)
+    void naoDeveBuscarPerfisQuandoNaoForAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/perfis");
+
+        ResultActions resultActions = mockMvc
+                .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta consulta"));
+    }
+
+    @Test
+    @DisplayName("Não deve criar usuário quando informar senha não possui caracteres especiais")
+    @Order(30)
+    void naoDeveCriarUsuarioQuandoInformarSenhaNaoCaracteresEspeciais() throws Exception {
+        usuarioCreateDTO = criarUsuarioCreateDto("teste33333@email.com", "68233003026", "Abc");
+        String jsonBody = objectMapper.writeValueAsString(usuarioCreateDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.titulo").value("Regra de negócio"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("A senha informada tem que ter pelo menos uma caractere especial"));
+    }
+
+    @Test
+    @DisplayName("Não deve criar usuário quando informar senha não possui caracteres maiusculas")
+    @Order(31)
+    void naoDeveCriarUsuarioQuandoInformarSenhaNaoCaracteresMaiusculas() throws Exception {
+        usuarioCreateDTO = criarUsuarioCreateDto("teste33333@email.com", "68233003026", "abc@");
+        String jsonBody = objectMapper.writeValueAsString(usuarioCreateDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.titulo").value("Regra de negócio"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("A senha informada tem que ter pelo menos uma caractere maiúsculas"));
+    }
+
+    @Test
+    @DisplayName("Não deve criar usuário quando informar senha não possui caracteres minusculas")
+    @Order(32)
+    void naoDeveCriarUsuarioQuandoInformarSenhaNaoCaracteresMinusculas() throws Exception {
+        usuarioCreateDTO = criarUsuarioCreateDto("teste33333@email.com", "68233003026", "ABC@");
+        String jsonBody = objectMapper.writeValueAsString(usuarioCreateDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.titulo").value("Regra de negócio"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("A senha informada tem que ter pelo menos uma caractere minúsculas"));
+    }
+
+    @Test
+    @DisplayName("Não deve criar usuário quando informar senha não possui caracteres digito")
+    @Order(33)
+    void naoDeveCriarUsuarioQuandoInformarSenhaNaoCaracteresDigito() throws Exception {
+        usuarioCreateDTO = criarUsuarioCreateDto("teste33333@email.com", "68233003026", "Abc@");
+        String jsonBody = objectMapper.writeValueAsString(usuarioCreateDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(URL)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isBadRequest());
+        resultActions.andExpect(jsonPath("$.titulo").value("Regra de negócio"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("A senha informada tem que ter pelo menos um caractere dígito"));
     }
 }

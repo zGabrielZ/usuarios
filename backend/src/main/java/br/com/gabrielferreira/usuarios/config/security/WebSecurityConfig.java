@@ -20,6 +20,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
+    private static final String ROLE_ADMIN = "ADMIN";
+
     private final AppAuthenticationProvider appAuthenticationProvider;
 
     private final JWTValidatorTokenFilter jwtValidatorTokenFilter;
@@ -51,6 +53,10 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/v1/generos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/tipos-telefones/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/perfis/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/usuarios").hasAnyRole(ROLE_ADMIN)
+                        .requestMatchers(HttpMethod.GET, "/v1/usuarios").hasAnyRole(ROLE_ADMIN)
+                        .requestMatchers(HttpMethod.DELETE, "/v1/usuarios/**").hasAnyRole(ROLE_ADMIN)
+                        .requestMatchers(HttpMethod.PUT, "/v1/usuarios/{id}/admin", "/v1/usuarios/{id}/client").hasAnyRole(ROLE_ADMIN)
                         .anyRequest().authenticated())
                 .exceptionHandling(eh -> eh.authenticationEntryPoint(unauthorizedHandler)
                         .accessDeniedHandler(forbiddenHandler))

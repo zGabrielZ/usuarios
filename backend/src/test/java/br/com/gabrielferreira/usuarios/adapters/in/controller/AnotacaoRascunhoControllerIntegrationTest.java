@@ -5,6 +5,7 @@ import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.AnotacaoE
 import br.com.gabrielferreira.usuarios.adapters.out.persistence.entity.DominioEntity;
 import br.com.gabrielferreira.usuarios.adapters.out.persistence.repository.AnotacaoRepository;
 import br.com.gabrielferreira.usuarios.adapters.out.persistence.repository.DominioRepository;
+import br.com.gabrielferreira.usuarios.utils.GenerateTokenUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ class AnotacaoRascunhoControllerIntegrationTest {
 
     private static final String URL = "/v1/usuarios";
     private static final MediaType MEDIA_TYPE_JSON = MediaType.APPLICATION_JSON;
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BEARER = "Bearer ";
 
     @Autowired
     protected MockMvc mockMvc;
@@ -41,6 +44,9 @@ class AnotacaoRascunhoControllerIntegrationTest {
     @Autowired
     protected DominioRepository dominioRepository;
 
+    @Autowired
+    protected GenerateTokenUtils generateTokenUtils;
+
     private Long idUsuarioExistente;
 
     private Long idUsuarioInexistente;
@@ -51,6 +57,10 @@ class AnotacaoRascunhoControllerIntegrationTest {
 
     private AnotacaoRascunhoCreateDTO anotacaoRascunhoCreateDTO;
 
+    private String tokenAdmin;
+
+    private String tokenNaoAdmin;
+
     @BeforeEach
     void setUp(){
         idUsuarioInexistente = -1L;
@@ -58,6 +68,8 @@ class AnotacaoRascunhoControllerIntegrationTest {
         idAnotacaoInexistente = -1L;
         idAnotacaoExistente = 1L;
         anotacaoRascunhoCreateDTO = createAnotacaoRascunho("Titulo tal", "Descricao tal");
+        tokenAdmin = generateTokenUtils.gerarToken(mockMvc, "teste@email.com", "Ac1@");
+        tokenNaoAdmin = generateTokenUtils.gerarToken(mockMvc, "teste2@email.com", "Ac1@");
     }
 
     @Test
@@ -71,6 +83,7 @@ class AnotacaoRascunhoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(post(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
@@ -109,6 +122,7 @@ class AnotacaoRascunhoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(post(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
@@ -130,6 +144,7 @@ class AnotacaoRascunhoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(post(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
@@ -149,6 +164,7 @@ class AnotacaoRascunhoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -184,6 +200,7 @@ class AnotacaoRascunhoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -204,6 +221,7 @@ class AnotacaoRascunhoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
@@ -245,6 +263,7 @@ class AnotacaoRascunhoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .content(jsonBody)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
@@ -264,6 +283,7 @@ class AnotacaoRascunhoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -283,6 +303,7 @@ class AnotacaoRascunhoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -303,6 +324,7 @@ class AnotacaoRascunhoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
@@ -320,11 +342,117 @@ class AnotacaoRascunhoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .contentType(MEDIA_TYPE_JSON)
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isBadRequest());
         resultActions.andExpect(jsonPath("$.mensagem").value("Não é possível reabrir a anotação pois já está em aberto"));
+    }
+
+    @Test
+    @DisplayName("Não deve criar anotação rascunho quando não for admin")
+    @Order(12)
+    void naoDeveCriarAnotacaoRascunhoQuandoNaoForAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/anotacoes/rascunhos");
+
+        String jsonBody = objectMapper.writeValueAsString(anotacaoRascunhoCreateDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(post(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta criação"));
+    }
+
+    @Test
+    @DisplayName("Não deve buscar anotação rascunho por id quando não for admin")
+    @Order(13)
+    void naoDeveBuscarAnotacaoRascunhoPorIdQuandoNaoForAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/anotacoes/rascunhos/")
+                .concat(idAnotacaoExistente.toString());
+
+        ResultActions resultActions = mockMvc
+                .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta consulta"));
+    }
+
+    @Test
+    @DisplayName("Não deve atualizar anotação rascunho quando não for admin")
+    @Order(14)
+    void deveAtualizarAnotacaoRascunhoQuandoNaoForAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/anotacoes/rascunhos/")
+                .concat(idAnotacaoExistente.toString());
+
+        anotacaoRascunhoCreateDTO = createAnotacaoRascunho("Rascunho editado", "Rascunho editado desc");
+        String jsonBody = objectMapper.writeValueAsString(anotacaoRascunhoCreateDTO);
+
+        ResultActions resultActions = mockMvc
+                .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .content(jsonBody)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta atualização"));
+    }
+
+    @Test
+    @DisplayName("Não deve finalizar rascunho quando não for admin")
+    @Order(15)
+    void naoDeveFinalizarAnotacaoRascunhoQuandoNaoForAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/anotacoes/rascunhos/")
+                .concat(idAnotacaoExistente.toString())
+                .concat("/finalizar");
+
+        ResultActions resultActions = mockMvc
+                .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta atualização"));
+    }
+
+    @Test
+    @DisplayName("Não deve reabrir rascunho quando não for admin")
+    @Order(16)
+    void naoDeveReabrirRascunhoQuandoNaoForAdmin() throws Exception {
+        finalizarAnotacao();
+
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/anotacoes/rascunhos/")
+                .concat(idAnotacaoExistente.toString())
+                .concat("/reabrir");
+
+        ResultActions resultActions = mockMvc
+                .perform(put(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .contentType(MEDIA_TYPE_JSON)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta atualização"));
     }
 
     private void finalizarAnotacao(){

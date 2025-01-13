@@ -17,4 +17,6 @@ public interface FindUsuarioInput {
     List<UsuarioDomain> findAll(PageInfo pageInfo, String nome, String email, BigDecimal renda);
 
     UsuarioDomain findUserDetailsByEmail(String email);
+
+    UsuarioDomain findUserCurrentById(Long id);
 }

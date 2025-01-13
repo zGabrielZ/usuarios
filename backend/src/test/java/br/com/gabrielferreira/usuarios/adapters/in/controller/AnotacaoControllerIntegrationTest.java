@@ -1,5 +1,6 @@
 package br.com.gabrielferreira.usuarios.adapters.in.controller;
 
+import br.com.gabrielferreira.usuarios.utils.GenerateTokenUtils;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,18 +23,29 @@ class AnotacaoControllerIntegrationTest {
     private static final String URL = "/v1/usuarios";
     private static final MediaType MEDIA_TYPE_JSON = MediaType.APPLICATION_JSON;
     private static final String QUERY_PARAM = "?idUsuario=1&page=0&size=5&sort=id,desc";
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BEARER = "Bearer ";
 
     @Autowired
     protected MockMvc mockMvc;
+
+    @Autowired
+    protected GenerateTokenUtils generateTokenUtils;
 
     private Long idUsuarioExistente;
 
     private Long idUsuarioInexistente;
 
+    private String tokenAdmin;
+
+    private String tokenNaoAdmin;
+
     @BeforeEach
     void setUp(){
         idUsuarioInexistente = -1L;
         idUsuarioExistente = 1L;
+        tokenAdmin = generateTokenUtils.gerarToken(mockMvc, "teste@email.com", "Ac1@");
+        tokenNaoAdmin = generateTokenUtils.gerarToken(mockMvc, "teste2@email.com", "Ac1@");
     }
 
     @Test
@@ -46,6 +58,7 @@ class AnotacaoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isOk());
@@ -64,6 +77,7 @@ class AnotacaoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isNotFound());
@@ -81,6 +95,7 @@ class AnotacaoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isOk());
@@ -99,11 +114,30 @@ class AnotacaoControllerIntegrationTest {
 
         ResultActions resultActions = mockMvc
                 .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenAdmin)
                         .accept(MEDIA_TYPE_JSON));
 
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$._embedded.anotacoes").exists());
         resultActions.andExpect(jsonPath("$._links.self.href").exists());
         resultActions.andExpect(jsonPath("$.page").exists());
+    }
+
+    @Test
+    @DisplayName("Não deve buscar anotações paginada quando usuário não for admin")
+    @Order(5)
+    void naoDeveBuscarAnotacaoPaginadasQuandoNaoForAdmin() throws Exception {
+        String url = URL.concat("/").concat(idUsuarioExistente.toString())
+                .concat("/anotacoes")
+                .concat(QUERY_PARAM);
+
+        ResultActions resultActions = mockMvc
+                .perform(get(url)
+                        .header(AUTHORIZATION, BEARER + tokenNaoAdmin)
+                        .accept(MEDIA_TYPE_JSON));
+
+        resultActions.andExpect(status().isForbidden());
+        resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta consulta"));
     }
 }

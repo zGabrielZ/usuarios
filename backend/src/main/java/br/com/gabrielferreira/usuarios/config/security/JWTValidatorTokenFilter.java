@@ -51,7 +51,7 @@ public class JWTValidatorTokenFilter extends OncePerRequestFilter {
 
     private void autenticarUsuario(Claims claims) {
         Long idUsuario = Long.valueOf(String.valueOf(claims.get("idUsuario")));
-        UsuarioDomain usuarioDomain = findUsuarioInput.findById(idUsuario);
+        UsuarioDomain usuarioDomain = findUsuarioInput.findUserCurrentById(idUsuario);
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(usuarioDomain, null, usuarioDomain.getPerfis());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
