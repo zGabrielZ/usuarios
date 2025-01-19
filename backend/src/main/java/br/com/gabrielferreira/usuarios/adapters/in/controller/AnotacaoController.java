@@ -7,9 +7,6 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.response.AnotacaoR
 import br.com.gabrielferreira.usuarios.application.core.domain.PageInfo;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoInput;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,11 +39,7 @@ public class AnotacaoController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Anotações encontrados",
-                    content = @Content(
-                            mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = AnotacaoResumidoDTO.class))
-                    )
+                    description = "Anotações encontrados"
             )
     })
     @GetMapping

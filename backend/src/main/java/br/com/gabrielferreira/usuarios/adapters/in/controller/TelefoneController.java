@@ -11,7 +11,6 @@ import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploTelefoneUtil
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,11 +37,7 @@ public class TelefoneController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Telefone encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = TelefoneDTO.class)
-                    )
+                    description = "Telefone encontrado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -67,11 +62,7 @@ public class TelefoneController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Telefone atualizado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = TelefoneDTO.class)
-                    )
+                    description = "Telefone atualizado"
             ),
             @ApiResponse(
                     responseCode = "404",

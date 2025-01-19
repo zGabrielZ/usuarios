@@ -7,10 +7,8 @@ import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindTipoTelefoneInput;
 import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploTipoTelefoneUtils;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,11 +38,7 @@ public class TipoTelefoneController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Tipo telefone encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = TipoTelefoneDTO.class)
-                    )
+                    description = "Tipo telefone encontrado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -67,11 +61,7 @@ public class TipoTelefoneController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Tipos telefones encontrados",
-                    content = @Content(
-                            mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = TipoTelefoneDTO.class))
-                    )
+                    description = "Tipos telefones encontrados"
             )
     })
     @GetMapping

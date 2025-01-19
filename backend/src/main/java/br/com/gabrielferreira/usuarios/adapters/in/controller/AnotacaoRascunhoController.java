@@ -12,7 +12,6 @@ import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploAnotacaoRasc
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,11 +43,7 @@ public class AnotacaoRascunhoController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "201",
-                    description = "Anotação cadastrada",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class)
-                    )
+                    description = "Anotação cadastrada"
             )
     })
     @PostMapping
@@ -66,11 +61,7 @@ public class AnotacaoRascunhoController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Anotação encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class)
-                    )
+                    description = "Anotação encontrado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -95,10 +86,7 @@ public class AnotacaoRascunhoController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
-                    description = "Anotação atualizado",
-                    content = @Content(
-                            mediaType = "application/json"
-                    )
+                    description = "Anotação atualizado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -131,10 +119,7 @@ public class AnotacaoRascunhoController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
-                    description = "Anotação atualizado",
-                    content = @Content(
-                            mediaType = "application/json"
-                    )
+                    description = "Anotação atualizado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -167,11 +152,7 @@ public class AnotacaoRascunhoController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Anotação atualizado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = AnotacaoRascunhoDTO.class)
-                    )
+                    description = "Anotação atualizado"
             ),
             @ApiResponse(
                     responseCode = "404",

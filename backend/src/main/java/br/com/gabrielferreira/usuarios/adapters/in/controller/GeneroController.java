@@ -7,10 +7,8 @@ import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindGeneroInput;
 import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploGeneroUtils;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,11 +38,7 @@ public class GeneroController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Gênero encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = GeneroDTO.class)
-                    )
+                    description = "Gênero encontrado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -67,11 +61,7 @@ public class GeneroController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Gêneros encontrados",
-                    content = @Content(
-                            mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = GeneroDTO.class))
-                    )
+                    description = "Gêneros encontrados"
             )
     })
     @GetMapping

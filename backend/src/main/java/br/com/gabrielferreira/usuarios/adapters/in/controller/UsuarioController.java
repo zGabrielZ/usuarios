@@ -16,10 +16,8 @@ import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
 import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploUsuarioUtils;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -69,11 +67,7 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "201",
-                    description = "Usuário cadastrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioDTO.class)
-                    )
+                    description = "Usuário cadastrado"
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -112,11 +106,7 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Usuário encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioDTO.class)
-                    )
+                    description = "Usuário encontrado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -142,11 +132,7 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Usuário encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioResumidoDTO.class)
-                    )
+                    description = "Usuário encontrado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -171,11 +157,7 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Usuário encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioResumidoDTO.class)
-                    )
+                    description = "Usuário encontrado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -200,11 +182,7 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Usuário atualizado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioDTO.class)
-                    )
+                    description = "Usuário atualizado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -230,10 +208,7 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
-                    description = "Usuário deletado",
-                    content = @Content(
-                            mediaType = "application/json"
-                    )
+                    description = "Usuário deletado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -256,35 +231,27 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Usuários encontrados",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = UsuarioResumidoDTO.class),
-                            array = @ArraySchema(schema = @Schema(implementation = UsuarioResumidoDTO.class))
-                    )
+                    description = "Usuários encontrados"
             )
     })
     @GetMapping
     public ResponseEntity<PagedModel<UsuarioResumidoDTO>> findAll(@ParameterObject @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
-                                                                  @RequestParam(required = false) String nome,
-                                                                  @RequestParam(required = false) String email,
-                                                                  @RequestParam(required = false) BigDecimal renda){
+                                                                        @RequestParam(required = false) String nome,
+                                                                        @RequestParam(required = false) String email,
+                                                                        @RequestParam(required = false) BigDecimal renda){
         PageInfo pageInfo = pageInfoMapper.toPageInfo(pageable);
         List<UsuarioResumidoDTO> usuarioResumidoDtos = usuarioMapper.toUsuarioResumidoDtos(findUsuarioInput.findAll(pageInfo, nome, email, renda));
         usuarioHateoas.addLinkToGetUsuarios(usuarioResumidoDtos);
 
         PagedModel.PageMetadata pageMetadata = new PagedModel.PageMetadata(pageInfo.getPageSize(), pageInfo.getPageNumber(), usuarioResumidoDtos.size());
-        return ResponseEntity.ok().body(org.springframework.hateoas.PagedModel.of(usuarioResumidoDtos, pageMetadata, usuarioHateoas.getUsuarios(pageable, nome, email, renda)));
+        return ResponseEntity.ok().body(PagedModel.of(usuarioResumidoDtos, pageMetadata, usuarioHateoas.getUsuarios(pageable, nome, email, renda)));
     }
 
     @Operation(summary = "Atualizar usuário para admin")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
-                    description = "Usuário atualizado",
-                    content = @Content(
-                            mediaType = "application/json"
-                    )
+                    description = "Usuário atualizado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -307,10 +274,7 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
-                    description = "Usuário atualizado",
-                    content = @Content(
-                            mediaType = "application/json"
-                    )
+                    description = "Usuário atualizado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -333,11 +297,7 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Perfil encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = PerfilDTO.class)
-                    )
+                    description = "Perfil encontrado"
             ),
             @ApiResponse(
                     responseCode = "404",
@@ -363,11 +323,7 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Perfis encontrados",
-                    content = @Content(
-                            mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = PerfilDTO.class))
-                    )
+                    description = "Perfis encontrados"
             )
     })
     @GetMapping("/{id}/perfis")

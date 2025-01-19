@@ -19,7 +19,7 @@ public class OpenAPIConfig {
         Schema<?> selfSchema = new ObjectSchema()
                 .addProperty("self", new ObjectSchema()
                         .addProperty("href", new ObjectSchema().example("string"))
-                        .addProperty("tyoe", new ObjectSchema().example("string")));
+                        .addProperty("type", new ObjectSchema().example("string")));
 
         SpringDocUtils.getConfig().replaceWithSchema(Links.class, selfSchema);
 
