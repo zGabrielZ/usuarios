@@ -1,0 +1,1330 @@
+{
+	"info": {
+		"_postman_id": "44406aeb-c7a0-414e-8f39-6a764bd21b7c",
+		"name": "API Usuário",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7508453",
+		"_collection_link": "https://solar-moon-309015.postman.co/workspace/API-Projetos~0962cdbf-0c99-4096-8c09-d02e32a51c85/collection/7508453-44406aeb-c7a0-414e-8f39-6a764bd21b7c?action=share&source=collection_link&creator=7508453"
+	},
+	"item": [
+		{
+			"name": "Gênero",
+			"item": [
+				{
+					"name": "Buscar generos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/generos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"generos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar gênero por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/generos/:idGenero",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"generos",
+								":idGenero"
+							],
+							"variable": [
+								{
+									"key": "idGenero",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tipo telefone",
+			"item": [
+				{
+					"name": "Buscar tipos telefones",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/tipos-telefones",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"tipos-telefones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar tipo telefone por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/tipos-telefones/:idTipoTelefone",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"tipos-telefones",
+								":idTipoTelefone"
+							],
+							"variable": [
+								{
+									"key": "idTipoTelefone",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Telefone",
+			"item": [
+				{
+					"name": "Buscar telefone por usuário",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/usuarios/:idUsuario/telefones",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios",
+								":idUsuario",
+								"telefones"
+							],
+							"variable": [
+								{
+									"key": "idUsuario",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar telefone por usuário e por id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numero\": \"999999999\",\r\n    \"ddd\": \"11\",\r\n    \"descricao\": \"celular novo do josé da silva\",\r\n    \"tipoTelefone\": {\r\n        \"id\": 5\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/usuarios/:idUsuario/telefones/:idTelefone",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios",
+								":idUsuario",
+								"telefones",
+								":idTelefone"
+							],
+							"variable": [
+								{
+									"key": "idUsuario",
+									"value": "11"
+								},
+								{
+									"key": "idTelefone",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuário",
+			"item": [
+				{
+					"name": "Buscar usuário por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/usuarios/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "15"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar usuário e perfil por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/usuarios/:id/perfis/:idPerfil",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios",
+								":id",
+								"perfis",
+								":idPerfil"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "14"
+								},
+								{
+									"key": "idPerfil",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar perfis por usuário por id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/usuarios/:id/perfis",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios",
+								":id",
+								"perfis"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar usuário por cpf",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/usuarios/cpf/:cpf",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios",
+								"cpf",
+								":cpf"
+							],
+							"variable": [
+								{
+									"key": "cpf",
+									"value": "45091319093"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar usuário por e-mail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/usuarios/email/:email",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios",
+								"email",
+								":email"
+							],
+							"variable": [
+								{
+									"key": "email",
+									"value": "jose123@email.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Usuário",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\" : \"Mariano da Silva\",\r\n    \"email\" : \"mariano123@email.com\",\r\n    \"cpf\" : \"33597515070\",\r\n    \"senha\": \"Ac1@\",\r\n    \"renda\" : 3000.00,\r\n    \"dataNascimento\" : \"2000-01-05\",\r\n    \"quantidadeFilhos\" : 2,\r\n    \"telefone\" : {\r\n        \"numero\" : \"999999999\",\r\n        \"ddd\" : \"11\",\r\n        \"descricao\" : \"celular do mariano\",\r\n        \"tipoTelefone\" : {\r\n            \"id\" : 5\r\n        }\r\n    },\r\n    \"genero\" : {\r\n        \"id\" : 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/usuarios",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar usuário",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"José da Silva Souza\",\r\n    \"renda\": 10000.00,\r\n    \"dataNascimento\": \"1975-11-05\",\r\n    \"quantidadeFilhos\": 5,\r\n    \"genero\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/v1/usuarios/:idUsuario",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios",
+								":idUsuario"
+							],
+							"variable": [
+								{
+									"key": "idUsuario",
+									"value": "14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Usuário",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/usuarios/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar perfil admin para usuário",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/usuarios/:id/admin",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios",
+								":id",
+								"admin"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar perfil cliente para usuário",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/usuarios/:id/client",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios",
+								":id",
+								"client"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista de usuários",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/usuarios?page=0&size=2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "2"
+								},
+								{
+									"key": "sort",
+									"value": "id,desc",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "nome,desc",
+									"disabled": true
+								},
+								{
+									"key": "nome",
+									"value": "abel",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "maria@email.com",
+									"disabled": true
+								},
+								{
+									"key": "renda",
+									"value": "35000",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Anotação",
+			"item": [
+				{
+					"name": "Rascunho",
+					"item": [
+						{
+							"name": "Cadastrar anotação rascunho",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"titulo\" : \"Anotacao hoje 01/01\",\r\n    \"descricao\" : \"teste 123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/rascunhos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"rascunhos"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "15"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar anotação tipo rascunho por id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/rascunhos/:idRascunho",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"rascunhos",
+										":idRascunho"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "11"
+										},
+										{
+											"key": "idRascunho",
+											"value": "29"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Finalizar anotação rascunho por id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/rascunhos/:idRascunho/finalizar",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"rascunhos",
+										":idRascunho",
+										"finalizar"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "11"
+										},
+										{
+											"key": "idRascunho",
+											"value": "29"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reabrir anotação rascunho por id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/rascunhos/:idRascunho/reabrir",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"rascunhos",
+										":idRascunho",
+										"reabrir"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "11"
+										},
+										{
+											"key": "idRascunho",
+											"value": "29"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Editar anotação rascunho por id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"titulo\": \"Anotacao hoje 01/01 editado\",\r\n    \"descricao\": \"teste 123 123 123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/rascunhos/:idRascunho",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"rascunhos",
+										":idRascunho"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "11"
+										},
+										{
+											"key": "idRascunho",
+											"value": "29"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Lembrete",
+					"item": [
+						{
+							"name": "Cadastrar anotação lembrete",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"titulo\" : \"anotacao lembrete hoje 01/02\",\r\n    \"descricao\" : \"lembrete\",\r\n    \"dataLembrete\": \"2025-01-02T15:30:00.00-03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/lembretes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"lembretes"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar anotação tipo lembrete por id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/lembretes/:idLembrete",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"lembretes",
+										":idLembrete"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "11"
+										},
+										{
+											"key": "idLembrete",
+											"value": "30"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Finalizar anotação lembrete por id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/lembretes/:idLembrete/finalizar",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"lembretes",
+										":idLembrete",
+										"finalizar"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "11"
+										},
+										{
+											"key": "idLembrete",
+											"value": "30"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reabrir anotação rascunho por id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/lembretes/:idLembrete/reabrir",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"lembretes",
+										":idLembrete",
+										"reabrir"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "11"
+										},
+										{
+											"key": "idLembrete",
+											"value": "30"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Editar anotação lembrete por id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"titulo\": \"anotacao lembrete hoje 01/02 editado\",\r\n    \"descricao\": \"Anotação tal lembrete..... editado123 hoje 01/02\",\r\n    \"dataLembrete\": \"2025-01-10T15:30:00-03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/lembretes/:idLembrete",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"lembretes",
+										":idLembrete"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "11"
+										},
+										{
+											"key": "idLembrete",
+											"value": "30"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Estudo",
+					"item": [
+						{
+							"name": "Cadastrar anotação estudo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"titulo\" : \"anotacao estudo\",\r\n    \"descricao\" : \"estudo 123 123\",\r\n    \"dataEstudoInicio\": \"2024-12-31T20:00:00.00-03:00\",\r\n    \"dataEstudoFim\": \"2024-12-31T22:00:00.00-03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/estudos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"estudos"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar anotação tipo lembrete por id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/estudos/:idEstudo",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"estudos",
+										":idEstudo"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "2"
+										},
+										{
+											"key": "idEstudo",
+											"value": "23"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Finalizar anotação estudo por id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/estudos/:idEstudo/finalizar",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"estudos",
+										":idEstudo",
+										"finalizar"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "2"
+										},
+										{
+											"key": "idEstudo",
+											"value": "23"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reabrir anotação estudo por id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/estudos/:idEstudo/reabrir",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"estudos",
+										":idEstudo",
+										"reabrir"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "2"
+										},
+										{
+											"key": "idEstudo",
+											"value": "23"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Editar anotação estudo por id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"titulo\" : \"anotacao estudo editado\",\r\n    \"descricao\" : \"estudo editado\",\r\n    \"dataEstudoInicio\": \"2024-12-31T22:00:00.00-03:00\",\r\n    \"dataEstudoFim\": \"2025-01-01T00:00:00.00-03:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes/estudos/:idEstudo",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										":idUsuario",
+										"anotacoes",
+										"estudos",
+										":idEstudo"
+									],
+									"variable": [
+										{
+											"key": "idUsuario",
+											"value": "2"
+										},
+										{
+											"key": "idEstudo",
+											"value": "23"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Buscar anotações",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/usuarios/:idUsuario/anotacoes?page=0&size=5",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"usuarios",
+								":idUsuario",
+								"anotacoes"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "5"
+								},
+								{
+									"key": "sort",
+									"value": "id,desc",
+									"disabled": true
+								},
+								{
+									"key": "titulo",
+									"value": "EDITADO",
+									"disabled": true
+								},
+								{
+									"key": "descricao",
+									"value": "tal lembrete",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "idUsuario",
+									"value": "15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Perfil",
+			"item": [
+				{
+					"name": "Buscar perfil por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/perfis/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"perfis",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar perfis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/perfis",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"perfis"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(responseCode.code >= 200 && responseCode.code < 300){\r",
+									"    var json = JSON.parse(responseBody);\r",
+									"    postman.setEnvironmentVariable('token', json.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"senha\": \"{{senha}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(responseCode.code >= 200 && responseCode.code < 300){\r",
+									"    var json = JSON.parse(responseBody);\r",
+									"    postman.setEnvironmentVariable('token', json.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/refresh-token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
