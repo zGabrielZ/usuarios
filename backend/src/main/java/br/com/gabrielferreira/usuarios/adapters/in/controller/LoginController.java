@@ -39,9 +39,7 @@ public class LoginController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário logado",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TokenDTO.class)) }),
-            @ApiResponse(responseCode = "400", description = "Regra de negócio",
-                    content = @Content)
+                            schema = @Schema(implementation = TokenDTO.class)) })
     })
     @PostMapping("/login")
     public ResponseEntity<TokenDTO> login(@Valid @RequestBody LoginDTO loginDTO){

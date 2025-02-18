@@ -7,10 +7,7 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.response.TelefoneD
 import br.com.gabrielferreira.usuarios.application.core.domain.TelefoneDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindTelefoneInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.UpdateTelefoneInput;
-import br.com.gabrielferreira.usuarios.infrastructure.swagger.ExemploTelefone;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,16 +35,6 @@ public class TelefoneController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Telefone encontrado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Telefone não encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploTelefone.TELEFONE_NAO_ENCONTRADO
-                            )
-                    )
             )
     })
     @GetMapping
@@ -63,26 +50,6 @@ public class TelefoneController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Telefone atualizado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Telefone não encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploTelefone.TELEFONE_ATUALIZAR_NAO_ENCONTRADO
-                            )
-                    )
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Regra de negócio",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploTelefone.TELEFONE_ATUALIZAR_ERRO
-                            )
-                    )
             )
     })
     @PutMapping("/{id}")

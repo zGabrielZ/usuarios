@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.ZonedDateTime;
@@ -31,6 +32,7 @@ public class ApiExceptionHandler {
     private final MessageSource messageSource;
 
     @ExceptionHandler(RegraDeNegocioException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErroPadrao> regraDeNegocioException(RegraDeNegocioException e, HttpServletRequest request){
         log.warn("msgException message : {}, requestUrl : {}", e.getMessage(), request.getRequestURI());
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
@@ -39,6 +41,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(NaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErroPadrao> naoEncontradoException(NaoEncontradoException e, HttpServletRequest request){
         log.warn("naoEncontradoException message : {}, requestUrl : {}", e.getMessage(), request.getRequestURI());
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
@@ -47,6 +50,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErroPadrao> validacaoException(MethodArgumentNotValidException e, HttpServletRequest request){
         log.warn("validacaoException message : {}, requestUrl : {}", e.getMessage(), request.getRequestURI());
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
@@ -60,6 +64,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ErroPadrao> erroException(Exception e, HttpServletRequest request){
         log.error("erroException message : {}, requestUrl : {}", e.getMessage(), request.getRequestURI());
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -68,6 +73,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity<ErroPadrao> unauthorizedException(UnauthorizedException e, HttpServletRequest request){
         log.warn("unauthorizedException message : {}, requestUrl : {}", e.getMessage(), request.getRequestURI());
         HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
@@ -76,6 +82,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     public ResponseEntity<ErroPadrao> forbiddenException(ForbiddenException e, HttpServletRequest request){
         log.warn("forbiddenException message : {}, requestUrl : {}", e.getMessage(), request.getRequestURI());
         HttpStatus httpStatus = HttpStatus.FORBIDDEN;

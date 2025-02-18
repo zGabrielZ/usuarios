@@ -5,10 +5,7 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.TipoTelefon
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.TipoTelefoneDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindTipoTelefoneInput;
-import br.com.gabrielferreira.usuarios.infrastructure.swagger.ExemploTipoTelefone;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,16 +36,6 @@ public class TipoTelefoneController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Tipo telefone encontrado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Tipo telefone não encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploTipoTelefone.TIPO_TELEFONE_NAO_ENCONTRADO
-                            )
-                    )
             )
     })
     @GetMapping("/{id}")

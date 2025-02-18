@@ -8,10 +8,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.CreateAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.UpdateAnotacaoInput;
-import br.com.gabrielferreira.usuarios.infrastructure.swagger.ExemploAnotacaoLembrete;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -62,16 +59,6 @@ public class AnotacaoLembreteController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Anotação encontrado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Anotação não encontrada",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoLembrete.ANOTACAO_NAO_ENCONTRADA
-                            )
-                    )
             )
     })
     @GetMapping("/{id}")
@@ -87,26 +74,6 @@ public class AnotacaoLembreteController {
             @ApiResponse(
                     responseCode = "204",
                     description = "Anotação atualizado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Anotação não encontrada",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoLembrete.ANOTACAO_FINALIZAR_NAO_ENCONTRADA
-                            )
-                    )
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Regra de negócio",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoLembrete.ANOTACAO_FINALIZAR_ERRO
-                            )
-                    )
             )
     })
     @PutMapping("/{id}/finalizar")
@@ -120,26 +87,6 @@ public class AnotacaoLembreteController {
             @ApiResponse(
                     responseCode = "204",
                     description = "Anotação atualizado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Anotação não encontrada",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoLembrete.ANOTACAO_REABRIR_NAO_ENCONTRADA
-                            )
-                    )
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Regra de negócio",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoLembrete.ANOTACAO_REABRIR_ERRO
-                            )
-                    )
             )
     })
     @PutMapping("/{id}/reabrir")
@@ -153,27 +100,6 @@ public class AnotacaoLembreteController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Anotação atualizado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Anotação não encontrada",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoLembrete.ANOTACAO_EDITAR_NAO_ENCONTRADA
-                            )
-                    )
-            )
-            ,
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Regra de negócio",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploAnotacaoLembrete.ANOTACAO_EDITAR_ERRO
-                            )
-                    )
             )
     })
     @PutMapping("/{id}")

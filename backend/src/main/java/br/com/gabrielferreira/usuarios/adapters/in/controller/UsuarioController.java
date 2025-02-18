@@ -14,10 +14,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.PageInfo;
 import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
-import br.com.gabrielferreira.usuarios.infrastructure.swagger.ExemploUsuario;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -68,26 +65,6 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "201",
                     description = "Usuário cadastrado"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Regra de negócio",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploUsuario.USUARI0_CRIAR_ERRO
-                            )
-                    )
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Recurso não encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploUsuario.USUARI0_CRIAR_NAO_ENCONTRADO
-                            )
-                    )
             )
     })
     @PostMapping
@@ -107,16 +84,6 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Usuário encontrado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Usuário não encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploUsuario.USUARI0_NAO_ENCONTRADO
-                            )
-                    )
             )
     })
     @GetMapping("/{id}")
@@ -133,16 +100,6 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Usuário encontrado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Usuário não encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploUsuario.USUARI0_NAO_ENCONTRADO
-                            )
-                    )
             )
     })
     @GetMapping("/cpf/{cpf}")
@@ -158,16 +115,6 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Usuário encontrado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Usuário não encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploUsuario.USUARI0_NAO_ENCONTRADO
-                            )
-                    )
             )
     })
     @GetMapping("/email/{email}")
@@ -183,16 +130,6 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Usuário atualizado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Usuário não encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploUsuario.USUARI0_ATUALIZAR_NAO_ENCONTRADO
-                            )
-                    )
             )
     })
     @PutMapping("/{id}")
@@ -209,16 +146,6 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "204",
                     description = "Usuário deletado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Usuário não encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploUsuario.USUARI0_DELETAR_NAO_ENCONTRADO
-                            )
-                    )
             )
     })
     @DeleteMapping("/{id}")
@@ -252,16 +179,6 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "204",
                     description = "Usuário atualizado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Usuário não encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploUsuario.USUARI0_ATUALIZAR_ADMIN_NAO_ENCONTRADO
-                            )
-                    )
             )
     })
     @PutMapping("/{id}/admin")
@@ -275,16 +192,6 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "204",
                     description = "Usuário atualizado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Usuário não encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploUsuario.USUARI0_ATUALIZAR_CLIENT_NAO_ENCONTRADO
-                            )
-                    )
             )
     })
     @PutMapping("/{id}/client")
@@ -298,16 +205,6 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Perfil encontrado"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Perfil não encontrado",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(
-                                    value = ExemploUsuario.PERFIL_NAO_ENCONTRADO
-                            )
-                    )
             )
     })
     @GetMapping("/{id}/perfis/{idPerfil}")
