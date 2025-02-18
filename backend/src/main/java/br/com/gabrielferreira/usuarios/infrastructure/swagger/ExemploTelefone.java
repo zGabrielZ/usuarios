@@ -1,8 +1,8 @@
-package br.com.gabrielferreira.usuarios.utils.exemplo.swagger;
+package br.com.gabrielferreira.usuarios.infrastructure.swagger;
 
-public class ExemploTelefoneUtils {
+public class ExemploTelefone {
 
-    private ExemploTelefoneUtils() {}
+    private ExemploTelefone() {}
 
     public static final String TELEFONE_NAO_ENCONTRADO =
             """

@@ -1,8 +1,8 @@
-package br.com.gabrielferreira.usuarios.utils.exemplo.swagger;
+package br.com.gabrielferreira.usuarios.infrastructure.swagger;
 
-public class ExemploUsuarioUtils {
+public class ExemploUsuario {
 
-    private ExemploUsuarioUtils() {}
+    private ExemploUsuario() {}
 
     public static final String USUARI0_CRIAR_ERRO =
             """

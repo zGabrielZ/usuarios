@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-import static br.com.gabrielferreira.usuarios.utils.MascaraUtils.*;
+import static br.com.gabrielferreira.usuarios.common.utils.MascaraUtils.*;
 
 public class TelefoneDomain implements Serializable {
 

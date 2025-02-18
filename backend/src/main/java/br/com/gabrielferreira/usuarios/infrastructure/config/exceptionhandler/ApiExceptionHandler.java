@@ -1,9 +1,9 @@
-package br.com.gabrielferreira.usuarios.config.exceptionhandler;
+package br.com.gabrielferreira.usuarios.infrastructure.config.exceptionhandler;
 
 import br.com.gabrielferreira.usuarios.application.exception.*;
 import br.com.gabrielferreira.usuarios.application.exception.model.ErroPadrao;
 import br.com.gabrielferreira.usuarios.application.exception.model.ErroPadraoFormulario;
-import br.com.gabrielferreira.usuarios.config.exceptionhandler.mapper.ErroPadraoMapper;
+import br.com.gabrielferreira.usuarios.infrastructure.mapper.ErroPadraoMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import static br.com.gabrielferreira.usuarios.utils.DataUtils.UTC;
+import static br.com.gabrielferreira.usuarios.common.utils.DataUtils.UTC;
 
 @ControllerAdvice
 @RequiredArgsConstructor

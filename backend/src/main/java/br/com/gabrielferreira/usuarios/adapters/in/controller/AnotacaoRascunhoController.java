@@ -8,7 +8,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.CreateAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.UpdateAnotacaoInput;
-import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploAnotacaoRascunhoUtils;
+import br.com.gabrielferreira.usuarios.infrastructure.swagger.ExemploAnotacaoRascunho;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -69,7 +69,7 @@ public class AnotacaoRascunhoController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_NAO_ENCONTRADA
+                                    value = ExemploAnotacaoRascunho.ANOTACAO_NAO_ENCONTRADA
                             )
                     )
             )
@@ -94,7 +94,7 @@ public class AnotacaoRascunhoController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_FINALIZAR_NAO_ENCONTRADA
+                                    value = ExemploAnotacaoRascunho.ANOTACAO_FINALIZAR_NAO_ENCONTRADA
                             )
                     )
             ),
@@ -104,7 +104,7 @@ public class AnotacaoRascunhoController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_FINALIZAR_ERRO
+                                    value = ExemploAnotacaoRascunho.ANOTACAO_FINALIZAR_ERRO
                             )
                     )
             )
@@ -127,7 +127,7 @@ public class AnotacaoRascunhoController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_REABRIR_NAO_ENCONTRADA
+                                    value = ExemploAnotacaoRascunho.ANOTACAO_REABRIR_NAO_ENCONTRADA
                             )
                     )
             ),
@@ -137,7 +137,7 @@ public class AnotacaoRascunhoController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_REABRIR_ERRO
+                                    value = ExemploAnotacaoRascunho.ANOTACAO_REABRIR_ERRO
                             )
                     )
             )
@@ -160,7 +160,7 @@ public class AnotacaoRascunhoController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_EDITAR_NAO_ENCONTRADA
+                                    value = ExemploAnotacaoRascunho.ANOTACAO_EDITAR_NAO_ENCONTRADA
                             )
                     )
             )
@@ -171,7 +171,7 @@ public class AnotacaoRascunhoController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploAnotacaoRascunhoUtils.ANOTACAO_EDITAR_ERRO
+                                    value = ExemploAnotacaoRascunho.ANOTACAO_EDITAR_ERRO
                             )
                     )
             )

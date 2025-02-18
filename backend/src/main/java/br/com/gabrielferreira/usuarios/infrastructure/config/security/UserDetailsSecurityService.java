@@ -1,4 +1,4 @@
-package br.com.gabrielferreira.usuarios.config.security;
+package br.com.gabrielferreira.usuarios.infrastructure.config.security;
 
 import br.com.gabrielferreira.usuarios.application.ports.in.FindUsuarioInput;
 import lombok.RequiredArgsConstructor;

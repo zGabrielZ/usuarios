@@ -14,7 +14,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.PageInfo;
 import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
-import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploUsuarioUtils;
+import br.com.gabrielferreira.usuarios.infrastructure.swagger.ExemploUsuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -75,7 +75,7 @@ public class UsuarioController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARI0_CRIAR_ERRO
+                                    value = ExemploUsuario.USUARI0_CRIAR_ERRO
                             )
                     )
             ),
@@ -85,7 +85,7 @@ public class UsuarioController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARI0_CRIAR_NAO_ENCONTRADO
+                                    value = ExemploUsuario.USUARI0_CRIAR_NAO_ENCONTRADO
                             )
                     )
             )
@@ -114,7 +114,7 @@ public class UsuarioController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARI0_NAO_ENCONTRADO
+                                    value = ExemploUsuario.USUARI0_NAO_ENCONTRADO
                             )
                     )
             )
@@ -140,7 +140,7 @@ public class UsuarioController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARI0_NAO_ENCONTRADO
+                                    value = ExemploUsuario.USUARI0_NAO_ENCONTRADO
                             )
                     )
             )
@@ -165,7 +165,7 @@ public class UsuarioController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARI0_NAO_ENCONTRADO
+                                    value = ExemploUsuario.USUARI0_NAO_ENCONTRADO
                             )
                     )
             )
@@ -190,7 +190,7 @@ public class UsuarioController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARI0_ATUALIZAR_NAO_ENCONTRADO
+                                    value = ExemploUsuario.USUARI0_ATUALIZAR_NAO_ENCONTRADO
                             )
                     )
             )
@@ -216,7 +216,7 @@ public class UsuarioController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARI0_DELETAR_NAO_ENCONTRADO
+                                    value = ExemploUsuario.USUARI0_DELETAR_NAO_ENCONTRADO
                             )
                     )
             )
@@ -259,7 +259,7 @@ public class UsuarioController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARI0_ATUALIZAR_ADMIN_NAO_ENCONTRADO
+                                    value = ExemploUsuario.USUARI0_ATUALIZAR_ADMIN_NAO_ENCONTRADO
                             )
                     )
             )
@@ -282,7 +282,7 @@ public class UsuarioController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.USUARI0_ATUALIZAR_CLIENT_NAO_ENCONTRADO
+                                    value = ExemploUsuario.USUARI0_ATUALIZAR_CLIENT_NAO_ENCONTRADO
                             )
                     )
             )
@@ -305,7 +305,7 @@ public class UsuarioController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploUsuarioUtils.PERFIL_NAO_ENCONTRADO
+                                    value = ExemploUsuario.PERFIL_NAO_ENCONTRADO
                             )
                     )
             )

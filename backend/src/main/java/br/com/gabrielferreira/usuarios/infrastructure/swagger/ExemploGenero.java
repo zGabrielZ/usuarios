@@ -1,8 +1,8 @@
-package br.com.gabrielferreira.usuarios.utils.exemplo.swagger;
+package br.com.gabrielferreira.usuarios.infrastructure.swagger;
 
-public class ExemploGeneroUtils {
+public class ExemploGenero {
 
-    private ExemploGeneroUtils() {}
+    private ExemploGenero() {}
 
     public static final String GENERO_NAO_ENCONTRADO =
             """

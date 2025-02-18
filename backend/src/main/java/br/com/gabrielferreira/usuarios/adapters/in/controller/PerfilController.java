@@ -5,7 +5,7 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.PerfilMappe
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.PerfilDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindPerfilInput;
-import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploPerfilUtils;
+import br.com.gabrielferreira.usuarios.infrastructure.swagger.ExemploPerfil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -46,7 +46,7 @@ public class PerfilController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploPerfilUtils.PERFIL_NAO_ENCONTRADO
+                                    value = ExemploPerfil.PERFIL_NAO_ENCONTRADO
                             )
                     )
             )

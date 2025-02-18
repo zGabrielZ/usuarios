@@ -1,8 +1,8 @@
-package br.com.gabrielferreira.usuarios.utils.exemplo.swagger;
+package br.com.gabrielferreira.usuarios.infrastructure.swagger;
 
-public class ExemploTipoTelefoneUtils {
+public class ExemploTipoTelefone {
 
-    private ExemploTipoTelefoneUtils() {}
+    private ExemploTipoTelefone() {}
 
     public static final String TIPO_TELEFONE_NAO_ENCONTRADO =
             """

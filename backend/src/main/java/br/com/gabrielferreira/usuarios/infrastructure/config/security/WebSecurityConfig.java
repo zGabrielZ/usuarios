@@ -1,4 +1,4 @@
-package br.com.gabrielferreira.usuarios.config.security;
+package br.com.gabrielferreira.usuarios.infrastructure.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

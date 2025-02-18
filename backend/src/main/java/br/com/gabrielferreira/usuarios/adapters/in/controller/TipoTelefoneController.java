@@ -5,7 +5,7 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.TipoTelefon
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.TipoTelefoneDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindTipoTelefoneInput;
-import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploTipoTelefoneUtils;
+import br.com.gabrielferreira.usuarios.infrastructure.swagger.ExemploTipoTelefone;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -46,7 +46,7 @@ public class TipoTelefoneController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploTipoTelefoneUtils.TIPO_TELEFONE_NAO_ENCONTRADO
+                                    value = ExemploTipoTelefone.TIPO_TELEFONE_NAO_ENCONTRADO
                             )
                     )
             )

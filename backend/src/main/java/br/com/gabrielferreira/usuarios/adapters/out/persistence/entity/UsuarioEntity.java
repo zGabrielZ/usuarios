@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static br.com.gabrielferreira.usuarios.utils.DataUtils.*;
+import static br.com.gabrielferreira.usuarios.common.utils.DataUtils.*;
 
 @Data
 @AllArgsConstructor

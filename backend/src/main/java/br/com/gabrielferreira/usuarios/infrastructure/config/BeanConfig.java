@@ -1,4 +1,4 @@
-package br.com.gabrielferreira.usuarios.config;
+package br.com.gabrielferreira.usuarios.infrastructure.config;
 
 import br.com.gabrielferreira.usuarios.adapters.out.adapters.*;
 import br.com.gabrielferreira.usuarios.application.core.usecase.*;

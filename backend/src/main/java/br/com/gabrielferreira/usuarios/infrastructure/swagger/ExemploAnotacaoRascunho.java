@@ -1,8 +1,8 @@
-package br.com.gabrielferreira.usuarios.utils.exemplo.swagger;
+package br.com.gabrielferreira.usuarios.infrastructure.swagger;
 
-public class ExemploAnotacaoLembreteUtils {
+public class ExemploAnotacaoRascunho {
 
-    private ExemploAnotacaoLembreteUtils() {}
+    private ExemploAnotacaoRascunho() {}
 
     public static final String ANOTACAO_NAO_ENCONTRADA =
             """
@@ -11,7 +11,7 @@ public class ExemploAnotacaoLembreteUtils {
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
-                      "caminhoUrl": "/api/v1/usuarios/2/anotacoes/lembretes/24",
+                      "caminhoUrl": "/api/v1/usuarios/2/anotacoes/rascunhos/24",
                       "campos": null
                     }
             """;
@@ -23,7 +23,7 @@ public class ExemploAnotacaoLembreteUtils {
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
-                      "caminhoUrl": "/v1/usuarios/2/anotacoes/lembretes/24/finalizar",
+                      "caminhoUrl": "/v1/usuarios/2/anotacoes/rascunhos/24/finalizar",
                       "campos": null
                     }
             """;
@@ -35,7 +35,7 @@ public class ExemploAnotacaoLembreteUtils {
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Não é possível finalizar a anotação pois já está finalizado",
-                      "caminhoUrl": "/v1/usuarios/2/anotacoes/lembretes/24/finalizar",
+                      "caminhoUrl": "/v1/usuarios/2/anotacoes/rascunhos/24/finalizar",
                       "campos": null
                     }
             """;
@@ -47,7 +47,7 @@ public class ExemploAnotacaoLembreteUtils {
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
-                      "caminhoUrl": "/v1/usuarios/2/anotacoes/lembretes/24/reabrir",
+                      "caminhoUrl": "/v1/usuarios/2/anotacoes/rascunhos/24/reabrir",
                       "campos": null
                     }
             """;
@@ -59,7 +59,7 @@ public class ExemploAnotacaoLembreteUtils {
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Não é possível reabrir a anotação pois já está em aberto",
-                      "caminhoUrl": "/v1/usuarios/2/anotacoes/lembretes/24/reabrir",
+                      "caminhoUrl": "/v1/usuarios/2/anotacoes/rascunhos/24/reabrir",
                       "campos": null
                     }
             """;
@@ -71,7 +71,7 @@ public class ExemploAnotacaoLembreteUtils {
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
-                      "caminhoUrl": "/v1/usuarios/2/anotacoes/lembretes/24",
+                      "caminhoUrl": "/v1/usuarios/2/anotacoes/rascunhos/24",
                       "campos": null
                     }
             """;
@@ -83,7 +83,7 @@ public class ExemploAnotacaoLembreteUtils {
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Não é possível editar a anotação pois já está finalizado",
-                      "caminhoUrl": "/v1/usuarios/2/anotacoes/lembretes/24",
+                      "caminhoUrl": "/v1/usuarios/2/anotacoes/rascunhos/24",
                       "campos": null
                     }
             """;

@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-import static br.com.gabrielferreira.usuarios.utils.MascaraUtils.*;
+import static br.com.gabrielferreira.usuarios.common.utils.MascaraUtils.*;
 
 public class UsuarioDomain implements Serializable, UserDetails {
 

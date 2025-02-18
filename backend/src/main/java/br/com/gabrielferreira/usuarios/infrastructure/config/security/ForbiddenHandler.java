@@ -1,7 +1,7 @@
-package br.com.gabrielferreira.usuarios.config.security;
+package br.com.gabrielferreira.usuarios.infrastructure.config.security;
 
 import br.com.gabrielferreira.usuarios.application.exception.model.ErroPadrao;
-import br.com.gabrielferreira.usuarios.config.exceptionhandler.mapper.ErroPadraoMapper;
+import br.com.gabrielferreira.usuarios.infrastructure.mapper.ErroPadraoMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 
-import static br.com.gabrielferreira.usuarios.utils.DataUtils.UTC;
+import static br.com.gabrielferreira.usuarios.common.utils.DataUtils.UTC;
 
 @Component
 @RequiredArgsConstructor

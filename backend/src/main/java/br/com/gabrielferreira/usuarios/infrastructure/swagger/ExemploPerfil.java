@@ -1,8 +1,8 @@
-package br.com.gabrielferreira.usuarios.utils.exemplo.swagger;
+package br.com.gabrielferreira.usuarios.infrastructure.swagger;
 
-public class ExemploPerfilUtils {
+public class ExemploPerfil {
 
-    private ExemploPerfilUtils() {}
+    private ExemploPerfil() {}
 
     public static final String PERFIL_NAO_ENCONTRADO =
             """

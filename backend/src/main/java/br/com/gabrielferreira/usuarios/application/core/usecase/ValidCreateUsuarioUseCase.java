@@ -9,7 +9,7 @@ import io.micrometer.common.util.StringUtils;
 
 import java.util.List;
 
-import static br.com.gabrielferreira.usuarios.utils.CaracteresUtils.*;
+import static br.com.gabrielferreira.usuarios.common.utils.CaracteresUtils.*;
 
 public class ValidCreateUsuarioUseCase implements ValidCreateUsuarioInput {
 

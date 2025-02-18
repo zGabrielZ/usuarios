@@ -1,4 +1,4 @@
-package br.com.gabrielferreira.usuarios.config.exceptionhandler.mapper;
+package br.com.gabrielferreira.usuarios.infrastructure.mapper;
 
 import br.com.gabrielferreira.usuarios.application.exception.model.ErroPadrao;
 import br.com.gabrielferreira.usuarios.application.exception.model.ErroPadraoFormulario;

@@ -7,7 +7,7 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.response.TelefoneD
 import br.com.gabrielferreira.usuarios.application.core.domain.TelefoneDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindTelefoneInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.UpdateTelefoneInput;
-import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploTelefoneUtils;
+import br.com.gabrielferreira.usuarios.infrastructure.swagger.ExemploTelefone;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -45,7 +45,7 @@ public class TelefoneController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploTelefoneUtils.TELEFONE_NAO_ENCONTRADO
+                                    value = ExemploTelefone.TELEFONE_NAO_ENCONTRADO
                             )
                     )
             )
@@ -70,7 +70,7 @@ public class TelefoneController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploTelefoneUtils.TELEFONE_ATUALIZAR_NAO_ENCONTRADO
+                                    value = ExemploTelefone.TELEFONE_ATUALIZAR_NAO_ENCONTRADO
                             )
                     )
             ),
@@ -80,7 +80,7 @@ public class TelefoneController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploTelefoneUtils.TELEFONE_ATUALIZAR_ERRO
+                                    value = ExemploTelefone.TELEFONE_ATUALIZAR_ERRO
                             )
                     )
             )

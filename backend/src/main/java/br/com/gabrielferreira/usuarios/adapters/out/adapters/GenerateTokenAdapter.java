@@ -14,7 +14,7 @@ import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
-import static br.com.gabrielferreira.usuarios.utils.DataUtils.UTC;
+import static br.com.gabrielferreira.usuarios.common.utils.DataUtils.UTC;
 
 @Component
 public class GenerateTokenAdapter implements GenerateTokenOutput {

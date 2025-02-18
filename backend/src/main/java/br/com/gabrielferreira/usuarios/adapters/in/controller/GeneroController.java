@@ -5,7 +5,7 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.GeneroMappe
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.GeneroDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindGeneroInput;
-import br.com.gabrielferreira.usuarios.utils.exemplo.swagger.ExemploGeneroUtils;
+import br.com.gabrielferreira.usuarios.infrastructure.swagger.ExemploGenero;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -46,7 +46,7 @@ public class GeneroController {
                     content = @Content(
                             mediaType = "application/json",
                             examples = @ExampleObject(
-                                    value = ExemploGeneroUtils.GENERO_NAO_ENCONTRADO
+                                    value = ExemploGenero.GENERO_NAO_ENCONTRADO
                             )
                     )
             )

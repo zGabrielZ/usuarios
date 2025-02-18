@@ -1,4 +1,4 @@
-package br.com.gabrielferreira.usuarios.utils;
+package br.com.gabrielferreira.usuarios.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,8 +1,8 @@
-package br.com.gabrielferreira.usuarios.utils.exemplo.swagger;
+package br.com.gabrielferreira.usuarios.infrastructure.swagger;
 
-public class ExemploAnotacaoEstudoUtils {
+public class ExemploAnotacaoLembrete {
 
-    private ExemploAnotacaoEstudoUtils() {}
+    private ExemploAnotacaoLembrete() {}
 
     public static final String ANOTACAO_NAO_ENCONTRADA =
             """
@@ -11,7 +11,7 @@ public class ExemploAnotacaoEstudoUtils {
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
-                      "caminhoUrl": "/api/v1/usuarios/2/anotacoes/estudos/24",
+                      "caminhoUrl": "/api/v1/usuarios/2/anotacoes/lembretes/24",
                       "campos": null
                     }
             """;
@@ -23,7 +23,7 @@ public class ExemploAnotacaoEstudoUtils {
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
-                      "caminhoUrl": "/v1/usuarios/2/anotacoes/estudos/24/finalizar",
+                      "caminhoUrl": "/v1/usuarios/2/anotacoes/lembretes/24/finalizar",
                       "campos": null
                     }
             """;
@@ -35,7 +35,7 @@ public class ExemploAnotacaoEstudoUtils {
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Não é possível finalizar a anotação pois já está finalizado",
-                      "caminhoUrl": "/v1/usuarios/2/anotacoes/estudos/24/finalizar",
+                      "caminhoUrl": "/v1/usuarios/2/anotacoes/lembretes/24/finalizar",
                       "campos": null
                     }
             """;
@@ -47,7 +47,7 @@ public class ExemploAnotacaoEstudoUtils {
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
-                      "caminhoUrl": "/v1/usuarios/2/anotacoes/estudos/24/reabrir",
+                      "caminhoUrl": "/v1/usuarios/2/anotacoes/lembretes/24/reabrir",
                       "campos": null
                     }
             """;
@@ -59,7 +59,7 @@ public class ExemploAnotacaoEstudoUtils {
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Não é possível reabrir a anotação pois já está em aberto",
-                      "caminhoUrl": "/v1/usuarios/2/anotacoes/estudos/24/reabrir",
+                      "caminhoUrl": "/v1/usuarios/2/anotacoes/lembretes/24/reabrir",
                       "campos": null
                     }
             """;
@@ -71,7 +71,7 @@ public class ExemploAnotacaoEstudoUtils {
                       "status": 404,
                       "titulo": "Não encontrado",
                       "mensagem": "Anotação informado não encontrado",
-                      "caminhoUrl": "/v1/usuarios/2/anotacoes/estudos/24",
+                      "caminhoUrl": "/v1/usuarios/2/anotacoes/lembretes/24",
                       "campos": null
                     }
             """;
@@ -82,8 +82,8 @@ public class ExemploAnotacaoEstudoUtils {
                       "dataAtual": "2024-12-29T20:57:17.8298735Z",
                       "status": 404,
                       "titulo": "Não encontrado",
-                      "mensagem": "A data início do estudo não pode ser antes ou igual ao data fim do estudo",
-                      "caminhoUrl": "/v1/usuarios/2/anotacoes/estudos/24",
+                      "mensagem": "Não é possível editar a anotação pois já está finalizado",
+                      "caminhoUrl": "/v1/usuarios/2/anotacoes/lembretes/24",
                       "campos": null
                     }
             """;
