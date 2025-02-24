@@ -1,8 +1,8 @@
 package br.com.gabrielferreira.usuarios.infrastructure.config.exceptionhandler;
 
 import br.com.gabrielferreira.usuarios.application.exception.*;
-import br.com.gabrielferreira.usuarios.application.exception.model.ErroPadrao;
-import br.com.gabrielferreira.usuarios.application.exception.model.ErroPadraoFormulario;
+import br.com.gabrielferreira.usuarios.infrastructure.config.model.ErroPadrao;
+import br.com.gabrielferreira.usuarios.infrastructure.config.model.ErroPadraoFormulario;
 import br.com.gabrielferreira.usuarios.infrastructure.mapper.ErroPadraoMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

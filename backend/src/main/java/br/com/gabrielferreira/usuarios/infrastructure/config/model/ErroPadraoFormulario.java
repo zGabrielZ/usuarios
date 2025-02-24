@@ -1,4 +1,4 @@
-package br.com.gabrielferreira.usuarios.application.exception.model;
+package br.com.gabrielferreira.usuarios.infrastructure.config.model;
 
 import lombok.Builder;
 

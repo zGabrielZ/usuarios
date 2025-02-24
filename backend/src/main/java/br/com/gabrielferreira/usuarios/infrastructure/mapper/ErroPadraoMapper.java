@@ -1,7 +1,7 @@
 package br.com.gabrielferreira.usuarios.infrastructure.mapper;
 
-import br.com.gabrielferreira.usuarios.application.exception.model.ErroPadrao;
-import br.com.gabrielferreira.usuarios.application.exception.model.ErroPadraoFormulario;
+import br.com.gabrielferreira.usuarios.infrastructure.config.model.ErroPadrao;
+import br.com.gabrielferreira.usuarios.infrastructure.config.model.ErroPadraoFormulario;
 import org.springframework.stereotype.Component;
 import java.time.ZonedDateTime;
 import java.util.List;

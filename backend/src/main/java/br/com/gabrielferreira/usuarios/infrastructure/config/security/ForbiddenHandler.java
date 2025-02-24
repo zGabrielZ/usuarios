@@ -1,6 +1,6 @@
 package br.com.gabrielferreira.usuarios.infrastructure.config.security;
 
-import br.com.gabrielferreira.usuarios.application.exception.model.ErroPadrao;
+import br.com.gabrielferreira.usuarios.infrastructure.config.model.ErroPadrao;
 import br.com.gabrielferreira.usuarios.infrastructure.mapper.ErroPadraoMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
