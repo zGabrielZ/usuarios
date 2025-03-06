@@ -2,8 +2,6 @@ package br.com.gabrielferreira.usuarios.application.core.usecase;
 
 import br.com.gabrielferreira.usuarios.application.core.domain.PageInfo;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
-import br.com.gabrielferreira.usuarios.application.core.domain.enums.RoleEnum;
-import br.com.gabrielferreira.usuarios.application.exception.ForbiddenException;
 import br.com.gabrielferreira.usuarios.application.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuarios.application.exception.UnauthorizedException;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindUsuarioInput;
@@ -32,7 +30,7 @@ public class FindUsuarioUseCase implements FindUsuarioInput {
         cpf = cpf.replaceAll("[.\\-]", "");
         UsuarioDomain usuarioDomain = findUsuarioOutput.findByCpf(cpf).
                 orElseThrow(() -> new NaoEncontradoException(MSG_USUARIO));
-        validarAdminOuProprioUsuario(usuarioDomain.getId());
+        userCurrentInput.validarAdminOuProprioUsuario(usuarioDomain.getId());
         return usuarioDomain;
     }
 
@@ -40,7 +38,7 @@ public class FindUsuarioUseCase implements FindUsuarioInput {
     public UsuarioDomain findByEmail(String email) {
         UsuarioDomain usuarioDomain = findUsuarioOutput.findByEmail(email).
                 orElseThrow(() -> new NaoEncontradoException(MSG_USUARIO));
-        validarAdminOuProprioUsuario(usuarioDomain.getId());
+        userCurrentInput.validarAdminOuProprioUsuario(usuarioDomain.getId());
         return usuarioDomain;
     }
 
@@ -48,7 +46,7 @@ public class FindUsuarioUseCase implements FindUsuarioInput {
     public UsuarioDomain findById(Long id) {
         UsuarioDomain usuarioDomain = findUsuarioOutput.findById(id).
                 orElseThrow(() -> new NaoEncontradoException(MSG_USUARIO));
-        validarAdminOuProprioUsuario(usuarioDomain.getId());
+        userCurrentInput.validarAdminOuProprioUsuario(usuarioDomain.getId());
         return usuarioDomain;
     }
 
@@ -67,12 +65,5 @@ public class FindUsuarioUseCase implements FindUsuarioInput {
     public UsuarioDomain findUserCurrentById(Long id) {
         return findUsuarioOutput.findById(id).
                 orElseThrow(() -> new UnauthorizedException(MSG_USUARIO));
-    }
-
-    private void validarAdminOuProprioUsuario(Long idUsuario){
-        UsuarioDomain usuario = userCurrentInput.getUserCurrent();
-        if(!usuario.getId().equals(idUsuario) && usuario.isNaoContemPerfil(RoleEnum.ROLE_ADMIN)){
-            throw new ForbiddenException("Você não tem a permissão de realizar esta consulta");
-        }
     }
 }

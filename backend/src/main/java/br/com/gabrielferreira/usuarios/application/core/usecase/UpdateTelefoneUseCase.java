@@ -2,17 +2,18 @@ package br.com.gabrielferreira.usuarios.application.core.usecase;
 
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.TelefoneDomain;
-import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
-import br.com.gabrielferreira.usuarios.application.core.domain.enums.RoleEnum;
-import br.com.gabrielferreira.usuarios.application.exception.ForbiddenException;
-import br.com.gabrielferreira.usuarios.application.ports.in.*;
+import br.com.gabrielferreira.usuarios.application.ports.in.FindTelefoneInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.FindTipoTelefoneInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.UpdateTelefoneInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.UserCurrentInput;
 import br.com.gabrielferreira.usuarios.application.ports.out.UpdateTelefoneOutput;
+import br.com.gabrielferreira.usuarios.application.validator.TelefoneValidator;
 
 public class UpdateTelefoneUseCase implements UpdateTelefoneInput {
 
     private final UpdateTelefoneOutput updateTelefoneOutput;
 
-    private final ValidCreateTelefoneInput validCreateTelefoneInput;
+    private final TelefoneValidator telefoneValidator;
 
     private final FindTipoTelefoneInput findTipoTelefoneInput;
 
@@ -21,12 +22,12 @@ public class UpdateTelefoneUseCase implements UpdateTelefoneInput {
     private final UserCurrentInput userCurrentInput;
 
     public UpdateTelefoneUseCase(UpdateTelefoneOutput updateTelefoneOutput,
-                                 ValidCreateTelefoneInput validCreateTelefoneInput,
+                                 TelefoneValidator telefoneValidator,
                                  FindTipoTelefoneInput findTipoTelefoneInput,
                                  FindTelefoneInput findTelefoneInput,
                                  UserCurrentInput userCurrentInput) {
         this.updateTelefoneOutput = updateTelefoneOutput;
-        this.validCreateTelefoneInput = validCreateTelefoneInput;
+        this.telefoneValidator = telefoneValidator;
         this.findTipoTelefoneInput = findTipoTelefoneInput;
         this.findTelefoneInput = findTelefoneInput;
         this.userCurrentInput = userCurrentInput;
@@ -34,12 +35,12 @@ public class UpdateTelefoneUseCase implements UpdateTelefoneInput {
 
     @Override
     public TelefoneDomain update(TelefoneDomain telefoneDomain, Long idUsuario) {
-        validarAdminOuProprioUsuario(idUsuario);
+        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         TelefoneDomain telefoneDomainEncontrado = findTelefoneInput.findByIdAndUsuarioId(telefoneDomain.getId(), idUsuario);
         DominioDomain tipoTelefoneDomainEncontrado = findTipoTelefoneInput.findById(telefoneDomain.getTipoTelefone().getId());
 
-        validCreateTelefoneInput.validarCampos(telefoneDomain);
-        validCreateTelefoneInput.validarNumeroComTipoTelefone(telefoneDomain, tipoTelefoneDomainEncontrado);
+        telefoneValidator.validarCampos(telefoneDomain);
+        telefoneValidator.validarNumeroComTipoTelefone(telefoneDomain, tipoTelefoneDomainEncontrado);
 
         telefoneDomainEncontrado.setNumero(telefoneDomain.getNumero());
         telefoneDomainEncontrado.setDdd(telefoneDomain.getDdd());
@@ -47,12 +48,5 @@ public class UpdateTelefoneUseCase implements UpdateTelefoneInput {
         telefoneDomainEncontrado.setTipoTelefone(tipoTelefoneDomainEncontrado);
 
         return updateTelefoneOutput.update(telefoneDomainEncontrado);
-    }
-
-    private void validarAdminOuProprioUsuario(Long idUsuario){
-        UsuarioDomain usuario = userCurrentInput.getUserCurrent();
-        if(!usuario.getId().equals(idUsuario) && usuario.isNaoContemPerfil(RoleEnum.ROLE_ADMIN)){
-            throw new ForbiddenException("Você não tem a permissão de realizar esta atualização");
-        }
     }
 }

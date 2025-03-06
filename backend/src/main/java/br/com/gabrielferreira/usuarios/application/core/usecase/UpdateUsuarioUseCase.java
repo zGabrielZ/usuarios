@@ -4,9 +4,9 @@ import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.enums.RoleEnum;
-import br.com.gabrielferreira.usuarios.application.exception.ForbiddenException;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
 import br.com.gabrielferreira.usuarios.application.ports.out.UpdateUsuarioOutput;
+import br.com.gabrielferreira.usuarios.application.validator.UsuarioValidator;
 
 public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
 
@@ -14,7 +14,7 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
 
     private final FindUsuarioInput findUsuarioInput;
 
-    private final ValidCreateUsuarioInput validCreateUsuarioInput;
+    private final UsuarioValidator usuarioValidator;
 
     private final FindGeneroInput findGeneroInput;
 
@@ -24,13 +24,13 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
 
     public UpdateUsuarioUseCase(UpdateUsuarioOutput updateUsuarioOutput,
                                 FindUsuarioInput findUsuarioInput,
-                                ValidCreateUsuarioInput validCreateUsuarioInput,
+                                UsuarioValidator usuarioValidator,
                                 FindGeneroInput findGeneroInput,
                                 FindPerfilInput findPerfilInput,
                                 UserCurrentInput userCurrentInput) {
         this.updateUsuarioOutput = updateUsuarioOutput;
         this.findUsuarioInput = findUsuarioInput;
-        this.validCreateUsuarioInput = validCreateUsuarioInput;
+        this.usuarioValidator = usuarioValidator;
         this.findGeneroInput = findGeneroInput;
         this.findPerfilInput = findPerfilInput;
         this.userCurrentInput = userCurrentInput;
@@ -38,11 +38,11 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
 
     @Override
     public UsuarioDomain update(UsuarioDomain usuarioDomain) {
-        validarAdminOuProprioUsuario(usuarioDomain.getId());
+        userCurrentInput.validarAdminOuProprioUsuario(usuarioDomain.getId());
         UsuarioDomain usuarioDomainEncontrado = findUsuarioInput.findById(usuarioDomain.getId());
         DominioDomain generoDomainEncontrado = findGeneroInput.findById(usuarioDomain.getGenero().getId());
 
-        validCreateUsuarioInput.validarCampos(usuarioDomain);
+        usuarioValidator.validarCampos(usuarioDomain);
 
         usuarioDomainEncontrado.setNome(usuarioDomain.getNome());
         usuarioDomainEncontrado.setRenda(usuarioDomain.getRenda());
@@ -58,8 +58,7 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
         UsuarioDomain usuarioDomainEncontrado = findUsuarioInput.findById(id);
         PerfilDomain perfilDomain = findPerfilInput.findByRole(RoleEnum.ROLE_ADMIN.name());
 
-        validCreateUsuarioInput.validarPerfilUsuario(usuarioDomainEncontrado, perfilDomain, "Este usuário contém perfil admin");
-
+        usuarioValidator.validarPerfilUsuario(usuarioDomainEncontrado, perfilDomain, "Este usuário contém perfil admin");
 
         usuarioDomainEncontrado.getPerfis().clear();
         usuarioDomainEncontrado.getPerfis().add(perfilDomain);
@@ -71,17 +70,10 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
         UsuarioDomain usuarioDomainEncontrado = findUsuarioInput.findById(id);
         PerfilDomain perfilDomain = findPerfilInput.findByRole(RoleEnum.ROLE_CLIENT.name());
 
-        validCreateUsuarioInput.validarPerfilUsuario(usuarioDomainEncontrado, perfilDomain, "Este usuário contém perfil cliente");
+        usuarioValidator.validarPerfilUsuario(usuarioDomainEncontrado, perfilDomain, "Este usuário contém perfil cliente");
 
         usuarioDomainEncontrado.getPerfis().clear();
         usuarioDomainEncontrado.getPerfis().add(perfilDomain);
         updateUsuarioOutput.update(usuarioDomainEncontrado);
-    }
-
-    private void validarAdminOuProprioUsuario(Long idUsuario){
-        UsuarioDomain usuario = userCurrentInput.getUserCurrent();
-        if(!usuario.getId().equals(idUsuario) && usuario.isNaoContemPerfil(RoleEnum.ROLE_ADMIN)){
-            throw new ForbiddenException("Você não tem a permissão de realizar esta atualização");
-        }
     }
 }

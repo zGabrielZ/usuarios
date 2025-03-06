@@ -1,10 +1,10 @@
-package br.com.gabrielferreira.usuarios.application.ports.in;
+package br.com.gabrielferreira.usuarios.application.validator;
 
 import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.enums.TipoAnotacaoEnum;
 
-public interface ValidCreateAnotacaoInput {
+public interface AnotacaoValidator {
 
     void validarCampos(AnotacaoDomain anotacaoDomain);
 

@@ -283,7 +283,7 @@ class UsuarioControllerIntegrationTest {
 
         resultActions.andExpect(status().isForbidden());
         resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
-        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta consulta"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar este recurso"));
     }
 
     @Test
@@ -440,7 +440,7 @@ class UsuarioControllerIntegrationTest {
 
         resultActions.andExpect(status().isForbidden());
         resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
-        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta atualização"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar este recurso"));
     }
 
     @Test
@@ -487,7 +487,7 @@ class UsuarioControllerIntegrationTest {
 
         resultActions.andExpect(status().isBadRequest());
         resultActions.andExpect(jsonPath("$.titulo").value("Regra de negócio"));
-        resultActions.andExpect(jsonPath("$.mensagem").value("Você não pode excluir a sua própria conta no sistema"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar este recurso"));
     }
 
     @Test
@@ -664,7 +664,7 @@ class UsuarioControllerIntegrationTest {
 
         resultActions.andExpect(status().isForbidden());
         resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
-        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta consulta"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar este recurso"));
     }
 
     @Test
@@ -682,7 +682,7 @@ class UsuarioControllerIntegrationTest {
 
         resultActions.andExpect(status().isForbidden());
         resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
-        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta consulta"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar este recurso"));
     }
 
     @Test

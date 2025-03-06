@@ -4,17 +4,22 @@ import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.enums.RoleEnum;
-import br.com.gabrielferreira.usuarios.application.ports.in.*;
+import br.com.gabrielferreira.usuarios.application.ports.in.CreateUsuarioInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.FindGeneroInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.FindPerfilInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.FindTipoTelefoneInput;
 import br.com.gabrielferreira.usuarios.application.ports.out.CreateUsuarioOutput;
 import br.com.gabrielferreira.usuarios.application.ports.out.PasswordEncoderOutput;
+import br.com.gabrielferreira.usuarios.application.validator.TelefoneValidator;
+import br.com.gabrielferreira.usuarios.application.validator.UsuarioValidator;
 
 public class CreateUsuarioUseCase implements CreateUsuarioInput {
 
     private final CreateUsuarioOutput createUsuarioOutput;
 
-    private final ValidCreateUsuarioInput validCreateUsuarioInput;
+    private final UsuarioValidator usuarioValidator;
 
-    private final ValidCreateTelefoneInput validCreateTelefoneInput;
+    private final TelefoneValidator telefoneValidator;
 
     private final FindGeneroInput findGeneroInput;
 
@@ -25,15 +30,15 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
     private final PasswordEncoderOutput passwordEncoderOutput;
 
     public CreateUsuarioUseCase(CreateUsuarioOutput createUsuarioOutput,
-                                ValidCreateUsuarioInput validCreateUsuarioInput,
-                                ValidCreateTelefoneInput validCreateTelefoneInput,
+                                UsuarioValidator usuarioValidator,
+                                TelefoneValidator telefoneValidator,
                                 FindGeneroInput findGeneroInput,
                                 FindTipoTelefoneInput findTipoTelefoneInput,
                                 FindPerfilInput findPerfilInput,
                                 PasswordEncoderOutput passwordEncoderOutput){
         this.createUsuarioOutput = createUsuarioOutput;
-        this.validCreateUsuarioInput = validCreateUsuarioInput;
-        this.validCreateTelefoneInput = validCreateTelefoneInput;
+        this.usuarioValidator = usuarioValidator;
+        this.telefoneValidator = telefoneValidator;
         this.findGeneroInput = findGeneroInput;
         this.findTipoTelefoneInput = findTipoTelefoneInput;
         this.findPerfilInput = findPerfilInput;
@@ -46,13 +51,13 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
         DominioDomain tipoTelefone = findTipoTelefoneInput.findById(usuarioDomain.getTelefone().getTipoTelefone().getId());
         PerfilDomain perfilDomain = findPerfilInput.findByRole(RoleEnum.ROLE_CLIENT.name());
 
-        validCreateUsuarioInput.validarCampos(usuarioDomain);
-        validCreateUsuarioInput.validarCpfExistente(usuarioDomain.getCpf());
-        validCreateUsuarioInput.validarEmailExistente(usuarioDomain.getEmail());
-        validCreateUsuarioInput.validarSenha(usuarioDomain.getSenha());
+        usuarioValidator.validarCampos(usuarioDomain);
+        usuarioValidator.validarCpfExistente(usuarioDomain.getCpf());
+        usuarioValidator.validarEmailExistente(usuarioDomain.getEmail());
+        usuarioValidator.validarSenha(usuarioDomain.getSenha());
 
-        validCreateTelefoneInput.validarCampos(usuarioDomain.getTelefone());
-        validCreateTelefoneInput.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), tipoTelefone);
+        telefoneValidator.validarCampos(usuarioDomain.getTelefone());
+        telefoneValidator.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), tipoTelefone);
 
         String senhaCriptografada = passwordEncoderOutput.enconde(usuarioDomain.getSenha());
 

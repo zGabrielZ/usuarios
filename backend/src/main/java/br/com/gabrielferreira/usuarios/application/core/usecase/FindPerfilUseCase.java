@@ -1,9 +1,6 @@
 package br.com.gabrielferreira.usuarios.application.core.usecase;
 
 import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
-import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
-import br.com.gabrielferreira.usuarios.application.core.domain.enums.RoleEnum;
-import br.com.gabrielferreira.usuarios.application.exception.ForbiddenException;
 import br.com.gabrielferreira.usuarios.application.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindPerfilInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.UserCurrentInput;
@@ -44,21 +41,14 @@ public class FindPerfilUseCase implements FindPerfilInput {
 
     @Override
     public PerfilDomain findByIdAndIdUsuario(Long id, Long idUsuario) {
-        validarAdminOuProprioUsuario(idUsuario);
+        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         return findPerfilOutput.findByIdAndIdUsuario(id, idUsuario)
                 .orElseThrow(() -> new NaoEncontradoException(MSG_PERFIL_NAO_ENCONTRADO));
     }
 
     @Override
     public List<PerfilDomain> findAllByIdUsuario(Long idUsuario) {
-        validarAdminOuProprioUsuario(idUsuario);
+        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         return findPerfilOutput.findAllByIdUsuario(idUsuario);
-    }
-
-    private void validarAdminOuProprioUsuario(Long idUsuario){
-        UsuarioDomain usuario = userCurrentInput.getUserCurrent();
-        if(!usuario.getId().equals(idUsuario) && usuario.isNaoContemPerfil(RoleEnum.ROLE_ADMIN)){
-            throw new ForbiddenException("Você não tem a permissão de realizar esta consulta");
-        }
     }
 }

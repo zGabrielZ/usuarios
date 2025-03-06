@@ -395,7 +395,7 @@ class AnotacaoEstudoControllerIntegrationTest {
 
         resultActions.andExpect(status().isForbidden());
         resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
-        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta criação"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar este recurso"));
     }
 
     @Test
@@ -414,7 +414,7 @@ class AnotacaoEstudoControllerIntegrationTest {
 
         resultActions.andExpect(status().isForbidden());
         resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
-        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta consulta"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar este recurso"));
     }
 
     @Test
@@ -437,7 +437,7 @@ class AnotacaoEstudoControllerIntegrationTest {
 
         resultActions.andExpect(status().isForbidden());
         resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
-        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta atualização"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar este recurso"));
     }
 
     @Test
@@ -457,7 +457,7 @@ class AnotacaoEstudoControllerIntegrationTest {
 
         resultActions.andExpect(status().isForbidden());
         resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
-        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta atualização"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar este recurso"));
     }
 
     @Test
@@ -479,7 +479,7 @@ class AnotacaoEstudoControllerIntegrationTest {
 
         resultActions.andExpect(status().isForbidden());
         resultActions.andExpect(jsonPath("$.titulo").value("Proibido"));
-        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar esta atualização"));
+        resultActions.andExpect(jsonPath("$.mensagem").value("Você não tem a permissão de realizar este recurso"));
     }
 
     private void finalizarAnotacao(){
