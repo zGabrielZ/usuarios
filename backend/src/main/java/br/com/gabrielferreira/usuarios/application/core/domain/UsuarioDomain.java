@@ -1,6 +1,8 @@
 package br.com.gabrielferreira.usuarios.application.core.domain;
 
 import br.com.gabrielferreira.usuarios.application.core.domain.enums.RoleEnum;
+import br.com.gabrielferreira.usuarios.application.exception.RegraDeNegocioException;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,7 +16,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-import static br.com.gabrielferreira.usuarios.common.utils.MascaraUtils.*;
+import static br.com.gabrielferreira.usuarios.common.utils.CaracteresUtils.*;
+import static br.com.gabrielferreira.usuarios.common.utils.CaracteresUtils.isPossuiCaractereDigito;
+import static br.com.gabrielferreira.usuarios.common.utils.MascaraUtils.toCpfFormatado;
+import static br.com.gabrielferreira.usuarios.common.utils.MascaraUtils.toValorMonetarioBrasil;
 
 public class UsuarioDomain implements Serializable, UserDetails {
 
@@ -240,5 +245,42 @@ public class UsuarioDomain implements Serializable, UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void validarCampos() {
+        this.nome = this.nome.trim();
+
+        if (!StringUtils.isBlank(this.email)) {
+            this.email = this.email.trim();
+        }
+
+        if (!StringUtils.isBlank(this.cpf)) {
+            this.cpf = this.cpf.trim();
+        }
+    }
+
+    public void validarPerfilUsuario(PerfilDomain perfilDomain, String mensagem) {
+        List<Long> idsPerfis = this.perfis.stream().map(PerfilDomain::getId).toList();
+        if (idsPerfis.contains(perfilDomain.getId())) {
+            throw new RegraDeNegocioException(mensagem);
+        }
+    }
+
+    public void validarSenha(String senha) {
+        if (!isPossuiCaracteresEspecias(senha)) {
+            throw new RegraDeNegocioException("A senha informada tem que ter pelo menos uma caractere especial");
+        }
+
+        if (!isPossuiCaractereMaiusculas(senha)) {
+            throw new RegraDeNegocioException("A senha informada tem que ter pelo menos uma caractere maiúsculas");
+        }
+
+        if (!isPossuiCaractereMinusculas(senha)) {
+            throw new RegraDeNegocioException("A senha informada tem que ter pelo menos uma caractere minúsculas");
+        }
+
+        if (!isPossuiCaractereDigito(senha)) {
+            throw new RegraDeNegocioException("A senha informada tem que ter pelo menos um caractere dígito");
+        }
     }
 }

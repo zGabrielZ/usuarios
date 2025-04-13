@@ -2,12 +2,6 @@ package br.com.gabrielferreira.usuarios.infrastructure.config;
 
 import br.com.gabrielferreira.usuarios.adapters.out.adapters.*;
 import br.com.gabrielferreira.usuarios.application.core.usecase.*;
-import br.com.gabrielferreira.usuarios.application.validator.AnotacaoValidator;
-import br.com.gabrielferreira.usuarios.application.validator.TelefoneValidator;
-import br.com.gabrielferreira.usuarios.application.validator.UsuarioValidator;
-import br.com.gabrielferreira.usuarios.application.validator.impl.AnotacaoValidatorImpl;
-import br.com.gabrielferreira.usuarios.application.validator.impl.TelefoneValidatorImpl;
-import br.com.gabrielferreira.usuarios.application.validator.impl.UsuarioValidatorImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,16 +30,6 @@ public class BeanConfig {
     }
 
     @Bean
-    public TelefoneValidator telefoneValidator(){
-        return new TelefoneValidatorImpl();
-    }
-
-    @Bean
-    public UsuarioValidator usuarioValidator(FindUsuarioAdapter findUsuarioAdapter){
-        return new UsuarioValidatorImpl(findUsuarioAdapter);
-    }
-
-    @Bean
     public CreateUsuarioUseCase createUsuarioUseCase(CreateUsuarioAdapter createUsuarioAdapter,
                                                      FindUsuarioAdapter findUsuarioAdapter,
                                                      FindDominioAdapter findGeneroAdapter,
@@ -53,7 +37,7 @@ public class BeanConfig {
                                                      FindPerfilAdapter findPerfilAdapter,
                                                      PasswordEncoderAdapter passwordEncoderAdapter,
                                                      UserCurrentAdapter userCurrentAdapter){
-        return new CreateUsuarioUseCase(createUsuarioAdapter, usuarioValidator(findUsuarioAdapter), telefoneValidator(),
+        return new CreateUsuarioUseCase(createUsuarioAdapter, findUsuarioAdapter,
                 findGeneroUseCase(findGeneroAdapter), findTipoTelefoneUseCase(findTipoTelefoneAdapter), findPerfilUseCase(findPerfilAdapter, userCurrentAdapter),
                 passwordEncoderAdapter);
     }
@@ -69,7 +53,7 @@ public class BeanConfig {
                                                        FindDominioAdapter findTipoTelefoneAdapter,
                                                        FindTelefoneAdapter findTelefoneAdapter,
                                                        UserCurrentAdapter userCurrentAdapter){
-        return new UpdateTelefoneUseCase(updateTelefoneAdapter, telefoneValidator(), findTipoTelefoneUseCase(findTipoTelefoneAdapter), findTelefoneUseCase(findTelefoneAdapter, userCurrentAdapter),
+        return new UpdateTelefoneUseCase(updateTelefoneAdapter, findTipoTelefoneUseCase(findTipoTelefoneAdapter), findTelefoneUseCase(findTelefoneAdapter, userCurrentAdapter),
                 userCurrentUseCase(userCurrentAdapter));
     }
 
@@ -79,7 +63,7 @@ public class BeanConfig {
                                                      FindDominioAdapter findDominioAdapter,
                                                      FindPerfilAdapter findPerfilAdapter,
                                                      UserCurrentAdapter userCurrentAdapter){
-        return new UpdateUsuarioUseCase(updateUsuarioAdapter, findUsuarioUseCase(findUsuarioAdapter, userCurrentAdapter), usuarioValidator(findUsuarioAdapter), findGeneroUseCase(findDominioAdapter), findPerfilUseCase(findPerfilAdapter, userCurrentAdapter),
+        return new UpdateUsuarioUseCase(updateUsuarioAdapter, findUsuarioUseCase(findUsuarioAdapter, userCurrentAdapter), findGeneroUseCase(findDominioAdapter), findPerfilUseCase(findPerfilAdapter, userCurrentAdapter),
                 userCurrentUseCase(userCurrentAdapter));
     }
 
@@ -88,11 +72,6 @@ public class BeanConfig {
                                                      FindUsuarioAdapter findUsuarioAdapter,
                                                      UserCurrentAdapter userCurrentAdapter){
         return new DeleteUsuarioUseCase(deleteUsuarioAdapter, findUsuarioUseCase(findUsuarioAdapter, userCurrentAdapter), userCurrentUseCase(userCurrentAdapter));
-    }
-
-    @Bean
-    public AnotacaoValidator anotacaoValidator(){
-        return new AnotacaoValidatorImpl();
     }
 
     @Bean
@@ -111,7 +90,7 @@ public class BeanConfig {
                                                        FindUsuarioAdapter findUsuarioAdapter,
                                                        FindDominioAdapter findSituacaoAnotacao,
                                                        UserCurrentAdapter userCurrentAdapter){
-        return new CreateAnotacaoUseCase(createAnotacaoAdapter, anotacaoValidator(), findTipoAnotacaoUseCase(findTipoAnotacao),
+        return new CreateAnotacaoUseCase(createAnotacaoAdapter, findTipoAnotacaoUseCase(findTipoAnotacao),
                 findSituacaoAnotacaoUseCase(findSituacaoAnotacao), findUsuarioUseCase(findUsuarioAdapter, userCurrentAdapter), userCurrentUseCase(userCurrentAdapter));
     }
 
@@ -128,7 +107,7 @@ public class BeanConfig {
                                                        FindDominioAdapter findDominioAdapter,
                                                        FindUsuarioAdapter findUsuarioAdapter,
                                                        UserCurrentAdapter userCurrentAdapter){
-        return new UpdateAnotacaoUseCase(updateAnotacaoAdapter, findAnotacaoUseCase(findAnotacaoAdapter, findUsuarioAdapter, userCurrentAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter), anotacaoValidator(),
+        return new UpdateAnotacaoUseCase(updateAnotacaoAdapter, findAnotacaoUseCase(findAnotacaoAdapter, findUsuarioAdapter, userCurrentAdapter), findSituacaoAnotacaoUseCase(findDominioAdapter),
                 userCurrentUseCase(userCurrentAdapter));
     }
 

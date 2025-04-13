@@ -1,8 +1,12 @@
 package br.com.gabrielferreira.usuarios.application.core.domain;
 
+import br.com.gabrielferreira.usuarios.application.core.domain.enums.TipoAnotacaoEnum;
+import br.com.gabrielferreira.usuarios.application.exception.RegraDeNegocioException;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class AnotacaoDomain implements Serializable {
@@ -120,6 +124,43 @@ public class AnotacaoDomain implements Serializable {
 
     public void setUpdatedAt(ZonedDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void validarCampos() {
+        this.titulo = this.titulo.trim();
+        this.descricao = this.descricao.trim();
+    }
+
+    public void validarDataInicioDataFimEstudo() {
+        ZonedDateTime dataInicioEstudo = this.dataEstudoInicio;
+        ZonedDateTime dataFimEstudo = this.dataEstudoFim;
+
+        if (dataInicioEstudo.isAfter(dataFimEstudo) || dataInicioEstudo.equals(dataFimEstudo)) {
+            throw new RegraDeNegocioException("A data início do estudo não pode ser antes ou igual ao data fim do estudo");
+        }
+
+        long horas = ChronoUnit.HOURS.between(dataInicioEstudo, dataFimEstudo);
+        if (horas > 5) {
+            throw new RegraDeNegocioException("O estudo não pode ultrapassar de 5 horas");
+        }
+    }
+
+    public void validarSituacaoFinalizada(DominioDomain situacao, TipoAnotacaoEnum tipoAnotacaoEnum) {
+        if (situacao.getCodigo().equals(tipoAnotacaoEnum.name())) {
+            throw new RegraDeNegocioException("Não é possível finalizar a anotação pois já está finalizado");
+        }
+    }
+
+    public void validarSituacaoAberto(DominioDomain situacao, TipoAnotacaoEnum tipoAnotacaoEnum) {
+        if (situacao.getCodigo().equals(tipoAnotacaoEnum.name())) {
+            throw new RegraDeNegocioException("Não é possível reabrir a anotação pois já está em aberto");
+        }
+    }
+
+    public void validarSituacaoEditar(DominioDomain situacao, TipoAnotacaoEnum tipoAnotacaoEnum) {
+        if (situacao.getCodigo().equals(tipoAnotacaoEnum.name())) {
+            throw new RegraDeNegocioException("Não é possível editar a anotação pois já está finalizado");
+        }
     }
 
     @Override

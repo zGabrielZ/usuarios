@@ -1,11 +1,15 @@
 package br.com.gabrielferreira.usuarios.application.core.domain;
 
+import br.com.gabrielferreira.usuarios.application.core.domain.enums.TipoTelefoneEnum;
+import br.com.gabrielferreira.usuarios.application.exception.RegraDeNegocioException;
+import io.micrometer.common.util.StringUtils;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-import static br.com.gabrielferreira.usuarios.common.utils.MascaraUtils.*;
+import static br.com.gabrielferreira.usuarios.common.utils.MascaraUtils.toTelefoneFormatado;
 
 public class TelefoneDomain implements Serializable {
 
@@ -96,6 +100,23 @@ public class TelefoneDomain implements Serializable {
 
     public String getTelefoneFormatado(){
         return toTelefoneFormatado(this.ddd, this.numero);
+    }
+
+    public void validarCampos() {
+        this.numero = this.numero.trim();
+        this.ddd = this.ddd.trim();
+
+        if (!StringUtils.isBlank(this.descricao)) {
+            this.descricao = this.descricao.trim();
+        }
+    }
+
+    public void validarNumeroComTipoTelefone(DominioDomain tipoTelefone) {
+        if (this.numero.length() == 8 && tipoTelefone.getCodigo().equals(TipoTelefoneEnum.CELULAR.name())) {
+            throw new RegraDeNegocioException(String.format("O número do telefone '%s' tem ser do tipo residencial", this.getTelefoneFormatado()));
+        } else if (this.numero.length() == 9 && tipoTelefone.getCodigo().equals(TipoTelefoneEnum.RESIDENCIAL.name())) {
+            throw new RegraDeNegocioException(String.format("O número de telefone '%s' tem ser do tipo celular", this.getTelefoneFormatado()));
+        }
     }
 
     @Override

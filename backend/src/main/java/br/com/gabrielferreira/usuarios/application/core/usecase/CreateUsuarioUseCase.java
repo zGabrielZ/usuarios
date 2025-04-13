@@ -4,22 +4,20 @@ import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.PerfilDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.enums.RoleEnum;
+import br.com.gabrielferreira.usuarios.application.exception.RegraDeNegocioException;
 import br.com.gabrielferreira.usuarios.application.ports.in.CreateUsuarioInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindGeneroInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindPerfilInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindTipoTelefoneInput;
 import br.com.gabrielferreira.usuarios.application.ports.out.CreateUsuarioOutput;
+import br.com.gabrielferreira.usuarios.application.ports.out.FindUsuarioOutput;
 import br.com.gabrielferreira.usuarios.application.ports.out.PasswordEncoderOutput;
-import br.com.gabrielferreira.usuarios.application.validator.TelefoneValidator;
-import br.com.gabrielferreira.usuarios.application.validator.UsuarioValidator;
 
 public class CreateUsuarioUseCase implements CreateUsuarioInput {
 
     private final CreateUsuarioOutput createUsuarioOutput;
 
-    private final UsuarioValidator usuarioValidator;
-
-    private final TelefoneValidator telefoneValidator;
+    private final FindUsuarioOutput findUsuarioOutput;
 
     private final FindGeneroInput findGeneroInput;
 
@@ -30,15 +28,13 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
     private final PasswordEncoderOutput passwordEncoderOutput;
 
     public CreateUsuarioUseCase(CreateUsuarioOutput createUsuarioOutput,
-                                UsuarioValidator usuarioValidator,
-                                TelefoneValidator telefoneValidator,
+                                FindUsuarioOutput findUsuarioOutput,
                                 FindGeneroInput findGeneroInput,
                                 FindTipoTelefoneInput findTipoTelefoneInput,
                                 FindPerfilInput findPerfilInput,
                                 PasswordEncoderOutput passwordEncoderOutput){
         this.createUsuarioOutput = createUsuarioOutput;
-        this.usuarioValidator = usuarioValidator;
-        this.telefoneValidator = telefoneValidator;
+        this.findUsuarioOutput = findUsuarioOutput;
         this.findGeneroInput = findGeneroInput;
         this.findTipoTelefoneInput = findTipoTelefoneInput;
         this.findPerfilInput = findPerfilInput;
@@ -51,19 +47,33 @@ public class CreateUsuarioUseCase implements CreateUsuarioInput {
         DominioDomain tipoTelefone = findTipoTelefoneInput.findById(usuarioDomain.getTelefone().getTipoTelefone().getId());
         PerfilDomain perfilDomain = findPerfilInput.findByRole(RoleEnum.ROLE_CLIENT.name());
 
-        usuarioValidator.validarCampos(usuarioDomain);
-        usuarioValidator.validarCpfExistente(usuarioDomain.getCpf());
-        usuarioValidator.validarEmailExistente(usuarioDomain.getEmail());
-        usuarioValidator.validarSenha(usuarioDomain.getSenha());
+        usuarioDomain.validarCampos();
+        validarCpfExistente(usuarioDomain.getCpf());
+        validarEmailExistente(usuarioDomain.getEmail());
+        usuarioDomain.validarSenha(usuarioDomain.getSenha());
 
-        telefoneValidator.validarCampos(usuarioDomain.getTelefone());
-        telefoneValidator.validarNumeroComTipoTelefone(usuarioDomain.getTelefone(), tipoTelefone);
+        usuarioDomain.getTelefone().validarCampos();
+        usuarioDomain.getTelefone().validarNumeroComTipoTelefone(tipoTelefone);
 
         String senhaCriptografada = passwordEncoderOutput.enconde(usuarioDomain.getSenha());
 
         createUsuario(usuarioDomain, genero, tipoTelefone, perfilDomain, senhaCriptografada);
 
         return createUsuarioOutput.create(usuarioDomain);
+    }
+
+    private void validarEmailExistente(String email) {
+        findUsuarioOutput.findByEmail(email).
+                ifPresent(usuarioDomain -> {
+                    throw new RegraDeNegocioException(String.format("Não vai ser possível cadastrar este usuário pois o e-mail '%s' já foi cadastrado", usuarioDomain.getEmail()));
+                });
+    }
+
+    private void validarCpfExistente(String cpf) {
+        findUsuarioOutput.findByCpf(cpf)
+                .ifPresent(usuarioDomain -> {
+                    throw new RegraDeNegocioException(String.format("Não vai ser possível cadastrar este usuário pois o CPF '%s' já foi cadastrado", usuarioDomain.getCpfFormatado()));
+                });
     }
 
     private void createUsuario(UsuarioDomain usuarioDomain, DominioDomain genero, DominioDomain tipoTelefone, PerfilDomain perfilDomain, String senhaCriptografada) {

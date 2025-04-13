@@ -6,15 +6,12 @@ import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.enums.RoleEnum;
 import br.com.gabrielferreira.usuarios.application.ports.in.*;
 import br.com.gabrielferreira.usuarios.application.ports.out.UpdateUsuarioOutput;
-import br.com.gabrielferreira.usuarios.application.validator.UsuarioValidator;
 
 public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
 
     private final UpdateUsuarioOutput updateUsuarioOutput;
 
     private final FindUsuarioInput findUsuarioInput;
-
-    private final UsuarioValidator usuarioValidator;
 
     private final FindGeneroInput findGeneroInput;
 
@@ -24,13 +21,11 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
 
     public UpdateUsuarioUseCase(UpdateUsuarioOutput updateUsuarioOutput,
                                 FindUsuarioInput findUsuarioInput,
-                                UsuarioValidator usuarioValidator,
                                 FindGeneroInput findGeneroInput,
                                 FindPerfilInput findPerfilInput,
                                 UserCurrentInput userCurrentInput) {
         this.updateUsuarioOutput = updateUsuarioOutput;
         this.findUsuarioInput = findUsuarioInput;
-        this.usuarioValidator = usuarioValidator;
         this.findGeneroInput = findGeneroInput;
         this.findPerfilInput = findPerfilInput;
         this.userCurrentInput = userCurrentInput;
@@ -42,7 +37,7 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
         UsuarioDomain usuarioDomainEncontrado = findUsuarioInput.findById(usuarioDomain.getId());
         DominioDomain generoDomainEncontrado = findGeneroInput.findById(usuarioDomain.getGenero().getId());
 
-        usuarioValidator.validarCampos(usuarioDomain);
+        usuarioDomain.validarCampos();
 
         usuarioDomainEncontrado.setNome(usuarioDomain.getNome());
         usuarioDomainEncontrado.setRenda(usuarioDomain.getRenda());
@@ -58,7 +53,7 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
         UsuarioDomain usuarioDomainEncontrado = findUsuarioInput.findById(id);
         PerfilDomain perfilDomain = findPerfilInput.findByRole(RoleEnum.ROLE_ADMIN.name());
 
-        usuarioValidator.validarPerfilUsuario(usuarioDomainEncontrado, perfilDomain, "Este usuário contém perfil admin");
+        usuarioDomainEncontrado.validarPerfilUsuario(perfilDomain, "Este usuário contém perfil admin");
 
         usuarioDomainEncontrado.getPerfis().clear();
         usuarioDomainEncontrado.getPerfis().add(perfilDomain);
@@ -70,7 +65,7 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
         UsuarioDomain usuarioDomainEncontrado = findUsuarioInput.findById(id);
         PerfilDomain perfilDomain = findPerfilInput.findByRole(RoleEnum.ROLE_CLIENT.name());
 
-        usuarioValidator.validarPerfilUsuario(usuarioDomainEncontrado, perfilDomain, "Este usuário contém perfil cliente");
+        usuarioDomainEncontrado.validarPerfilUsuario(perfilDomain, "Este usuário contém perfil cliente");
 
         usuarioDomainEncontrado.getPerfis().clear();
         usuarioDomainEncontrado.getPerfis().add(perfilDomain);
