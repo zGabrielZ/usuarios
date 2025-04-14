@@ -8,6 +8,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.CreateAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.UpdateAnotacaoInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.UserCurrentInput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,6 +37,8 @@ public class AnotacaoRascunhoController {
 
     private final AnotacaoRascunhoHateoas anotacaoRascunhoHateoas;
 
+    private final UserCurrentInput userCurrentInput;
+
     @Operation(summary = "Cadastrar anotação rascunho")
     @ApiResponses(value = {
             @ApiResponse(
@@ -45,6 +48,7 @@ public class AnotacaoRascunhoController {
     })
     @PostMapping
     public ResponseEntity<AnotacaoRascunhoDTO> createRascunho(@PathVariable Long idUsuario, @Valid @RequestBody AnotacaoRascunhoCreateDTO anotacaoRascunhoCreateDTO){
+        userCurrentInput.checkNaoContemPerfilAdmin(idUsuario);
         AnotacaoDomain anotacaoDomain = anotacaoMapper.createAnotacaoDomain(anotacaoRascunhoCreateDTO);
         anotacaoDomain = createAnotacaoInput.createRascunho(anotacaoDomain, idUsuario);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
@@ -63,6 +67,7 @@ public class AnotacaoRascunhoController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<AnotacaoRascunhoDTO> findRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id){
+        userCurrentInput.checkNaoContemPerfilAdmin(idUsuario);
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoRascunho(id, idUsuario);
         AnotacaoRascunhoDTO anotacaoRascunhoDto = anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain);
         anotacaoRascunhoHateoas.addLinkGetAnotacaoRascunho(anotacaoRascunhoDto, idUsuario);
@@ -78,6 +83,7 @@ public class AnotacaoRascunhoController {
     })
     @PutMapping("/{id}/finalizar")
     public ResponseEntity<Void> finalizarAnotacaoRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id){
+        userCurrentInput.checkNaoContemPerfilAdmin(idUsuario);
         updateAnotacaoInput.finalizarAnotacaoRascunho(id, idUsuario);
         return ResponseEntity.ok().build();
     }
@@ -91,6 +97,7 @@ public class AnotacaoRascunhoController {
     })
     @PutMapping("/{id}/reabrir")
     public ResponseEntity<Void> reabrirAnotacaoRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id){
+        userCurrentInput.checkNaoContemPerfilAdmin(idUsuario);
         updateAnotacaoInput.reabrirAnotacaoRascunho(id, idUsuario);
         return ResponseEntity.ok().build();
     }
@@ -104,6 +111,7 @@ public class AnotacaoRascunhoController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<AnotacaoRascunhoDTO> editarAnotacaoRascunhoById(@PathVariable Long idUsuario, @PathVariable Long id, @Valid @RequestBody AnotacaoRascunhoCreateDTO anotacaoRascunhoCreateDTO){
+        userCurrentInput.checkNaoContemPerfilAdmin(idUsuario);
         AnotacaoDomain anotacaoDomain = anotacaoMapper.createAnotacaoDomain(anotacaoRascunhoCreateDTO);
         anotacaoDomain = updateAnotacaoInput.updateAnotacaoRascunho(id, idUsuario, anotacaoDomain);
         AnotacaoRascunhoDTO anotacaoRascunhoDto = anotacaoMapper.toAnotacaoRascunhoDto(anotacaoDomain);

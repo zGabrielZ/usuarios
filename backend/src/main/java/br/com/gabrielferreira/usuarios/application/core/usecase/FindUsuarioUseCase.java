@@ -5,7 +5,6 @@ import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuarios.application.exception.UnauthorizedException;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindUsuarioInput;
-import br.com.gabrielferreira.usuarios.application.ports.in.UserCurrentInput;
 import br.com.gabrielferreira.usuarios.application.ports.out.FindUsuarioOutput;
 
 import java.math.BigDecimal;
@@ -17,37 +16,27 @@ public class FindUsuarioUseCase implements FindUsuarioInput {
 
     private final FindUsuarioOutput findUsuarioOutput;
 
-    private final UserCurrentInput userCurrentInput;
-
-    public FindUsuarioUseCase(FindUsuarioOutput findUsuarioOutput,
-                              UserCurrentInput userCurrentInput) {
+    public FindUsuarioUseCase(FindUsuarioOutput findUsuarioOutput) {
         this.findUsuarioOutput = findUsuarioOutput;
-        this.userCurrentInput = userCurrentInput;
     }
 
     @Override
     public UsuarioDomain findByCpf(String cpf) {
         cpf = cpf.replaceAll("[.\\-]", "");
-        UsuarioDomain usuarioDomain = findUsuarioOutput.findByCpf(cpf).
+        return findUsuarioOutput.findByCpf(cpf).
                 orElseThrow(() -> new NaoEncontradoException(MSG_USUARIO));
-        userCurrentInput.validarAdminOuProprioUsuario(usuarioDomain.getId());
-        return usuarioDomain;
     }
 
     @Override
     public UsuarioDomain findByEmail(String email) {
-        UsuarioDomain usuarioDomain = findUsuarioOutput.findByEmail(email).
+        return findUsuarioOutput.findByEmail(email).
                 orElseThrow(() -> new NaoEncontradoException(MSG_USUARIO));
-        userCurrentInput.validarAdminOuProprioUsuario(usuarioDomain.getId());
-        return usuarioDomain;
     }
 
     @Override
     public UsuarioDomain findById(Long id) {
-        UsuarioDomain usuarioDomain = findUsuarioOutput.findById(id).
+        return findUsuarioOutput.findById(id).
                 orElseThrow(() -> new NaoEncontradoException(MSG_USUARIO));
-        userCurrentInput.validarAdminOuProprioUsuario(usuarioDomain.getId());
-        return usuarioDomain;
     }
 
     @Override

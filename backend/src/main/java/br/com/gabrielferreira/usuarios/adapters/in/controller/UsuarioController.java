@@ -60,6 +60,8 @@ public class UsuarioController {
 
     private final PerfilHateoas perfilHateoas;
 
+    private final UserCurrentInput userCurrentInput;
+
     @Operation(summary = "Cadastrar usuário")
     @ApiResponses(value = {
             @ApiResponse(
@@ -88,6 +90,7 @@ public class UsuarioController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> findById(@PathVariable Long id){
+        userCurrentInput.checkNaoContemPerfilAdmin(id);
         UsuarioDomain usuarioDomain = findUsuarioInput.findById(id);
 
         UsuarioDTO usuarioDto = usuarioMapper.toUsuarioDto(usuarioDomain);
@@ -105,6 +108,7 @@ public class UsuarioController {
     @GetMapping("/cpf/{cpf}")
     public ResponseEntity<UsuarioResumidoDTO> findByCpf(@PathVariable String cpf){
         UsuarioDomain usuarioDomain = findUsuarioInput.findByCpf(cpf);
+        userCurrentInput.checkNaoContemPerfilAdmin(usuarioDomain.getId());
         UsuarioResumidoDTO usuarioResumidoDto = usuarioMapper.toUsuarioResumidoDto(usuarioDomain);
         usuarioHateoas.addLinkToGetCpf(usuarioResumidoDto);
         return ResponseEntity.ok(usuarioResumidoDto);
@@ -120,6 +124,7 @@ public class UsuarioController {
     @GetMapping("/email/{email}")
     public ResponseEntity<UsuarioResumidoDTO> findByEmail(@PathVariable String email){
         UsuarioDomain usuarioDomain = findUsuarioInput.findByEmail(email);
+        userCurrentInput.checkNaoContemPerfilAdmin(usuarioDomain.getId());
         UsuarioResumidoDTO usuarioResumidoDto = usuarioMapper.toUsuarioResumidoDto(usuarioDomain);
         usuarioHateoas.addLinkToGetEmail(usuarioResumidoDto);
         return ResponseEntity.ok(usuarioResumidoDto);
@@ -134,6 +139,7 @@ public class UsuarioController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @Valid @RequestBody UsuarioUpdateDTO usuarioUpdateDTO){
+        userCurrentInput.checkNaoContemPerfilAdmin(id);
         UsuarioDomain usuarioDomain = usuarioMapper.updateUsuarioDomain(usuarioUpdateDTO, id);
         usuarioDomain = updateUsuarioInput.update(usuarioDomain);
         UsuarioDTO usuarioDto = usuarioMapper.toUsuarioDto(usuarioDomain);
@@ -150,6 +156,7 @@ public class UsuarioController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
+        userCurrentInput.checkMesmoUsuario(id);
         deleteUsuarioInput.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -209,6 +216,7 @@ public class UsuarioController {
     })
     @GetMapping("/{id}/perfis/{idPerfil}")
     public ResponseEntity<PerfilDTO> findPerfilByIdUsuarioAndIdPerfil(@PathVariable Long id, @PathVariable Long idPerfil){
+        userCurrentInput.checkNaoContemPerfilAdmin(id);
         PerfilDomain perfilDomain = findPerfilInput.findByIdAndIdUsuario(idPerfil, id);
 
         PerfilDTO perfilDto = perfilMapper.toPerfilDto(perfilDomain);
@@ -225,6 +233,7 @@ public class UsuarioController {
     })
     @GetMapping("/{id}/perfis")
     public ResponseEntity<CollectionModel<PerfilDTO>> findPerfisByIdUsuario(@PathVariable Long id){
+        userCurrentInput.checkNaoContemPerfilAdmin(id);
         List<PerfilDomain> perfilDomains = findPerfilInput.findAllByIdUsuario(id);
 
         List<PerfilDTO> perfilDtos = perfilMapper.toPerfisDtos(perfilDomains);

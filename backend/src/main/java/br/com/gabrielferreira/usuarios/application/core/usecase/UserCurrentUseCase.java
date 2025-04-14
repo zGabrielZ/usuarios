@@ -10,6 +10,8 @@ import br.com.gabrielferreira.usuarios.application.ports.out.UserCurrentOutput;
 
 public class UserCurrentUseCase implements UserCurrentInput {
 
+    private static final String MSG_ERRO = "Você não tem a permissão de realizar este recurso";
+
     private final UserCurrentOutput userCurrentOutput;
 
     public UserCurrentUseCase(UserCurrentOutput userCurrentOutput) {
@@ -26,18 +28,18 @@ public class UserCurrentUseCase implements UserCurrentInput {
     }
 
     @Override
-    public void validarAdminOuProprioUsuario(Long idUsuario) {
+    public void checkNaoContemPerfilAdmin(Long idUsuario) {
         UsuarioDomain usuario = getUserCurrent();
         if (!usuario.getId().equals(idUsuario) && usuario.isNaoContemPerfil(RoleEnum.ROLE_ADMIN)) {
-            throw new ForbiddenException("Você não tem a permissão de realizar este recurso");
+            throw new ForbiddenException(MSG_ERRO);
         }
     }
 
     @Override
-    public void validarAdminExclusao(Long idUsuario) {
+    public void checkMesmoUsuario(Long idUsuario) {
         UsuarioDomain usuario = getUserCurrent();
         if (usuario.getId().equals(idUsuario)) {
-            throw new RegraDeNegocioException("Você não tem a permissão de realizar este recurso");
+            throw new RegraDeNegocioException(MSG_ERRO);
         }
     }
 }

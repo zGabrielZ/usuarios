@@ -8,6 +8,7 @@ import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.CreateAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.UpdateAnotacaoInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.UserCurrentInput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,6 +37,8 @@ public class AnotacaoLembreteController {
 
     private final AnotacaoLembreteHateoas anotacaoLembreteHateoas;
 
+    private final UserCurrentInput userCurrentInput;
+
     @Operation(summary = "Cadastrar anotação lembrete")
     @ApiResponses(value = {
             @ApiResponse(
@@ -45,6 +48,7 @@ public class AnotacaoLembreteController {
     })
     @PostMapping
     public ResponseEntity<AnotacaoLembreteDTO> createLembrete(@PathVariable Long idUsuario, @Valid @RequestBody AnotacaoLembreteCreateDTO anotacaoLembreteCreateDTO){
+        userCurrentInput.checkNaoContemPerfilAdmin(idUsuario);
         AnotacaoDomain anotacaoDomain = anotacaoMapper.createAnotacaoDomain(anotacaoLembreteCreateDTO);
         anotacaoDomain = createAnotacaoInput.createLembrete(anotacaoDomain, idUsuario);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
@@ -63,6 +67,7 @@ public class AnotacaoLembreteController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<AnotacaoLembreteDTO> findLembreteById(@PathVariable Long idUsuario, @PathVariable Long id){
+        userCurrentInput.checkNaoContemPerfilAdmin(idUsuario);
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoLembrete(id, idUsuario);
         AnotacaoLembreteDTO anotacaoLembreteDto = anotacaoMapper.toAnotacaoLembreteDto(anotacaoDomain);
         anotacaoLembreteHateoas.addLinkGetAnotacaoLembrete(anotacaoLembreteDto, idUsuario);
@@ -78,6 +83,7 @@ public class AnotacaoLembreteController {
     })
     @PutMapping("/{id}/finalizar")
     public ResponseEntity<Void> finalizarAnotacaoLembreteById(@PathVariable Long idUsuario, @PathVariable Long id){
+        userCurrentInput.checkNaoContemPerfilAdmin(idUsuario);
         updateAnotacaoInput.finalizarAnotacaoLembrete(id, idUsuario);
         return ResponseEntity.ok().build();
     }
@@ -91,6 +97,7 @@ public class AnotacaoLembreteController {
     })
     @PutMapping("/{id}/reabrir")
     public ResponseEntity<Void> reabrirAnotacaoLembreteById(@PathVariable Long idUsuario, @PathVariable Long id){
+        userCurrentInput.checkNaoContemPerfilAdmin(idUsuario);
         updateAnotacaoInput.reabrirAnotacaoLembrete(id, idUsuario);
         return ResponseEntity.ok().build();
     }
@@ -104,6 +111,7 @@ public class AnotacaoLembreteController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<AnotacaoLembreteDTO> editarAnotacaoLembreteById(@PathVariable Long idUsuario, @PathVariable Long id, @Valid @RequestBody AnotacaoLembreteCreateDTO anotacaoLembreteCreateDTO){
+        userCurrentInput.checkNaoContemPerfilAdmin(idUsuario);
         AnotacaoDomain anotacaoDomain = anotacaoMapper.createAnotacaoDomain(anotacaoLembreteCreateDTO);
         anotacaoDomain = updateAnotacaoInput.updateAnotacaoLembrete(id, idUsuario, anotacaoDomain);
         AnotacaoLembreteDTO anotacaoLembreteDto = anotacaoMapper.toAnotacaoLembreteDto(anotacaoDomain);

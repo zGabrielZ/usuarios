@@ -7,6 +7,7 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.response.TelefoneD
 import br.com.gabrielferreira.usuarios.application.core.domain.TelefoneDomain;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindTelefoneInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.UpdateTelefoneInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.UserCurrentInput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -30,6 +31,8 @@ public class TelefoneController {
 
     private final TelefoneHateoas telefoneHateoas;
 
+    private final UserCurrentInput userCurrentInput;
+
     @Operation(summary = "Buscar telefone por id")
     @ApiResponses(value = {
             @ApiResponse(
@@ -39,6 +42,7 @@ public class TelefoneController {
     })
     @GetMapping
     public ResponseEntity<TelefoneDTO> findById(@PathVariable Long idUsuario){
+        userCurrentInput.checkNaoContemPerfilAdmin(idUsuario);
         TelefoneDomain telefoneDomain = findTelefoneInput.findByUsuarioId(idUsuario);
         TelefoneDTO telefoneDto = telefoneMapper.toTelefoneDto(telefoneDomain);
         telefoneHateoas.addLinkGetTelefone(telefoneDto, idUsuario);
@@ -54,6 +58,7 @@ public class TelefoneController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<TelefoneDTO> update(@PathVariable Long id, @PathVariable Long idUsuario, @Valid @RequestBody TelefoneCreateDTO telefoneCreateDTO){
+        userCurrentInput.checkNaoContemPerfilAdmin(idUsuario);
         TelefoneDomain telefoneDomain = telefoneMapper.createTelefoneDomain(telefoneCreateDTO, id);
         telefoneDomain = updateTelefoneInput.update(telefoneDomain, idUsuario);
         TelefoneDTO telefoneDto = telefoneMapper.toTelefoneDto(telefoneDomain);

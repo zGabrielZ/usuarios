@@ -17,23 +17,18 @@ public class UpdateUsuarioUseCase implements UpdateUsuarioInput {
 
     private final FindPerfilInput findPerfilInput;
 
-    private final UserCurrentInput userCurrentInput;
-
     public UpdateUsuarioUseCase(UpdateUsuarioOutput updateUsuarioOutput,
                                 FindUsuarioInput findUsuarioInput,
                                 FindGeneroInput findGeneroInput,
-                                FindPerfilInput findPerfilInput,
-                                UserCurrentInput userCurrentInput) {
+                                FindPerfilInput findPerfilInput) {
         this.updateUsuarioOutput = updateUsuarioOutput;
         this.findUsuarioInput = findUsuarioInput;
         this.findGeneroInput = findGeneroInput;
         this.findPerfilInput = findPerfilInput;
-        this.userCurrentInput = userCurrentInput;
     }
 
     @Override
     public UsuarioDomain update(UsuarioDomain usuarioDomain) {
-        userCurrentInput.validarAdminOuProprioUsuario(usuarioDomain.getId());
         UsuarioDomain usuarioDomainEncontrado = findUsuarioInput.findById(usuarioDomain.getId());
         DominioDomain generoDomainEncontrado = findGeneroInput.findById(usuarioDomain.getGenero().getId());
 

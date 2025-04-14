@@ -6,7 +6,6 @@ import br.com.gabrielferreira.usuarios.application.core.domain.enums.TipoAnotaca
 import br.com.gabrielferreira.usuarios.application.exception.NaoEncontradoException;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindUsuarioInput;
-import br.com.gabrielferreira.usuarios.application.ports.in.UserCurrentInput;
 import br.com.gabrielferreira.usuarios.application.ports.out.FindAnotacaoOutput;
 
 import java.util.List;
@@ -19,40 +18,32 @@ public class FindAnotacaoUseCase implements FindAnotacaoInput {
 
     private final FindUsuarioInput findUsuarioInput;
 
-    private final UserCurrentInput userCurrentInput;
-
     public FindAnotacaoUseCase(FindAnotacaoOutput findAnotacaoOutput,
-                               FindUsuarioInput findUsuarioInput,
-                               UserCurrentInput userCurrentInput) {
+                               FindUsuarioInput findUsuarioInput) {
         this.findAnotacaoOutput = findAnotacaoOutput;
         this.findUsuarioInput = findUsuarioInput;
-        this.userCurrentInput = userCurrentInput;
     }
 
     @Override
     public AnotacaoDomain findByIdTipoAnotacaoRascunho(Long id, Long idUsuario) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         return findAnotacaoOutput.findByIdAndTipoAnotacaoAndIdUsuario(id, TipoAnotacaoEnum.RASCUNHO.name(), idUsuario)
                 .orElseThrow(() -> new NaoEncontradoException(ANOTACAO_NAO_ENCONTRADA));
     }
 
     @Override
     public AnotacaoDomain findByIdTipoAnotacaoEstudo(Long id, Long idUsuario) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         return findAnotacaoOutput.findByIdAndTipoAnotacaoAndIdUsuario(id, TipoAnotacaoEnum.ESTUDO.name(), idUsuario)
                 .orElseThrow(() -> new NaoEncontradoException(ANOTACAO_NAO_ENCONTRADA));
     }
 
     @Override
     public AnotacaoDomain findByIdTipoAnotacaoLembrete(Long id, Long idUsuario) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         return findAnotacaoOutput.findByIdAndTipoAnotacaoAndIdUsuario(id, TipoAnotacaoEnum.LEMBRETE.name(), idUsuario)
                 .orElseThrow(() -> new NaoEncontradoException(ANOTACAO_NAO_ENCONTRADA));
     }
 
     @Override
     public List<AnotacaoDomain> findAll(PageInfo pageInfo, String titulo, String descricao, Long idUsuario) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         findUsuarioInput.findById(idUsuario);
         return findAnotacaoOutput.findAll(pageInfo, titulo, descricao, idUsuario);
     }

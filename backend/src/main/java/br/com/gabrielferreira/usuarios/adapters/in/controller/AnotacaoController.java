@@ -6,6 +6,7 @@ import br.com.gabrielferreira.usuarios.adapters.in.controller.mapper.PageInfoMap
 import br.com.gabrielferreira.usuarios.adapters.in.controller.response.AnotacaoResumidoDTO;
 import br.com.gabrielferreira.usuarios.application.core.domain.PageInfo;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.UserCurrentInput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -35,6 +36,8 @@ public class AnotacaoController {
 
     private final AnotacaoHateoas anotacaoHateoas;
 
+    private final UserCurrentInput userCurrentInput;
+
     @Operation(summary = "Buscar anotações paginados")
     @ApiResponses(value = {
             @ApiResponse(
@@ -47,6 +50,7 @@ public class AnotacaoController {
                                                                    @ParameterObject @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
                                                                    @RequestParam(required = false) String titulo,
                                                                    @RequestParam(required = false) String descricao){
+        userCurrentInput.checkNaoContemPerfilAdmin(idUsuario);
         PageInfo pageInfo = pageInfoMapper.toPageInfo(pageable);
         List<AnotacaoResumidoDTO> anotacaoResumidoDtos = anotacaoMapper.toAnotacoesResumidosDtos(findAnotacaoInput.findAll(pageInfo, titulo, descricao, idUsuario));
         anotacaoHateoas.addLinkToGetAnotacoes(anotacaoResumidoDtos, idUsuario);

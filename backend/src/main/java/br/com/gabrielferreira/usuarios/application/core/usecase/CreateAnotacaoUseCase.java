@@ -4,7 +4,10 @@ import br.com.gabrielferreira.usuarios.application.core.domain.AnotacaoDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.DominioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.UsuarioDomain;
 import br.com.gabrielferreira.usuarios.application.core.domain.enums.TipoAnotacaoEnum;
-import br.com.gabrielferreira.usuarios.application.ports.in.*;
+import br.com.gabrielferreira.usuarios.application.ports.in.CreateAnotacaoInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.FindSituacaoAnotacaoInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.FindTipoAnotacaoInput;
+import br.com.gabrielferreira.usuarios.application.ports.in.FindUsuarioInput;
 import br.com.gabrielferreira.usuarios.application.ports.out.CreateAnotacaoOutput;
 
 public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
@@ -17,23 +20,18 @@ public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
 
     private final FindUsuarioInput findUsuarioInput;
 
-    private final UserCurrentInput userCurrentInput;
-
     public CreateAnotacaoUseCase(CreateAnotacaoOutput createAnotacaoOutput,
                                  FindTipoAnotacaoInput findTipoAnotacaoInput,
                                  FindSituacaoAnotacaoInput findSituacaoAnotacaoInput,
-                                 FindUsuarioInput findUsuarioInput,
-                                 UserCurrentInput userCurrentInput) {
+                                 FindUsuarioInput findUsuarioInput) {
         this.createAnotacaoOutput = createAnotacaoOutput;
         this.findTipoAnotacaoInput = findTipoAnotacaoInput;
         this.findSituacaoAnotacaoInput = findSituacaoAnotacaoInput;
         this.findUsuarioInput = findUsuarioInput;
-        this.userCurrentInput = userCurrentInput;
     }
 
     @Override
     public AnotacaoDomain createRascunho(AnotacaoDomain anotacaoDomain, Long idUsuario) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         anotacaoDomain.validarCampos();
 
         DominioDomain tipoAnotacaoDomain = findTipoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.RASCUNHO.name());
@@ -47,7 +45,6 @@ public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
 
     @Override
     public AnotacaoDomain createEstudo(AnotacaoDomain anotacaoDomain, Long idUsuario) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         anotacaoDomain.validarCampos();
         anotacaoDomain.validarDataInicioDataFimEstudo();
 
@@ -62,7 +59,6 @@ public class CreateAnotacaoUseCase implements CreateAnotacaoInput {
 
     @Override
     public AnotacaoDomain createLembrete(AnotacaoDomain anotacaoDomain, Long idUsuario) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         anotacaoDomain.validarCampos();
 
         DominioDomain tipoAnotacaoDomain = findTipoAnotacaoInput.findByCodigo(TipoAnotacaoEnum.LEMBRETE.name());

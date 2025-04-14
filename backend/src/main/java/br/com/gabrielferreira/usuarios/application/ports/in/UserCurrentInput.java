@@ -6,7 +6,7 @@ public interface UserCurrentInput {
 
     UsuarioDomain getUserCurrent();
 
-    void validarAdminOuProprioUsuario(Long idUsuario);
+    void checkNaoContemPerfilAdmin(Long idUsuario);
 
-    void validarAdminExclusao(Long idUsuario);
+    void checkMesmoUsuario(Long idUsuario);
 }

@@ -6,7 +6,6 @@ import br.com.gabrielferreira.usuarios.application.core.domain.enums.TipoAnotaca
 import br.com.gabrielferreira.usuarios.application.ports.in.FindAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.FindSituacaoAnotacaoInput;
 import br.com.gabrielferreira.usuarios.application.ports.in.UpdateAnotacaoInput;
-import br.com.gabrielferreira.usuarios.application.ports.in.UserCurrentInput;
 import br.com.gabrielferreira.usuarios.application.ports.out.UpdateAnotacaoOutput;
 
 public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
@@ -17,21 +16,16 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
     private final FindSituacaoAnotacaoInput findSituacaoAnotacaoInput;
 
-    private final UserCurrentInput userCurrentInput;
-
     public UpdateAnotacaoUseCase(UpdateAnotacaoOutput updateAnotacaoOutput,
                                  FindAnotacaoInput findAnotacaoInput,
-                                 FindSituacaoAnotacaoInput findSituacaoAnotacaoInput,
-                                 UserCurrentInput userCurrentInput) {
+                                 FindSituacaoAnotacaoInput findSituacaoAnotacaoInput) {
         this.updateAnotacaoOutput = updateAnotacaoOutput;
         this.findAnotacaoInput = findAnotacaoInput;
         this.findSituacaoAnotacaoInput = findSituacaoAnotacaoInput;
-        this.userCurrentInput = userCurrentInput;
     }
 
     @Override
     public void finalizarAnotacaoRascunho(Long id, Long idUsuario) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoRascunho(id, idUsuario);
 
         anotacaoDomain.validarSituacaoFinalizada(anotacaoDomain.getSituacaoTipoAnotacao(), TipoAnotacaoEnum.RASCUNHO_FINALIZADO);
@@ -45,7 +39,6 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
     @Override
     public void reabrirAnotacaoRascunho(Long id, Long idUsuario) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoRascunho(id, idUsuario);
 
         anotacaoDomain.validarSituacaoAberto(anotacaoDomain.getSituacaoTipoAnotacao(), TipoAnotacaoEnum.RASCUNHO_ABERTO);
@@ -59,7 +52,6 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
     @Override
     public AnotacaoDomain updateAnotacaoRascunho(Long id, Long idUsuario, AnotacaoDomain anotacaoDomainUpdate) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         AnotacaoDomain anotacaoDomainEncontrado = findAnotacaoInput.findByIdTipoAnotacaoRascunho(id, idUsuario);
 
         anotacaoDomainUpdate.validarCampos();
@@ -73,7 +65,6 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
     @Override
     public void finalizarAnotacaoEstudo(Long id, Long idUsuario) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoEstudo(id, idUsuario);
 
         anotacaoDomain.validarSituacaoFinalizada(anotacaoDomain.getSituacaoTipoAnotacao(), TipoAnotacaoEnum.ESTUDO_FINALIZADO);
@@ -87,7 +78,6 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
     @Override
     public void reabrirAnotacaoEstudo(Long id, Long idUsuario) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoEstudo(id, idUsuario);
 
         anotacaoDomain.validarSituacaoAberto(anotacaoDomain.getSituacaoTipoAnotacao(), TipoAnotacaoEnum.ESTUDO_ANDAMENTO);
@@ -101,7 +91,6 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
     @Override
     public AnotacaoDomain updateAnotacaoEstudo(Long id, Long idUsuario, AnotacaoDomain anotacaoDomainUpdate) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         AnotacaoDomain anotacaoDomainEncontrado = findAnotacaoInput.findByIdTipoAnotacaoEstudo(id, idUsuario);
 
         anotacaoDomainUpdate.validarCampos();
@@ -118,7 +107,6 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
     @Override
     public void finalizarAnotacaoLembrete(Long id, Long idUsuario) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoLembrete(id, idUsuario);
 
         anotacaoDomain.validarSituacaoFinalizada(anotacaoDomain.getSituacaoTipoAnotacao(), TipoAnotacaoEnum.LEMBRETE_FINALIZADO);
@@ -132,7 +120,6 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
     @Override
     public void reabrirAnotacaoLembrete(Long id, Long idUsuario) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         AnotacaoDomain anotacaoDomain = findAnotacaoInput.findByIdTipoAnotacaoLembrete(id, idUsuario);
 
         anotacaoDomain.validarSituacaoAberto(anotacaoDomain.getSituacaoTipoAnotacao(), TipoAnotacaoEnum.LEMBRETE_ABERTO);
@@ -146,7 +133,6 @@ public class UpdateAnotacaoUseCase implements UpdateAnotacaoInput {
 
     @Override
     public AnotacaoDomain updateAnotacaoLembrete(Long id, Long idUsuario, AnotacaoDomain anotacaoDomainUpdate) {
-        userCurrentInput.validarAdminOuProprioUsuario(idUsuario);
         AnotacaoDomain anotacaoDomainEncontrado = findAnotacaoInput.findByIdTipoAnotacaoLembrete(id, idUsuario);
 
         anotacaoDomainUpdate.validarCampos();
